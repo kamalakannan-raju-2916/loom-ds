@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loom — Product Catalog</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #FFFFFF;
+      color: #181818;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background: #0A0A0F;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+    .header-logo span {
+      background: linear-gradient(135deg, #2C66DD, #5685E4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Product Selector */
+    .selector-bar {
+      background: #F5F5F5;
+      padding: 24px 40px;
+      border-bottom: 1px solid #DCDCDC;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .selector-bar label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #626262;
+    }
+    .product-dropdown {
+      padding: 10px 16px;
+      font-size: 14px;
+      border: 1px solid #DCDCDC;
+      border-radius: 6px;
+      background: #FFFFFF;
+      color: #181818;
+      cursor: pointer;
+      min-width: 200px;
+    }
+    .product-dropdown:focus {
+      outline: none;
+      border-color: #2C66DD;
+      box-shadow: 0 0 0 3px rgba(44, 102, 221, 0.15);
+    }
+
+    /* Content */
+    .content {
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .product-header {
+      margin-bottom: 32px;
+    }
+    .product-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .product-header p {
+      font-size: 14px;
+      color: #626262;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 48px;
+    }
+    .section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #E9E9E9;
+    }
+
+    /* Color Grid */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .color-swatch {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #E9E9E9;
+      transition: transform 0.15s;
+    }
+    .color-swatch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .swatch-color {
+      height: 80px;
+      position: relative;
+    }
+    .swatch-info {
+      padding: 10px 12px;
+      background: #FFFFFF;
+    }
+    .swatch-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #181818;
+      margin-bottom: 2px;
+    }
+    .swatch-hex {
+      font-size: 11px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #626262;
+    }
+
+    /* Master badge */
+    .master-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.3);
+      color: #FFF;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 80px 40px;
+      color: #939393;
+    }
+    .empty-state h2 {
+      border: none;
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: #626262;
+    }
+
+    /* Accent info bar */
+    .accent-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: #F5F5F5;
+      border-radius: 8px;
+      margin-bottom: 32px;
+    }
+    .accent-swatch-large {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+    }
+    .accent-info h3 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .accent-info p {
+      font-size: 13px;
+      color: #626262;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="index.html" class="header-logo"><span>Loom</span></a>
+  </div>
+
+  <div class="selector-bar">
+    <label for="product-select">Choose Product:</label>
+    <select id="product-select" class="product-dropdown">
+      <option value="">— Select a product —</option>
+      <option value="writer">Zoho Writer</option>
+    </select>
+  </div>
+
+  <div class="content">
+    <div id="empty-state" class="empty-state">
+      <h2>Select a product above</h2>
+      <p>The design system tokens for that product will appear here.</p>
+    </div>
+
+    <div id="product-content" style="display: none;">
+      <div class="product-header">
+        <h1 id="product-title"></h1>
+        <p id="product-desc"></p>
+      </div>
+
+      <div class="accent-bar">
+        <div id="accent-swatch" class="accent-swatch-large"></div>
+        <div class="accent-info">
+          <h3 id="accent-family"></h3>
+          <p id="accent-hex"></p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Tints (Light → Base)</h2>
+        <div id="tints-grid" class="color-grid"></div>
+      </div>
+
+      <div class="section">
+        <h2>Base</h2>
+        <div id="base-grid" class="color-grid"></div>
+      </div>
+
+      <div class="section">
+        <h2>Shades (Base → Dark)</h2>
+        <div id="shades-grid" class="color-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Product data (from tokens/products/writer/config.json)
+    const products = {
+      writer: {
+        name: "Zoho Writer",
+        description: "Document editor — accent color: Cobalt",
+        accent: { family: "Cobalt", hex: "#2C66DD" },
+        colors: {
+          base: { name: "Base", hex: "#2C66DD" },
+          tints: [
+            { name: "T 10", hex: "#376EDF" },
+            { name: "T 20", hex: "#4276E0" },
+            { name: "T 30", hex: "#5685E4" },
+            { name: "T 40", hex: "#6B94E7" },
+            { name: "T 50", hex: "#80A3EB" },
+            { name: "T 60", hex: "#96B3EE" },
+            { name: "T 70", hex: "#ABC2F1" },
+            { name: "T 80", hex: "#C0D1F5" },
+            { name: "T 90", hex: "#D5E0F8" },
+            { name: "T 100", hex: "#EAF0FC" }
+          ],
+          shades: [
+            { name: "S 10", hex: "#225CCF" },
+            { name: "S 20", hex: "#1E52BB" },
+            { name: "S 30", hex: "#1B49A6" },
+            { name: "S 40", hex: "#184091" },
+            { name: "S 50", hex: "#14377C" },
+            { name: "S 60", hex: "#112E68" },
+            { name: "S 70", hex: "#0E2553" },
+            { name: "S 80", hex: "#0A1B3E" },
+            { name: "S 90", hex: "#071229" },
+            { name: "S 100", hex: "#030915" }
+          ]
+        }
+      }
+    };
+
+    // DOM
+    const dropdown = document.getElementById('product-select');
+    const emptyState = document.getElementById('empty-state');
+    const productContent = document.getElementById('product-content');
+    const productTitle = document.getElementById('product-title');
+    const productDesc = document.getElementById('product-desc');
+    const accentSwatch = document.getElementById('accent-swatch');
+    const accentFamily = document.getElementById('accent-family');
+    const accentHex = document.getElementById('accent-hex');
+    const tintsGrid = document.getElementById('tints-grid');
+    const baseGrid = document.getElementById('base-grid');
+    const shadesGrid = document.getElementById('shades-grid');
+
+    function createSwatch(name, hex, isMaster) {
+      const needsWhiteText = getRelativeLuminance(hex) < 0.4;
+      return `
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: ${hex};">
+            ${isMaster ? '<span class="master-badge">Master</span>' : ''}
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">${name}</div>
+            <div class="swatch-hex">${hex}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getRelativeLuminance(hex) {
+      hex = hex.replace('#', '');
+      const r = parseInt(hex.substring(0, 2), 16) / 255;
+      const g = parseInt(hex.substring(2, 4), 16) / 255;
+      const b = parseInt(hex.substring(4, 6), 16) / 255;
+      const [rs, gs, bs] = [r, g, b].map(v =>
+        v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+      );
+      return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+    }
+
+    function renderProduct(slug) {
+      const product = products[slug];
+      if (!product) {
+        emptyState.style.display = 'block';
+        productContent.style.display = 'none';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      productContent.style.display = 'block';
+
+      productTitle.textContent = product.name;
+      productDesc.textContent = product.description;
+      accentSwatch.style.background = product.accent.hex;
+      accentFamily.textContent = product.accent.family;
+      accentHex.textContent = product.accent.hex;
+
+      // Render tints (lightest first)
+      tintsGrid.innerHTML = [...product.colors.tints].reverse()
+        .map(c => createSwatch(c.name, c.hex, false)).join('');
+
+      // Render base
+      baseGrid.innerHTML = createSwatch('Master', product.colors.base.hex, true);
+
+      // Render shades
+      shadesGrid.innerHTML = product.colors.shades
+        .map(c => createSwatch(c.name, c.hex, false)).join('');
+    }
+
+    dropdown.addEventListener('change', (e) => {
+      renderProduct(e.target.value);
+    });
+  </script>
+</body>
+</html>

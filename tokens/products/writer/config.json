@@ -1,0 +1,28 @@
+{
+  "product": "Zoho Writer",
+  "slug": "writer",
+  "accent": {
+    "family": "Cobalt",
+    "hex": "#2C66DD"
+  },
+  "tokens": {
+    "accent": {
+      "primary":  { "Light": "#2C66DD", "Dark": "#5685E4" },
+      "hover":    { "Light": "#225CCF", "Dark": "#6B94E7" },
+      "active":   { "Light": "#1E52BB", "Dark": "#80A3EB" },
+      "subtle":   { "Light": "#D5E0F8", "Dark": "#0E2553" },
+      "muted":    { "Light": "#EAF0FC", "Dark": "#0A1B3E" }
+    }
+  },
+  "components": [
+    "button",
+    "input",
+    "dropdown",
+    "modal",
+    "tooltip",
+    "toolbar",
+    "tabs",
+    "sidebar",
+    "toast"
+  ]
+}

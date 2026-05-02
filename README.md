@@ -115,6 +115,13 @@ Loom uses the **Figma Desktop Bridge** and AI skills to manage design tokens —
 
 → See [`.github/skills/semantic-token-sync/SKILL.md`](.github/skills/semantic-token-sync/SKILL.md)
 
+#### Export components (Figma → Repo)
+1. Design your components in Figma using Loom semantic variables
+2. Select the component(s) and say "export button for Writer"
+3. The skill extracts structure, variable bindings, and properties → writes to `tokens/products/writer/components/`
+
+→ See [`.github/skills/figma-component-export/SKILL.md`](.github/skills/figma-component-export/SKILL.md)
+
 ---
 
 ## Repository Structure
@@ -124,18 +131,52 @@ loom-ds/
 ├── .github/
 │   └── skills/
 │       ├── dsg-color-tokens-generator/
-│       │   └── SKILL.md             ← AI skill: DSG color palettes → Figma
-│       └── semantic-token-sync/
-│           └── SKILL.md             ← AI skill: semantic tokens → Figma
+│       │   └── SKILL.md                 ← DSG color palettes → Figma
+│       ├── semantic-token-sync/
+│       │   └── SKILL.md                 ← Semantic tokens → Figma
+│       └── figma-component-export/
+│           └── SKILL.md                 ← Figma components → Repo
 ├── tokens/
 │   ├── primitive/
 │   │   └── colors.json              ← DSG primitive colors (616 tokens, 28 families)
-│   └── semantic/
-│       └── colors.json              ← Semantic color tokens (Light/Dark modes)
+│   ├── semantic/
+│   │   └── colors.json              ← Semantic tokens (Light/Dark)
+│   ├── components/
+│   │   ├── button.json              ← Button component tokens
+│   │   └── input.json               ← Input component tokens
+│   └── products/
+│       └── writer/
+│           ├── config.json              ← Writer product config (accent, components)
+│           └── components/              ← Figma-exported component specs
 ├── docs/
 │   └── project-knowledge.md         ← Full token spec and design rules
 ├── README.md
 └── SETUP-GUIDE.md
+```
+
+---
+
+## Workflow
+
+```
+┌───────────────────────────────────────────────────────────┐
+│  1. Maintainer defines tokens in repo JSON             │
+└─────────────────────────────┬─────────────────────────────┘
+                              │  push (skill)
+                              ▼
+┌───────────────────────────────────────────────────────────┐
+│  2. Figma receives variables (Primitives + Semantic)   │
+└─────────────────────────────┬─────────────────────────────┘
+                              │  designer builds
+                              ▼
+┌───────────────────────────────────────────────────────────┐
+│  3. Designer creates components using those variables  │
+└─────────────────────────────┬─────────────────────────────┘
+                              │  export (skill)
+                              ▼
+┌───────────────────────────────────────────────────────────┐
+│  4. Component specs pushed back to repo (per product)  │
+└───────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -154,27 +195,11 @@ Loom targets **WCAG AA** as mandatory, **AAA** wherever possible:
 
 ## Contributing
 
-1. Clone the repo
-2. Create a feature branch
-3. Make changes (tokens, components, docs)
-4. Submit a pull request for review
-
-**Rule:** Never override DSG primitives. If a value exists in DSG, Loom references it — it does not redefine it.
-
-## Documentation
-
-- [Getting started](docs/getting-started.md)
-- [Token reference](docs/tokens.md)
-- [Component specs](docs/components/)
-- [Accessibility guide](docs/accessibility.md)
-- [Theming guide](docs/theming.md)
-
-## Contributing
-
 1. Create an issue describing the proposed change
 2. Branch from `main`, make your changes
-3. Run `npm run validate` to check contrast and token integrity
-4. Submit a PR — requires 1 designer + 1 developer approval
+3. Submit a PR — requires maintainer approval
+
+**Rule:** Never override DSG primitives. If a value exists in DSG, Loom references it — it does not redefine it.
 
 ## License
 

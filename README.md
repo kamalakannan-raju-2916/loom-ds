@@ -49,22 +49,12 @@ Product tokens (per-app)   →  Accent overrides: Writer=Cobalt, PDF=Cardinal
 
 ## Themes
 
-Every token resolves across three themes:
+Every token resolves across two themes:
 
 | Theme | Surface | Text | Purpose |
 |---|---|---|---|
 | **Light** | White base | Dark text | Default, most contexts |
 | **Dark** | Near-black base | Light text | Low-light, night mode |
-| **Grey** | Warm grey base | Dark text | Reduced contrast preference |
-
-## Products
-
-| Product | Accent | Primary hex |
-|---|---|---|
-| Zoho Writer | Cobalt | `#2C66DD` |
-| Zoho PDF Editor | Cardinal | `#CC3929` |
-| Zoho RFP | Fern | `#0C8844` |
-| Kanaa | Cerulean | `#008EE0` |
 
 ## Accessibility
 

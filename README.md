@@ -69,7 +69,7 @@ Themes are applied via a `data-theme` attribute:
 | Component framework | [Lyte](https://lyteframework.com) v3.9 |
 | UI components | `@zoho/lyte-ui-component` (buttons, dropdowns, modals, tables, etc.) |
 | Styling | CSS with `--loom-*` custom properties |
-| Figma sync | Tokens Studio plugin connected to this repo |
+| Figma sync | Figma Desktop Bridge (no plugins needed) |
 
 ---
 
@@ -97,11 +97,23 @@ Themes are applied via a `data-theme` attribute:
 </template>
 ```
 
-### For designers
+### For designers (Figma)
 
-1. Install [Tokens Studio for Figma](https://tokens.studio)
-2. Connect to this repo using the config in `figma/sync-config.json`
-3. Sync — tokens appear as Figma Variables with Light/Dark modes
+Loom uses the **Figma Desktop Bridge** and AI skills to manage design tokens — no third-party plugins (like Tokens Studio) required.
+
+#### Primitive colors (DSG palettes)
+1. Open your Figma file with the Desktop Bridge connected
+2. Provide a DSG accent hex code (e.g. `#2C66DD` for Cobalt, or say "Grey")
+3. The skill generates the full palette: tints, shades, master swatch — all bound to a **Primitives** variable collection
+
+→ See [`.github/skills/dsg-color-tokens-generator/SKILL.md`](.github/skills/dsg-color-tokens-generator/SKILL.md)
+
+#### Semantic tokens (Light/Dark themes)
+1. Say "sync tokens" with the Desktop Bridge connected
+2. The skill reads `tokens/semantic/*.json` and creates/updates a **Semantic** variable collection with Light and Dark modes
+3. Re-run anytime tokens change — it's idempotent
+
+→ See [`.github/skills/semantic-token-sync/SKILL.md`](.github/skills/semantic-token-sync/SKILL.md)
 
 ---
 
@@ -109,11 +121,19 @@ Themes are applied via a `data-theme` attribute:
 
 ```
 loom-ds/
+├── .github/
+│   └── skills/
+│       ├── dsg-color-tokens-generator/
+│       │   └── SKILL.md             ← AI skill: DSG color palettes → Figma
+│       └── semantic-token-sync/
+│           └── SKILL.md             ← AI skill: semantic tokens → Figma
 ├── tokens/
-│   └── primitive/
-│       └── colors.json          ← DSG primitive color tokens (616 tokens, 28 families)
+│   ├── primitive/
+│   │   └── colors.json              ← DSG primitive colors (616 tokens, 28 families)
+│   └── semantic/
+│       └── colors.json              ← Semantic color tokens (Light/Dark modes)
 ├── docs/
-│   └── project-knowledge.md     ← Full token spec and design rules
+│   └── project-knowledge.md         ← Full token spec and design rules
 ├── README.md
 └── SETUP-GUIDE.md
 ```

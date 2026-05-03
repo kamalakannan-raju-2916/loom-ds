@@ -1,0 +1,66 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "meta": {
+    "name": "Loom Primitive Typography Tokens",
+    "description": "Font family, weight, size, line-height, and letter-spacing primitives. Family: Zoho Puvi (DSG standard).",
+    "version": "1.0.0"
+  },
+
+  "primitive": {
+    "font": {
+      "family": {
+        "primary": "Zoho Puvi, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "mono": "Zoho Puvi Mono, 'SF Mono', 'Fira Code', monospace"
+      },
+
+      "weight": {
+        "regular":  400,
+        "medium":   500,
+        "semibold": 600,
+        "bold":     700
+      },
+
+      "size": {
+        "11": "0.6875rem",
+        "12": "0.75rem",
+        "13": "0.8125rem",
+        "14": "0.875rem",
+        "16": "1rem",
+        "20": "1.25rem",
+        "24": "1.5rem",
+        "32": "2rem"
+      },
+
+      "lineHeight": {
+        "16": "1rem",
+        "18": "1.125rem",
+        "20": "1.25rem",
+        "24": "1.5rem",
+        "28": "1.75rem",
+        "32": "2rem",
+        "40": "2.5rem"
+      },
+
+      "letterSpacing": {
+        "tight-2":  "-0.02em",
+        "tight-1":  "-0.01em",
+        "normal":   "0",
+        "loose-1":  "0.01em",
+        "loose-2":  "0.02em",
+        "wide":     "0.08em"
+      }
+    },
+
+    "typeScale": {
+      "display":    { "size": "32", "weight": "semibold", "lineHeight": "40", "letterSpacing": "tight-2" },
+      "heading-1":  { "size": "24", "weight": "semibold", "lineHeight": "32", "letterSpacing": "tight-1" },
+      "heading-2":  { "size": "20", "weight": "semibold", "lineHeight": "28", "letterSpacing": "tight-1" },
+      "heading-3":  { "size": "16", "weight": "semibold", "lineHeight": "24", "letterSpacing": "normal" },
+      "body-large": { "size": "16", "weight": "regular",  "lineHeight": "24", "letterSpacing": "normal" },
+      "body":       { "size": "14", "weight": "regular",  "lineHeight": "20", "letterSpacing": "normal" },
+      "body-small": { "size": "13", "weight": "regular",  "lineHeight": "18", "letterSpacing": "loose-1" },
+      "caption":    { "size": "12", "weight": "regular",  "lineHeight": "16", "letterSpacing": "loose-2" },
+      "overline":   { "size": "11", "weight": "semibold", "lineHeight": "16", "letterSpacing": "wide" }
+    }
+  }
+}

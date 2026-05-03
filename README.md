@@ -72,14 +72,30 @@ Themes are applied via a `data-theme` attribute:
 | Layer | Technology |
 |---|---|
 | Design tokens | JSON (DTCG format), CSS custom properties |
+| CSS build | `node scripts/build-css.js` — generates `css/loom-*.css` from token JSON |
 | Component framework | [Lyte](https://lyteframework.com) v3.9 |
 | UI components | `@zoho/lyte-ui-component` (buttons, dropdowns, modals, tables, etc.) |
 | Styling | CSS with `--loom-*` custom properties |
-| Figma sync | Figma Desktop Bridge (no plugins needed) |
+| Figma plugin | `figma-plugin/` — reads tokens from GitHub, creates Figma variables |
+| Figma sync (advanced) | Desktop Bridge + AI skills for maintainers |
 
 ---
 
 ## Quick Start
+
+### Build CSS from tokens
+
+```bash
+node scripts/build-css.js
+```
+
+This generates three files in `css/`:
+
+| File | Contents |
+|---|---|
+| `loom-primitives.css` | 713 custom properties — colors, typography, spacing, radii, shadows |
+| `loom-semantic.css` | Light/Dark theme tokens + component tokens |
+| `loom-tokens.css` | Combined entry point (imports both above) |
 
 ### Using Loom tokens in a Lyte component
 
@@ -103,30 +119,26 @@ Themes are applied via a `data-theme` attribute:
 </template>
 ```
 
-### For designers (Figma)
+### For designers (Figma Plugin)
 
-Loom uses the **Figma Desktop Bridge** and AI skills to manage design tokens — no third-party plugins (like Tokens Studio) required.
+Loom ships a **Figma plugin** that reads tokens directly from the GitHub repo — no Desktop Bridge needed.
 
-#### Primitive colors (DSG palettes)
-1. Open your Figma file with the Desktop Bridge connected
-2. Provide a DSG accent hex code (e.g. `#2C66DD` for Cobalt, or say "Grey")
-3. The skill generates the full palette: tints, shades, master swatch — all bound to a **Primitives** variable collection
+#### Install & use
+1. In Figma, go to **Plugins → Development → Import plugin from manifest…**
+2. Select `figma-plugin/manifest.json` from this repo
+3. Run the plugin: **Plugins → Loom Design Tokens**
+4. Choose a product (e.g. Zoho Writer)
+5. Click **Sync to Figma** — the plugin creates a `Loom / <Product> / Primitives` variable collection with all color, typography, spacing, and radii tokens
 
-→ See [`.github/skills/dsg-color-tokens-generator/SKILL.md`](.github/skills/dsg-color-tokens-generator/SKILL.md)
+The plugin fetches live from `main` branch, so tokens are always current.
 
-#### Semantic tokens (Light/Dark themes)
-1. Say "sync tokens" with the Desktop Bridge connected
-2. The skill reads `tokens/semantic/*.json` and creates/updates a **Semantic** variable collection with Light and Dark modes
-3. Re-run anytime tokens change — it's idempotent
+#### Advanced: Desktop Bridge + AI skills
 
-→ See [`.github/skills/semantic-token-sync/SKILL.md`](.github/skills/semantic-token-sync/SKILL.md)
+Maintainers can also use the **Figma Desktop Bridge** and AI skills for more advanced workflows:
 
-#### Export components (Figma → Repo)
-1. Design your components in Figma using Loom semantic variables
-2. Select the component(s) and say "export button for Writer"
-3. The skill extracts structure, variable bindings, and properties → writes to `tokens/products/writer/components/`
-
-→ See [`.github/skills/figma-component-export/SKILL.md`](.github/skills/figma-component-export/SKILL.md)
+- **DSG color palettes** → See [`.github/skills/dsg-color-tokens-generator/SKILL.md`](.github/skills/dsg-color-tokens-generator/SKILL.md)
+- **Semantic token sync** → See [`.github/skills/semantic-token-sync/SKILL.md`](.github/skills/semantic-token-sync/SKILL.md)
+- **Component export** → See [`.github/skills/figma-component-export/SKILL.md`](.github/skills/figma-component-export/SKILL.md)
 
 ---
 
@@ -144,7 +156,11 @@ loom-ds/
 │           └── SKILL.md                 ← Figma components → Repo
 ├── tokens/
 │   ├── primitive/
-│   │   └── colors.json              ← DSG primitive colors (616 tokens, 28 families)
+│   │   ├── colors.json              ← DSG primitive colors (616 tokens, 28 families)
+│   │   ├── typography.json          ← Font families, weights, sizes, line-heights, type scale
+│   │   ├── spacing.json             ← 4px-base spacing, icon sizes, stroke widths
+│   │   └── radii.json               ← Border radii and shadow elevations
+│   ├── products.json                ← Product registry (accent colors, included families)
 │   ├── semantic/
 │   │   └── colors.json              ← Semantic tokens (Light/Dark)
 │   ├── components/
@@ -154,6 +170,16 @@ loom-ds/
 │       └── writer/
 │           ├── config.json              ← Writer product config (accent, components)
 │           └── components/              ← Figma-exported component specs
+├── css/                                 ← Generated (do not edit)
+│   ├── loom-primitives.css          ← Primitive custom properties
+│   ├── loom-semantic.css            ← Semantic + component custom properties
+│   └── loom-tokens.css              ← Combined entry point
+├── scripts/
+│   └── build-css.js                 ← Token JSON → CSS custom properties
+├── figma-plugin/
+│   ├── manifest.json                ← Plugin config (GitHub network access)
+│   ├── code.js                      ← Figma sandbox (creates variables)
+│   └── ui.html                      ← Product picker UI
 ├── docs/
 │   ├── index.html                   ← Landing page (Designers Click Here)
 │   ├── catalog.html                 ← Product catalog (color palettes)

@@ -1,0 +1,12 @@
+{
+  "name": "Loom Design Tokens",
+  "id": "loom-design-tokens",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["https://raw.githubusercontent.com"],
+    "reasoning": "Fetches design token JSON files from the public Loom DS GitHub repo."
+  }
+}

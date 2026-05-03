@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "name": "Loom Product Registry",
+    "description": "Maps each product to its accent family and included token families.",
+    "version": "1.0.0"
+  },
+  "products": {
+    "writer": {
+      "name": "Zoho Writer",
+      "accent": "cobalt",
+      "colorFamilies": ["cobalt", "fern", "cardinal", "sunshine", "teal", "plum", "grey"],
+      "description": "Document Editor"
+    },
+    "pdf-editor": {
+      "name": "Zoho PDF Editor",
+      "accent": "persimmon",
+      "colorFamilies": ["persimmon", "fern", "cardinal", "sunshine", "teal", "plum", "grey"],
+      "description": "PDF Editor"
+    },
+    "rfp": {
+      "name": "Zoho RFP",
+      "accent": "teal",
+      "colorFamilies": ["teal", "fern", "cardinal", "sunshine", "cobalt", "plum", "grey"],
+      "description": "Request for Proposal"
+    },
+    "kanaa": {
+      "name": "Kanaa",
+      "accent": "indigo",
+      "colorFamilies": ["indigo", "fern", "cardinal", "sunshine", "teal", "plum", "grey"],
+      "description": "Kanaa Platform"
+    }
+  }
+}

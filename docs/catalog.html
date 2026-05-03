@@ -22,6 +22,11 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
     }
     .header-logo {
       font-size: 22px;
@@ -43,43 +48,41 @@
       border-left: 1px solid #39393B;
     }
 
-    /* Product Selector */
-    .selector-bar {
-      background: #F5F5F5;
-      padding: 14px 32px;
-      border-bottom: 1px solid #DCDCDC;
+    /* Product Selector (in header) */
+    .header-right {
       display: flex;
       align-items: center;
-      gap: 16px;
-      position: sticky;
-      top: 52px;
-      z-index: 99;
+      gap: 12px;
     }
-    .selector-bar label {
-      font-size: 14px;
-      font-weight: 600;
-      color: #626262;
+    .header-right label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #9C9C9D;
     }
     .product-dropdown {
-      padding: 8px 14px;
-      font-size: 14px;
-      border: 1px solid #DCDCDC;
+      padding: 6px 12px;
+      font-size: 13px;
+      border: 1px solid #39393B;
       border-radius: 6px;
-      background: #FFFFFF;
-      color: #181818;
+      background: #202123;
+      color: #E7E7E7;
       cursor: pointer;
-      min-width: 200px;
+      min-width: 180px;
     }
     .product-dropdown:focus {
       outline: none;
       border-color: #2C66DD;
       box-shadow: 0 0 0 3px rgba(44, 102, 221, 0.15);
     }
+    .product-dropdown option {
+      background: #202123;
+      color: #E7E7E7;
+    }
 
     /* Main layout: sidebar + content */
     .main-layout {
       display: flex;
-      height: calc(100vh - 100px);
+      height: calc(100vh - 54px);
     }
 
     /* Sidebar */
@@ -90,8 +93,8 @@
       border-right: 1px solid #E9E9E9;
       padding: 16px 0;
       position: sticky;
-      top: 100px;
-      height: calc(100vh - 100px);
+      top: 54px;
+      height: calc(100vh - 54px);
       overflow-y: auto;
     }
     .sidebar-nav {
@@ -136,8 +139,26 @@
     .content {
       flex: 1;
       padding: 32px 40px;
+      padding-bottom: 0;
       overflow-y: auto;
-      height: calc(100vh - 100px);
+      height: calc(100vh - 54px);
+      display: flex;
+      flex-direction: column;
+    }
+    .content-body {
+      flex: 1;
+    }
+    .content-footer {
+      text-align: center;
+      padding: 32px 0 20px;
+      color: #999;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .content-footer .vulcan {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 2px;
     }
 
     /* Content header */
@@ -380,25 +401,231 @@
       color: #626262;
       margin-bottom: 24px;
     }
+
+    /* Typography section */
+    .type-scale-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+    }
+    .type-scale-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: #939393;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 8px 12px;
+      border-bottom: 2px solid #E9E9E9;
+    }
+    .type-scale-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #F2F2F3;
+      vertical-align: middle;
+    }
+    .type-scale-table tr:last-child td {
+      border-bottom: none;
+    }
+    .type-sample {
+      color: #181818;
+      white-space: nowrap;
+    }
+    .type-token {
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #2C66DD;
+      font-weight: 500;
+    }
+    .type-meta {
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #626262;
+    }
+    .font-weight-grid {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .font-weight-card {
+      padding: 20px 24px;
+      background: #FAFAFA;
+      border: 1px solid #E9E9E9;
+      border-radius: 10px;
+      min-width: 180px;
+      flex: 1;
+    }
+    .font-weight-card .weight-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #939393;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .font-weight-card .weight-sample {
+      font-size: 28px;
+      color: #181818;
+      margin-bottom: 6px;
+    }
+    .font-weight-card .weight-value {
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #626262;
+    }
+    .font-stack-card {
+      padding: 16px 20px;
+      background: #FAFAFA;
+      border: 1px solid #E9E9E9;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .font-stack-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #939393;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .font-stack-value {
+      font-size: 13px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #626262;
+      word-break: break-all;
+    }
+    .section-subtitle {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #626262;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #E9E9E9;
+    }
+
+    /* Spacing section */
+    .spacing-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+    }
+    .spacing-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: #939393;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 8px 12px;
+      border-bottom: 2px solid #E9E9E9;
+    }
+    .spacing-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #F2F2F3;
+      vertical-align: middle;
+    }
+    .spacing-table tr:last-child td {
+      border-bottom: none;
+    }
+    .spacing-bar {
+      height: 24px;
+      background: #2C66DD;
+      border-radius: 4px;
+      opacity: 0.2;
+      min-width: 2px;
+    }
+    .spacing-token {
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #2C66DD;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .spacing-value {
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #626262;
+      white-space: nowrap;
+    }
+    .radius-grid {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .radius-card {
+      width: 80px;
+      text-align: center;
+    }
+    .radius-preview {
+      width: 72px;
+      height: 72px;
+      background: #EAF0FC;
+      border: 2px solid #2C66DD;
+      margin: 0 auto 8px;
+    }
+    .radius-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #181818;
+      margin-bottom: 2px;
+    }
+    .radius-value {
+      font-size: 11px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #626262;
+    }
+    .shadow-grid {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .shadow-card {
+      width: 140px;
+      text-align: center;
+    }
+    .shadow-preview {
+      width: 120px;
+      height: 80px;
+      background: #FFFFFF;
+      border-radius: 8px;
+      margin: 0 auto 10px;
+    }
+    .shadow-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #181818;
+      margin-bottom: 2px;
+    }
+    .shadow-value {
+      font-size: 10px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #939393;
+      word-break: break-all;
+    }
   </style>
 </head>
 <body>
   <div class="header">
-    <a href="index.html" class="header-logo"><span>Loom</span></a>
-    <span class="header-title">Design System</span>
-  </div>
-
-  <div class="selector-bar">
-    <label for="product-select">Choose Product:</label>
-    <select id="product-select" class="product-dropdown">
-      <option value="">— Select a product —</option>
-      <option value="writer">Zoho Writer</option>
-    </select>
+    <div class="header-left">
+      <a href="index.html" class="header-logo"><span>Loom</span></a>
+      <span class="header-title">Design System</span>
+    </div>
+    <div class="header-right">
+      <label for="product-select">Choose Product:</label>
+      <select id="product-select" class="product-dropdown">
+        <option value="">"These aren't the tokens you're looking for" — pick a product</option>
+        <option value="writer">Zoho Writer</option>
+      </select>
+    </div>
   </div>
 
   <div id="empty-state" class="empty-state">
-    <h2>Select a product above</h2>
-    <p>The design system tokens for that product will appear here.</p>
+    <h2>🚀 "Make it so, Number One."</h2>
+    <p>Select a product above to engage the design tokens at warp speed.</p>
   </div>
 
   <div id="product-content" class="main-layout" style="display: none;">
@@ -406,8 +633,8 @@
       <ul class="sidebar-nav">
         <li><a href="#" data-section="colors" class="active">Colors</a></li>
         <li><a href="#" data-section="semantics">Semantics</a></li>
-        <li><a href="#" data-section="spacing" class="disabled">Spacing</a></li>
-        <li><a href="#" data-section="typography" class="disabled">Typography</a></li>
+        <li><a href="#" data-section="typography">Typography</a></li>
+        <li><a href="#" data-section="spacing">Spacing</a></li>
         <li><a href="#" data-section="icons" class="disabled">Icons</a></li>
         <li><a href="#" data-section="components" class="disabled">Components</a></li>
         <li><a href="#" data-section="layouts" class="disabled">Layouts</a></li>
@@ -415,6 +642,7 @@
     </nav>
 
     <div class="content">
+      <div class="content-body">
       <div class="content-header">
         <h1 id="content-section-title">Colors</h1>
         <p id="product-desc"></p>
@@ -436,12 +664,27 @@
         <div id="semantic-tokens"></div>
       </div>
 
+      <div id="section-typography" style="display: none;">
+        <p class="semantic-description">Type scale, font weights, and font stacks from DSG standards. Family: Zoho Puvi.</p>
+        <div id="typography-content"></div>
+      </div>
+
+      <div id="section-spacing" style="display: none;">
+        <p class="semantic-description">Spacing scale (4px base unit), border radii, icon sizes, and shadow elevations.</p>
+        <div id="spacing-content"></div>
+      </div>
+
       <div id="section-placeholder" style="display: none;">
         <div class="coming-soon">
           <h2 id="placeholder-title"></h2>
-          <p>This section is coming soon.</p>
+          <p id="placeholder-quote"></p>
         </div>
       </div>
+      </div>
+      <footer class="content-footer">
+        <span class="vulcan">🖖</span>
+        Live long and Prosper
+      </footer>
     </div>
   </div>
 
@@ -607,8 +850,26 @@
     const sectionColors = document.getElementById('section-colors');
     const sectionSemantics = document.getElementById('section-semantics');
     const semanticTokensContainer = document.getElementById('semantic-tokens');
+    const sectionTypography = document.getElementById('section-typography');
+    const typographyContent = document.getElementById('typography-content');
+    const sectionSpacing = document.getElementById('section-spacing');
+    const spacingContent = document.getElementById('spacing-content');
     const sectionPlaceholder = document.getElementById('section-placeholder');
     const placeholderTitle = document.getElementById('placeholder-title');
+    const placeholderQuote = document.getElementById('placeholder-quote');
+
+    const comingSoonQuotes = [
+      { q: '"Do. Or do not. There is no try."', a: '— Yoda', note: 'We chose do. Check back soon.' },
+      { q: '"I have been, and always shall be, your friend."', a: '— Spock', note: 'This section is being crafted with logical precision.' },
+      { q: '"It\'s a trap!"', a: '— Admiral Ackbar', note: 'No traps here — just tokens in progress.' },
+      { q: '"The needs of the many outweigh the needs of the few."', a: '— Spock', note: 'Many tokens needed. Few built so far. Working on it.' },
+      { q: '"I find your lack of components disturbing."', a: '— Darth Vader', note: 'So do we. Coming soon.' },
+      { q: '"Resistance is futile."', a: '— The Borg', note: 'You will be assimilated into the design system. Eventually.' },
+      { q: '"May the tokens be with you."', a: '— The Loom Council', note: 'This section is traveling through hyperspace.' },
+      { q: '"Space: the final frontier."', a: '— Captain Kirk', note: 'These are the tokens that don\'t exist yet. Their mission: to boldly ship.' },
+      { q: '"I\'ve got a bad feeling about this."', a: '— Everyone, everywhere', note: 'Don\'t worry — this section is under construction, not under attack.' },
+      { q: '"Live long and prosper."', a: '— Spock', note: 'This section will prosper. Just not today.' }
+    ];
 
     // Semantic token definitions (with primitive references)
     const semanticTokens = {
@@ -646,6 +907,179 @@
         { name: "status.info.text", light: "#225CCF", dark: "#80A3EB", lightRef: "cobalt_s10", darkRef: "cobalt_t50" }
       ]
     };
+
+    // Typography data
+    const typeScale = [
+      { role: 'display',    size: '32px', weight: 600, lh: '40px', ls: '-0.02em' },
+      { role: 'heading-1',  size: '24px', weight: 600, lh: '32px', ls: '-0.01em' },
+      { role: 'heading-2',  size: '20px', weight: 600, lh: '28px', ls: '-0.01em' },
+      { role: 'heading-3',  size: '16px', weight: 600, lh: '24px', ls: '0' },
+      { role: 'body-large', size: '16px', weight: 400, lh: '24px', ls: '0' },
+      { role: 'body',       size: '14px', weight: 400, lh: '20px', ls: '0' },
+      { role: 'body-small', size: '13px', weight: 400, lh: '18px', ls: '0.01em' },
+      { role: 'caption',    size: '12px', weight: 400, lh: '16px', ls: '0.02em' },
+      { role: 'overline',   size: '11px', weight: 600, lh: '16px', ls: '0.08em' }
+    ];
+
+    const fontWeights = [
+      { name: 'Regular', value: 400, usage: 'Body text, descriptions' },
+      { name: 'Medium',  value: 500, usage: 'Labels, emphasis' },
+      { name: 'Semibold', value: 600, usage: 'Headings, buttons' },
+      { name: 'Bold',    value: 700, usage: 'Data emphasis' }
+    ];
+
+    const fontStacks = [
+      { label: 'Primary', value: "Zoho Puvi, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" },
+      { label: 'Monospace', value: "Zoho Puvi Mono, 'SF Mono', 'Fira Code', monospace" }
+    ];
+
+    function renderTypography() {
+      const fontStackHtml = fontStacks.map(f => `
+        <div class="font-stack-card">
+          <div class="font-stack-label">${f.label}</div>
+          <div class="font-stack-value">${f.value}</div>
+        </div>
+      `).join('');
+
+      const weightHtml = fontWeights.map(w => `
+        <div class="font-weight-card">
+          <div class="weight-name">${w.name}</div>
+          <div class="weight-sample" style="font-weight: ${w.value};">Aa</div>
+          <div class="weight-value">${w.value} · ${w.usage}</div>
+        </div>
+      `).join('');
+
+      const scaleRows = typeScale.map(t => `
+        <tr>
+          <td><span class="type-token">${t.role}</span></td>
+          <td>
+            <span class="type-sample" style="font-size: ${t.size}; font-weight: ${t.weight}; line-height: ${t.lh}; letter-spacing: ${t.ls};">
+              The quick brown fox
+            </span>
+          </td>
+          <td><span class="type-meta">${t.size}</span></td>
+          <td><span class="type-meta">${t.weight}</span></td>
+          <td><span class="type-meta">${t.lh}</span></td>
+          <td><span class="type-meta">${t.ls || '0'}</span></td>
+        </tr>
+      `).join('');
+
+      typographyContent.innerHTML = `
+        <div class="section-subtitle">Font Stacks</div>
+        ${fontStackHtml}
+        <div style="margin-bottom: 32px;"></div>
+        <div class="section-subtitle">Weights</div>
+        <div class="font-weight-grid">${weightHtml}</div>
+        <div class="section-subtitle">Type Scale</div>
+        <table class="type-scale-table">
+          <thead><tr>
+            <th>Token</th><th>Sample</th><th>Size</th><th>Weight</th><th>Line-height</th><th>Spacing</th>
+          </tr></thead>
+          <tbody>${scaleRows}</tbody>
+        </table>
+      `;
+    }
+
+    // Spacing data
+    const spacingScale = [
+      { token: 'space.0',  value: '0px' },
+      { token: 'space.1',  value: '4px' },
+      { token: 'space.2',  value: '8px' },
+      { token: 'space.3',  value: '12px' },
+      { token: 'space.4',  value: '16px' },
+      { token: 'space.5',  value: '20px' },
+      { token: 'space.6',  value: '24px' },
+      { token: 'space.8',  value: '32px' },
+      { token: 'space.10', value: '40px' },
+      { token: 'space.12', value: '48px' },
+      { token: 'space.16', value: '64px' }
+    ];
+
+    const radii = [
+      { token: 'none', value: '0px' },
+      { token: 'sm',   value: '4px' },
+      { token: 'md',   value: '6px' },
+      { token: 'lg',   value: '8px' },
+      { token: 'xl',   value: '12px' },
+      { token: '2xl',  value: '16px' },
+      { token: 'full', value: '9999px' }
+    ];
+
+    const shadows = [
+      { token: 'sm', value: '0 1px 2px rgba(0,0,0,0.06)' },
+      { token: 'md', value: '0 2px 8px rgba(0,0,0,0.1)' },
+      { token: 'lg', value: '0 8px 24px rgba(0,0,0,0.12)' },
+      { token: 'xl', value: '0 16px 48px rgba(0,0,0,0.16)' }
+    ];
+
+    const iconSizes = [
+      { token: 'icon.sm', value: '16px' },
+      { token: 'icon.md', value: '24px' },
+      { token: 'icon.lg', value: '40px' }
+    ];
+
+    function renderSpacing() {
+      const spacingRows = spacingScale.map(s => {
+        const px = parseInt(s.value);
+        return `
+          <tr>
+            <td><span class="spacing-token">${s.token}</span></td>
+            <td><span class="spacing-value">${s.value}</span></td>
+            <td style="width: 50%;"><div class="spacing-bar" style="width: ${Math.max(px, 2)}px;"></div></td>
+          </tr>
+        `;
+      }).join('');
+
+      const radiusCards = radii.map(r => {
+        const rv = r.token === 'full' ? '50%' : r.value;
+        return `
+          <div class="radius-card">
+            <div class="radius-preview" style="border-radius: ${rv};"></div>
+            <div class="radius-label">${r.token}</div>
+            <div class="radius-value">${r.value}</div>
+          </div>
+        `;
+      }).join('');
+
+      const shadowCards = shadows.map(s => `
+        <div class="shadow-card">
+          <div class="shadow-preview" style="box-shadow: ${s.value};"></div>
+          <div class="shadow-label">shadow.${s.token}</div>
+          <div class="shadow-value">${s.value}</div>
+        </div>
+      `).join('');
+
+      const iconRows = iconSizes.map(i => {
+        const px = parseInt(i.value);
+        return `
+          <tr>
+            <td><span class="spacing-token">${i.token}</span></td>
+            <td><span class="spacing-value">${i.value}</span></td>
+            <td><div style="width:${px}px; height:${px}px; background:#2C66DD; border-radius:4px; opacity:0.3;"></div></td>
+          </tr>
+        `;
+      }).join('');
+
+      spacingContent.innerHTML = `
+        <div class="section-subtitle">Spacing Scale (4px base)</div>
+        <table class="spacing-table">
+          <thead><tr><th>Token</th><th>Value</th><th>Visual</th></tr></thead>
+          <tbody>${spacingRows}</tbody>
+        </table>
+
+        <div class="section-subtitle">Border Radius</div>
+        <div class="radius-grid">${radiusCards}</div>
+
+        <div class="section-subtitle">Shadows / Elevation</div>
+        <div class="shadow-grid">${shadowCards}</div>
+
+        <div class="section-subtitle">Icon Sizes</div>
+        <table class="spacing-table">
+          <thead><tr><th>Token</th><th>Value</th><th>Visual</th></tr></thead>
+          <tbody>${iconRows}</tbody>
+        </table>
+      `;
+    }
 
     function renderSemanticTokenRow(token) {
       const isOverlay = token.light.startsWith('rgba');
@@ -789,7 +1223,7 @@
     }
 
     // Sidebar navigation
-    const allSections = [sectionColors, sectionSemantics, sectionPlaceholder];
+    const allSections = [sectionColors, sectionSemantics, sectionTypography, sectionSpacing, sectionPlaceholder];
 
     function showSection(id) {
       allSections.forEach(s => s.style.display = 'none');
@@ -800,10 +1234,20 @@
         sectionSemantics.style.display = 'block';
         contentSectionTitle.textContent = 'Semantics';
         renderSemanticTokens();
+      } else if (id === 'typography') {
+        sectionTypography.style.display = 'block';
+        contentSectionTitle.textContent = 'Typography';
+        renderTypography();
+      } else if (id === 'spacing') {
+        sectionSpacing.style.display = 'block';
+        contentSectionTitle.textContent = 'Spacing';
+        renderSpacing();
       } else {
         sectionPlaceholder.style.display = 'block';
         contentSectionTitle.textContent = id.charAt(0).toUpperCase() + id.slice(1);
         placeholderTitle.textContent = id.charAt(0).toUpperCase() + id.slice(1);
+        const quote = comingSoonQuotes[Math.floor(Math.random() * comingSoonQuotes.length)];
+        placeholderQuote.innerHTML = `${quote.q} <em>${quote.a}</em><br><br>${quote.note}`;
       }
     }
 

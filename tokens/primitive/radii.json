@@ -1,0 +1,27 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "meta": {
+    "name": "Loom Primitive Radii & Shadow Tokens",
+    "description": "Border-radius scale and elevation/shadow primitives. Radius values from Loom spec + DSG AI Agent standard (16px).",
+    "version": "1.0.0"
+  },
+
+  "primitive": {
+    "radius": {
+      "none": "0px",
+      "sm":   "4px",
+      "md":   "6px",
+      "lg":   "8px",
+      "xl":   "12px",
+      "2xl":  "16px",
+      "full": "9999px"
+    },
+
+    "shadow": {
+      "sm": "0 1px 2px rgba(0,0,0,0.06)",
+      "md": "0 2px 8px rgba(0,0,0,0.1)",
+      "lg": "0 8px 24px rgba(0,0,0,0.12)",
+      "xl": "0 16px 48px rgba(0,0,0,0.16)"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "meta": {
+    "name": "Loom Primitive Spacing Tokens",
+    "description": "4px base-unit spacing scale, icon sizing, and stroke widths. DSG 8-point grid subset confirmed (P1:S8).",
+    "version": "1.0.0"
+  },
+
+  "primitive": {
+    "spacing": {
+      "0":  "0px",
+      "1":  "4px",
+      "2":  "8px",
+      "3":  "12px",
+      "4":  "16px",
+      "5":  "20px",
+      "6":  "24px",
+      "8":  "32px",
+      "10": "40px",
+      "12": "48px",
+      "16": "64px"
+    },
+
+    "iconSize": {
+      "sm": "16px",
+      "md": "24px",
+      "lg": "40px"
+    },
+
+    "strokeWidth": {
+      "1": "1px",
+      "2": "2px"
+    }
+  }
+}

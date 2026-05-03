@@ -181,6 +181,53 @@
       color: #626262;
       font-family: 'SF Mono', 'Fira Code', monospace;
     }
+
+    /* Color family sections */
+    .color-family {
+      margin-bottom: 48px;
+      padding: 24px;
+      background: #FAFAFA;
+      border-radius: 12px;
+      border: 1px solid #E9E9E9;
+    }
+    .family-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .family-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+    .family-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+    }
+    .family-hex {
+      font-size: 13px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #626262;
+      margin-left: auto;
+    }
+    .color-family .section {
+      margin-bottom: 20px;
+    }
+    .color-family .section:last-child {
+      margin-bottom: 0;
+    }
+    .color-family .section h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #939393;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -216,57 +263,142 @@
         </div>
       </div>
 
-      <div class="section">
-        <h2>Tints (Light → Base)</h2>
-        <div id="tints-grid" class="color-grid"></div>
-      </div>
-
-      <div class="section">
-        <h2>Base</h2>
-        <div id="base-grid" class="color-grid"></div>
-      </div>
-
-      <div class="section">
-        <h2>Shades (Base → Dark)</h2>
-        <div id="shades-grid" class="color-grid"></div>
-      </div>
+      <div id="color-families"></div>
     </div>
   </div>
 
   <script>
-    // Product data (from tokens/products/writer/config.json)
+    // DSG color families for Writer
+    const colorFamilies = {
+      cobalt: {
+        family: "Cobalt", hex: "#2C66DD",
+        tints: [
+          { name: "T 10", hex: "#376EDF" }, { name: "T 20", hex: "#4276E0" },
+          { name: "T 30", hex: "#5685E4" }, { name: "T 40", hex: "#6B94E7" },
+          { name: "T 50", hex: "#80A3EB" }, { name: "T 60", hex: "#96B3EE" },
+          { name: "T 70", hex: "#ABC2F1" }, { name: "T 80", hex: "#C0D1F5" },
+          { name: "T 90", hex: "#D5E0F8" }, { name: "T 100", hex: "#EAF0FC" }
+        ],
+        shades: [
+          { name: "S 10", hex: "#225CCF" }, { name: "S 20", hex: "#1E52BB" },
+          { name: "S 30", hex: "#1B49A6" }, { name: "S 40", hex: "#184091" },
+          { name: "S 50", hex: "#14377C" }, { name: "S 60", hex: "#112E68" },
+          { name: "S 70", hex: "#0E2553" }, { name: "S 80", hex: "#0A1B3E" },
+          { name: "S 90", hex: "#071229" }, { name: "S 100", hex: "#030915" }
+        ]
+      },
+      fern: {
+        family: "Fern", hex: "#0C8844",
+        tints: [
+          { name: "T 10", hex: "#188E4E" }, { name: "T 20", hex: "#249457" },
+          { name: "T 30", hex: "#3DA069" }, { name: "T 40", hex: "#55AC7C" },
+          { name: "T 50", hex: "#6DB88F" }, { name: "T 60", hex: "#86C4A2" },
+          { name: "T 70", hex: "#9ECFB4" }, { name: "T 80", hex: "#B7DCC7" },
+          { name: "T 90", hex: "#CEE7DA" }, { name: "T 100", hex: "#E7F3ED" }
+        ],
+        shades: [
+          { name: "S 10", hex: "#0B7D3E" }, { name: "S 20", hex: "#0A7138" },
+          { name: "S 30", hex: "#096633" }, { name: "S 40", hex: "#085B2D" },
+          { name: "S 50", hex: "#074F28" }, { name: "S 60", hex: "#064422" },
+          { name: "S 70", hex: "#05391C" }, { name: "S 80", hex: "#042D17" },
+          { name: "S 90", hex: "#032211" }, { name: "S 100", hex: "#02170B" }
+        ]
+      },
+      cardinal: {
+        family: "Cardinal", hex: "#CC3929",
+        tints: [
+          { name: "T 10", hex: "#CF4334" }, { name: "T 20", hex: "#D14D3F" },
+          { name: "T 30", hex: "#D66154" }, { name: "T 40", hex: "#DB756A" },
+          { name: "T 50", hex: "#E0887F" }, { name: "T 60", hex: "#E69C94" },
+          { name: "T 70", hex: "#EBB0A9" }, { name: "T 80", hex: "#F0C4BF" },
+          { name: "T 90", hex: "#F5D7D4" }, { name: "T 100", hex: "#FAECEA" }
+        ],
+        shades: [
+          { name: "S 10", hex: "#BA3425" }, { name: "S 20", hex: "#A72E21" },
+          { name: "S 30", hex: "#95291D" }, { name: "S 40", hex: "#82241A" },
+          { name: "S 50", hex: "#6F1F16" }, { name: "S 60", hex: "#5D1A12" },
+          { name: "S 70", hex: "#4A150F" }, { name: "S 80", hex: "#380F0B" },
+          { name: "S 90", hex: "#250A07" }, { name: "S 100", hex: "#130504" }
+        ]
+      },
+      sunshine: {
+        family: "Sunshine", hex: "#F9B21D",
+        tints: [
+          { name: "T 10", hex: "#FABB34" }, { name: "T 20", hex: "#FAC248" },
+          { name: "T 30", hex: "#FBC95C" }, { name: "T 40", hex: "#FBCF71" },
+          { name: "T 50", hex: "#FCD685" }, { name: "T 60", hex: "#FCDD99" },
+          { name: "T 70", hex: "#FDE4AE" }, { name: "T 80", hex: "#FDEBC2" },
+          { name: "T 90", hex: "#FEF1D6" }, { name: "T 100", hex: "#FEF8EB" }
+        ],
+        shades: [
+          { name: "S 10", hex: "#ECA91C" }, { name: "S 20", hex: "#E0A01A" },
+          { name: "S 30", hex: "#C78E17" }, { name: "S 40", hex: "#AE7C14" },
+          { name: "S 50", hex: "#956B11" }, { name: "S 60", hex: "#7C590E" },
+          { name: "S 70", hex: "#64470C" }, { name: "S 80", hex: "#4A3509" },
+          { name: "S 90", hex: "#322406" }, { name: "S 100", hex: "#181103" }
+        ]
+      },
+      teal: {
+        family: "Teal", hex: "#00AED0",
+        tints: [
+          { name: "T 10", hex: "#0DB2D2" }, { name: "T 20", hex: "#1AB6D5" },
+          { name: "T 30", hex: "#33BED9" }, { name: "T 40", hex: "#4DC6DE" },
+          { name: "T 50", hex: "#66CEE3" }, { name: "T 60", hex: "#80D7E8" },
+          { name: "T 70", hex: "#99DFEC" }, { name: "T 80", hex: "#B3E7F1" },
+          { name: "T 90", hex: "#CCEFF6" }, { name: "T 100", hex: "#E6F7FA" }
+        ],
+        shades: [
+          { name: "S 10", hex: "#00A5C5" }, { name: "S 20", hex: "#009CBB" },
+          { name: "S 30", hex: "#008BA6" }, { name: "S 40", hex: "#007991" },
+          { name: "S 50", hex: "#00687D" }, { name: "S 60", hex: "#005768" },
+          { name: "S 70", hex: "#004653" }, { name: "S 80", hex: "#00343E" },
+          { name: "S 90", hex: "#00232A" }, { name: "S 100", hex: "#001114" }
+        ]
+      },
+      plum: {
+        family: "Plum", hex: "#993399",
+        tints: [
+          { name: "T 10", hex: "#9E3D9E" }, { name: "T 20", hex: "#A348A3" },
+          { name: "T 30", hex: "#AD5CAD" }, { name: "T 40", hex: "#B871B8" },
+          { name: "T 50", hex: "#C285C2" }, { name: "T 60", hex: "#CC99CC" },
+          { name: "T 70", hex: "#D6ADD6" }, { name: "T 80", hex: "#E1C2E1" },
+          { name: "T 90", hex: "#EBD6EB" }, { name: "T 100", hex: "#F5EBF5" }
+        ],
+        shades: [
+          { name: "S 10", hex: "#8B2E8B" }, { name: "S 20", hex: "#7D2A7D" },
+          { name: "S 30", hex: "#6F256F" }, { name: "S 40", hex: "#612061" },
+          { name: "S 50", hex: "#531C53" }, { name: "S 60", hex: "#461746" },
+          { name: "S 70", hex: "#381338" }, { name: "S 80", hex: "#2A0E2A" },
+          { name: "S 90", hex: "#1C091C" }, { name: "S 100", hex: "#0E050E" }
+        ]
+      },
+      grey: {
+        family: "Grey", hex: null,
+        tints: [
+          { name: "T 00", hex: "#07080A" }, { name: "T 05", hex: "#141516" },
+          { name: "T 10", hex: "#202123" }, { name: "T 20", hex: "#39393B" },
+          { name: "T 30", hex: "#525354" }, { name: "T 40", hex: "#6A6B6C" },
+          { name: "T 50", hex: "#838485" }, { name: "T 60", hex: "#9C9C9D" },
+          { name: "T 70", hex: "#B5B5B6" }, { name: "T 80", hex: "#CDCECE" },
+          { name: "T 90", hex: "#E7E7E7" }, { name: "T 100", hex: "#F2F2F3" }
+        ],
+        shades: [
+          { name: "S 00", hex: "#F5F5F5" }, { name: "S 05", hex: "#E9E9E9" },
+          { name: "S 10", hex: "#DCDCDC" }, { name: "S 20", hex: "#C4C4C4" },
+          { name: "S 30", hex: "#ABABAB" }, { name: "S 40", hex: "#939393" },
+          { name: "S 50", hex: "#7A7A7A" }, { name: "S 60", hex: "#626262" },
+          { name: "S 70", hex: "#494949" }, { name: "S 80", hex: "#313131" },
+          { name: "S 90", hex: "#181818" }, { name: "S 100", hex: "#0C0C0C" }
+        ]
+      }
+    };
+
     const products = {
       writer: {
         name: "Zoho Writer",
-        description: "Document editor — accent color: Cobalt",
+        description: "Document Editor - Accent color : <strong>Cobalt</strong>",
         accent: { family: "Cobalt", hex: "#2C66DD" },
-        colors: {
-          base: { name: "Base", hex: "#2C66DD" },
-          tints: [
-            { name: "T 10", hex: "#376EDF" },
-            { name: "T 20", hex: "#4276E0" },
-            { name: "T 30", hex: "#5685E4" },
-            { name: "T 40", hex: "#6B94E7" },
-            { name: "T 50", hex: "#80A3EB" },
-            { name: "T 60", hex: "#96B3EE" },
-            { name: "T 70", hex: "#ABC2F1" },
-            { name: "T 80", hex: "#C0D1F5" },
-            { name: "T 90", hex: "#D5E0F8" },
-            { name: "T 100", hex: "#EAF0FC" }
-          ],
-          shades: [
-            { name: "S 10", hex: "#225CCF" },
-            { name: "S 20", hex: "#1E52BB" },
-            { name: "S 30", hex: "#1B49A6" },
-            { name: "S 40", hex: "#184091" },
-            { name: "S 50", hex: "#14377C" },
-            { name: "S 60", hex: "#112E68" },
-            { name: "S 70", hex: "#0E2553" },
-            { name: "S 80", hex: "#0A1B3E" },
-            { name: "S 90", hex: "#071229" },
-            { name: "S 100", hex: "#030915" }
-          ]
-        }
+        families: ["cobalt", "fern", "cardinal", "sunshine", "teal", "plum", "grey"]
       }
     };
 
@@ -279,12 +411,9 @@
     const accentSwatch = document.getElementById('accent-swatch');
     const accentFamily = document.getElementById('accent-family');
     const accentHex = document.getElementById('accent-hex');
-    const tintsGrid = document.getElementById('tints-grid');
-    const baseGrid = document.getElementById('base-grid');
-    const shadesGrid = document.getElementById('shades-grid');
+    const colorFamiliesContainer = document.getElementById('color-families');
 
     function createSwatch(name, hex, isMaster) {
-      const needsWhiteText = getRelativeLuminance(hex) < 0.4;
       return `
         <div class="color-swatch">
           <div class="swatch-color" style="background: ${hex};">
@@ -309,6 +438,40 @@
       return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
     }
 
+    function renderColorFamily(data) {
+      const isGrey = data.hex === null;
+      const masterHtml = isGrey ? '' : `
+        <div class="section">
+          <h3>Base</h3>
+          <div class="color-grid">${createSwatch('Master', data.hex, true)}</div>
+        </div>`;
+
+      const headerColor = isGrey ? '#626262' : data.hex;
+
+      return `
+        <div class="color-family">
+          <div class="family-header">
+            <div class="family-dot" style="background: ${headerColor};"></div>
+            <h2>${data.family}</h2>
+            ${isGrey ? '' : '<span class="family-hex">' + data.hex + '</span>'}
+          </div>
+          <div class="section">
+            <h3>Tints</h3>
+            <div class="color-grid">
+              ${[...data.tints].reverse().map(c => createSwatch(c.name, c.hex, false)).join('')}
+            </div>
+          </div>
+          ${masterHtml}
+          <div class="section">
+            <h3>Shades</h3>
+            <div class="color-grid">
+              ${data.shades.map(c => createSwatch(c.name, c.hex, false)).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function renderProduct(slug) {
       const product = products[slug];
       if (!product) {
@@ -320,22 +483,15 @@
       emptyState.style.display = 'none';
       productContent.style.display = 'block';
 
-      productTitle.textContent = product.name;
-      productDesc.textContent = product.description;
+      productTitle.textContent = 'Loom Design System';
+      productDesc.innerHTML = product.description;
       accentSwatch.style.background = product.accent.hex;
       accentFamily.textContent = product.accent.family;
       accentHex.textContent = product.accent.hex;
 
-      // Render tints (lightest first)
-      tintsGrid.innerHTML = [...product.colors.tints].reverse()
-        .map(c => createSwatch(c.name, c.hex, false)).join('');
-
-      // Render base
-      baseGrid.innerHTML = createSwatch('Master', product.colors.base.hex, true);
-
-      // Render shades
-      shadesGrid.innerHTML = product.colors.shades
-        .map(c => createSwatch(c.name, c.hex, false)).join('');
+      colorFamiliesContainer.innerHTML = product.families
+        .map(key => renderColorFamily(colorFamilies[key]))
+        .join('');
     }
 
     dropdown.addEventListener('change', (e) => {

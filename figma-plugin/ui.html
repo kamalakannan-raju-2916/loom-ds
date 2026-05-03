@@ -75,9 +75,7 @@
     color: var(--figma-color-text-secondary, #888);
     margin-bottom: 4px;
   }
-  .token-list {
-    display: flex; flex-wrap: wrap; gap: 6px;
-  }
+  .token-list { display: flex; flex-wrap: wrap; gap: 6px; }
   .token-chip {
     background: var(--figma-color-bg, #fff);
     border: 1px solid var(--figma-color-border, #e0e0e0);
@@ -86,15 +84,9 @@
     font-size: 11px;
     display: flex; align-items: center; gap: 4px;
   }
-  .token-chip .count {
-    font-weight: 700;
-    color: #2C66DD;
-  }
+  .token-chip .count { font-weight: 700; color: #2C66DD; }
 
-  .pages-list {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    margin-top: 4px;
-  }
+  .pages-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
   .page-chip {
     background: #EAF0FC;
     border: 1px solid #C0D1F5;
@@ -104,12 +96,6 @@
     color: #2C66DD;
     font-weight: 500;
   }
-
-  .color-preview {
-    display: flex; gap: 2px; margin-top: 12px;
-    height: 24px; border-radius: 4px; overflow: hidden;
-  }
-  .color-preview .swatch { flex: 1; min-width: 0; }
 
   .status-area {
     min-height: 36px;
@@ -121,17 +107,6 @@
   }
   .status-area.error { color: #CC3929; }
   .status-area.success { color: #0C8844; font-weight: 600; }
-
-  .result-details { display: none; padding: 0 20px 8px; }
-  .result-details.visible { display: block; }
-  .result-row {
-    display: flex; justify-content: space-between;
-    padding: 3px 0; font-size: 12px;
-    border-bottom: 1px solid var(--figma-color-border, #eee);
-  }
-  .result-row:last-child { border-bottom: none; }
-  .result-row .rlabel { color: var(--figma-color-text-secondary, #888); }
-  .result-row .rvalue { font-weight: 600; }
 
   .footer {
     padding: 12px 20px;
@@ -190,32 +165,20 @@
           </div>
 
           <div class="section-group">
-            <div class="section-group-title">Pages (Visual Reference)</div>
+            <div class="section-group-title">Pages</div>
             <div class="pages-list">
-              <span class="page-chip">Colors</span>
+              <span class="page-chip">Primitives</span>
               <span class="page-chip">Semantics</span>
               <span class="page-chip">Typography</span>
               <span class="page-chip">Spacing</span>
             </div>
           </div>
         </div>
-
-        <div class="color-preview" id="color-preview"></div>
       </div>
     </div>
   </div>
 
   <div class="status-area" id="status">Choose a product to begin</div>
-
-  <div class="result-details" id="result-details">
-    <div class="result-row"><span class="rlabel">Font</span><span class="rvalue" id="res-font"></span></div>
-    <div class="result-row"><span class="rlabel">Spacing</span><span class="rvalue" id="res-spacing"></span></div>
-    <div class="result-row"><span class="rlabel">Icon Size</span><span class="rvalue" id="res-icon"></span></div>
-    <div class="result-row"><span class="rlabel">Stroke Width</span><span class="rvalue" id="res-stroke"></span></div>
-    <div class="result-row"><span class="rlabel">Radius</span><span class="rvalue" id="res-radius"></span></div>
-    <div class="result-row"><span class="rlabel">Pages</span><span class="rvalue" id="res-pages"></span></div>
-    <div class="result-row"><span class="rlabel"><strong>Total Variables</strong></span><span class="rvalue" id="res-total"></span></div>
-  </div>
 
   <div class="footer">
     <button class="btn-secondary" id="btn-cancel" onclick="parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')">Close</button>
@@ -228,145 +191,118 @@
   </div>
 
 <script>
-  const REPO_BASE = 'https://raw.githubusercontent.com/kamalakannan-raju-2916/loom-ds/main/tokens';
+  var REPO_BASE = 'https://raw.githubusercontent.com/kamalakannan-raju-2916/loom-ds/main/tokens';
 
-  let productsRegistry = null;
-  let selectedProduct = null;
-  let cachedColors = null;
-  let cachedTypography = null;
-  let cachedSpacing = null;
-  let cachedRadii = null;
-  let cachedSemantic = null;
+  var productsRegistry = null;
+  var selectedProduct = null;
+  var cachedColors = null;
+  var cachedTypography = null;
+  var cachedSpacing = null;
+  var cachedRadii = null;
+  var cachedSemantic = null;
 
-  const select = document.getElementById('product-select');
-  const card = document.getElementById('product-card');
-  const btnSync = document.getElementById('btn-sync');
-  const statusEl = document.getElementById('status');
-  const resultDetails = document.getElementById('result-details');
+  var select = document.getElementById('product-select');
+  var card = document.getElementById('product-card');
+  var btnSync = document.getElementById('btn-sync');
+  var statusEl = document.getElementById('status');
 
-  async function fetchJSON(path) {
-    const url = `${REPO_BASE}/${path}`;
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
-    return res.json();
+  function fetchJSON(path) {
+    var url = REPO_BASE + '/' + path;
+    return fetch(url, { cache: 'no-store' }).then(function(res) {
+      if (!res.ok) throw new Error('Failed to fetch ' + path + ': ' + res.status);
+      return res.json();
+    });
   }
 
-  // Resolve semantic token references to hex values
-  function resolveRef(ref, colorsData) {
-    // {primitive.color.grey.s90} → find colors.primitive.color.grey.s90.$value
-    const match = ref.match(/\{primitive\.color\.(.+)\}/);
-    if (!match) return ref;
-    const path = match[1].split('.');
-    let obj = colorsData.primitive.color;
-    for (const p of path) {
-      if (!obj) return '#888888';
-      obj = obj[p];
-    }
-    if (obj && obj.$value) return obj.$value;
-    if (typeof obj === 'string') return obj;
-    return '#888888';
-  }
-
-  // Build flat list of semantic tokens with resolved light/dark values
-  function buildSemanticTokens(semanticData, colorsData) {
-    const tokens = [];
-    if (!semanticData || !semanticData.semantic) return tokens;
-    for (const [group, entries] of Object.entries(semanticData.semantic)) {
-      for (const [name, modes] of Object.entries(entries)) {
-        tokens.push({
-          name: `${group}.${name}`,
-          light: resolveRef(modes.Light, colorsData),
-          dark: resolveRef(modes.Dark, colorsData)
-        });
+  function countColorVars(colorsData, families) {
+    var count = 0;
+    for (var i = 0; i < families.length; i++) {
+      var family = colorsData.primitive.color[families[i]];
+      if (!family) continue;
+      var keys = Object.keys(family);
+      for (var k = 0; k < keys.length; k++) {
+        var key = keys[k];
+        if (family[key] && family[key].$value) count++;
       }
     }
-    return tokens;
+    // Add essentials (9)
+    count += 9;
+    return count;
   }
 
-  // Count tokens per collection
-  function countFontTokens(data) {
-    const f = data.primitive.font;
+  function countSemanticVars(data) {
+    var count = 0;
+    if (!data || !data.semantic) return 0;
+    var groups = Object.keys(data.semantic);
+    for (var g = 0; g < groups.length; g++) {
+      count += Object.keys(data.semantic[groups[g]]).length;
+    }
+    return count;
+  }
+
+  function countFontVars(data) {
+    var f = data.primitive.font;
     return Object.keys(f.family).length + Object.keys(f.weight).length +
            Object.keys(f.size).length + Object.keys(f.lineHeight).length +
            Object.keys(f.letterSpacing).length;
   }
-  function countSpacingTokens(data) { return Object.keys(data.primitive.spacing).length; }
-  function countIconTokens(data) { return Object.keys(data.primitive.iconSize).length; }
-  function countStrokeTokens(data) { return Object.keys(data.primitive.strokeWidth).length; }
-  function countRadiusTokens(data) { return Object.keys(data.primitive.radius).length; }
 
-  function renderColorPreview(colorsData, accentFamily) {
-    const preview = document.getElementById('color-preview');
-    preview.innerHTML = '';
-    const family = colorsData.primitive.color[accentFamily];
-    if (!family) return;
-    const keys = ['base','t10','t20','t30','t40','t50','t60','t70','t80','t90','t100'];
-    keys.forEach(k => {
-      if (!family[k]) return;
-      const div = document.createElement('div');
-      div.className = 'swatch';
-      div.style.background = family[k].$value;
-      div.title = `${accentFamily}/${k}: ${family[k].$value}`;
-      preview.appendChild(div);
-    });
-  }
-
-  function renderCollectionChips() {
-    const list = document.getElementById('collections-list');
+  function renderCollectionChips(product) {
+    var list = document.getElementById('collections-list');
     list.innerHTML = '';
-    const collections = [
-      { name: 'Font', count: countFontTokens(cachedTypography) },
-      { name: 'Spacing', count: countSpacingTokens(cachedSpacing) },
-      { name: 'Icon Size', count: countIconTokens(cachedSpacing) },
-      { name: 'Stroke Width', count: countStrokeTokens(cachedSpacing) },
-      { name: 'Radius', count: countRadiusTokens(cachedRadii) }
+    var collections = [
+      { name: 'Primitives', count: countColorVars(cachedColors, product.colorFamilies) },
+      { name: 'Semantic', count: countSemanticVars(cachedSemantic) },
+      { name: 'Font', count: countFontVars(cachedTypography) },
+      { name: 'Spacing', count: Object.keys(cachedSpacing.primitive.spacing).length },
+      { name: 'Icon Size', count: Object.keys(cachedSpacing.primitive.iconSize).length },
+      { name: 'Stroke Width', count: Object.keys(cachedSpacing.primitive.strokeWidth).length },
+      { name: 'Radius', count: Object.keys(cachedRadii.primitive.radius).length }
     ];
-    collections.forEach(c => {
-      const chip = document.createElement('span');
+    for (var i = 0; i < collections.length; i++) {
+      var chip = document.createElement('span');
       chip.className = 'token-chip';
-      chip.innerHTML = `${c.name} <span class="count">${c.count}</span>`;
+      chip.innerHTML = collections[i].name + ' <span class="count">' + collections[i].count + '</span>';
       list.appendChild(chip);
-    });
+    }
   }
 
-  async function init() {
-    try {
-      statusEl.textContent = 'Loading product registry…';
-      productsRegistry = await fetchJSON('products.json');
+  function init() {
+    statusEl.textContent = 'Loading tokens from GitHub…';
+    Promise.all([
+      fetchJSON('products.json'),
+      fetchJSON('primitive/colors.json'),
+      fetchJSON('primitive/typography.json'),
+      fetchJSON('primitive/spacing.json'),
+      fetchJSON('primitive/radii.json'),
+      fetchJSON('semantic/colors.json')
+    ]).then(function(results) {
+      productsRegistry = results[0];
+      cachedColors = results[1];
+      cachedTypography = results[2];
+      cachedSpacing = results[3];
+      cachedRadii = results[4];
+      cachedSemantic = results[5];
 
-      for (const [key, prod] of Object.entries(productsRegistry.products)) {
-        const opt = document.createElement('option');
+      var productKeys = Object.keys(productsRegistry.products);
+      for (var i = 0; i < productKeys.length; i++) {
+        var key = productKeys[i];
+        var prod = productsRegistry.products[key];
+        var opt = document.createElement('option');
         opt.value = key;
         opt.textContent = prod.name;
         select.appendChild(opt);
       }
-
-      statusEl.textContent = 'Fetching tokens from GitHub…';
-      const [colors, typo, spacing, radii, semantic] = await Promise.all([
-        fetchJSON('primitive/colors.json'),
-        fetchJSON('primitive/typography.json'),
-        fetchJSON('primitive/spacing.json'),
-        fetchJSON('primitive/radii.json'),
-        fetchJSON('semantic/colors.json')
-      ]);
-      cachedColors = colors;
-      cachedTypography = typo;
-      cachedSpacing = spacing;
-      cachedRadii = radii;
-      cachedSemantic = semantic;
-
       statusEl.textContent = 'Choose a product to begin';
       statusEl.className = 'status-area';
-    } catch (err) {
-      statusEl.textContent = `Error: ${err.message}`;
+    }).catch(function(err) {
+      statusEl.textContent = 'Error: ' + err.message;
       statusEl.className = 'status-area error';
-    }
+    });
   }
 
-  select.addEventListener('change', () => {
-    const key = select.value;
-    resultDetails.className = 'result-details';
-
+  select.addEventListener('change', function() {
+    var key = select.value;
     if (!key || !productsRegistry) {
       card.className = 'product-card';
       btnSync.disabled = true;
@@ -376,54 +312,46 @@
       return;
     }
 
-    selectedProduct = { key, ...productsRegistry.products[key] };
-    const accentFamily = cachedColors.primitive.color[selectedProduct.accent];
-    const accentHex = (accentFamily && accentFamily.base && accentFamily.base.$value) || '#666';
+    selectedProduct = productsRegistry.products[key];
+    selectedProduct.key = key;
+    var accentFamily = cachedColors.primitive.color[selectedProduct.accent];
+    var accentHex = (accentFamily && accentFamily.base && accentFamily.base.$value) || '#666';
 
     document.getElementById('accent-bar').style.background = accentHex;
     document.getElementById('product-name').textContent = selectedProduct.name;
-    document.getElementById('product-desc').textContent = `${selectedProduct.description} · Accent: ${selectedProduct.accent}`;
+    document.getElementById('product-desc').textContent = selectedProduct.description + ' · Accent: ' + selectedProduct.accent;
 
-    renderCollectionChips();
-    renderColorPreview(cachedColors, selectedProduct.accent);
-
-    const total = countFontTokens(cachedTypography) + countSpacingTokens(cachedSpacing) +
-                  countIconTokens(cachedSpacing) + countStrokeTokens(cachedSpacing) +
-                  countRadiusTokens(cachedRadii);
+    renderCollectionChips(selectedProduct);
 
     card.className = 'product-card visible';
     btnSync.disabled = false;
-    statusEl.textContent = `Ready to sync ${total} variables + 4 pages`;
+    statusEl.textContent = 'Ready to sync';
     statusEl.className = 'status-area';
   });
 
-  btnSync.addEventListener('click', () => {
+  btnSync.addEventListener('click', function() {
     if (!selectedProduct || !cachedColors) return;
 
     btnSync.disabled = true;
     select.disabled = true;
-    statusEl.textContent = 'Sending tokens to Figma…';
+    statusEl.textContent = 'Syncing…';
     statusEl.className = 'status-area';
-    resultDetails.className = 'result-details';
-
-    const semanticTokens = buildSemanticTokens(cachedSemantic, cachedColors);
 
     parent.postMessage({
       pluginMessage: {
         type: 'sync-tokens',
-        productKey: selectedProduct.key,
         productConfig: selectedProduct,
         colorsData: cachedColors,
         typographyData: cachedTypography,
         spacingData: cachedSpacing,
         radiiData: cachedRadii,
-        semanticTokens: semanticTokens
+        semanticData: cachedSemantic
       }
     }, '*');
   });
 
-  window.onmessage = (event) => {
-    const msg = event.data.pluginMessage;
+  window.onmessage = function(event) {
+    var msg = event.data.pluginMessage;
     if (!msg) return;
 
     if (msg.type === 'status') {
@@ -432,26 +360,14 @@
     }
 
     if (msg.type === 'complete') {
-      statusEl.textContent = `✅ ${msg.message}`;
+      statusEl.textContent = '✅ ' + msg.message;
       statusEl.className = 'status-area success';
       btnSync.disabled = false;
       select.disabled = false;
-
-      if (msg.details) {
-        document.getElementById('res-font').textContent = msg.details.font;
-        document.getElementById('res-spacing').textContent = msg.details.spacing;
-        document.getElementById('res-icon').textContent = msg.details.iconSize;
-        document.getElementById('res-stroke').textContent = msg.details.strokeWidth;
-        document.getElementById('res-radius').textContent = msg.details.radius;
-        document.getElementById('res-pages').textContent = msg.details.pages;
-        document.getElementById('res-total').textContent =
-          msg.details.font + msg.details.spacing + msg.details.iconSize + msg.details.strokeWidth + msg.details.radius;
-        resultDetails.className = 'result-details visible';
-      }
     }
 
     if (msg.type === 'error') {
-      statusEl.textContent = `❌ ${msg.message}`;
+      statusEl.textContent = '❌ ' + msg.message;
       statusEl.className = 'status-area error';
       btnSync.disabled = false;
       select.disabled = false;

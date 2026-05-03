@@ -3,7 +3,6 @@
 <head>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 13px;
@@ -14,7 +13,6 @@
     height: 100vh;
   }
 
-  /* ── Header ────────────────────────────── */
   .header {
     background: #1a1a1a;
     color: #fff;
@@ -23,23 +21,10 @@
     align-items: center;
     gap: 10px;
   }
-  .header .logo {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-  .header .sep {
-    color: #555;
-    font-weight: 300;
-    font-size: 18px;
-  }
-  .header .subtitle {
-    font-size: 12px;
-    color: #999;
-    font-weight: 400;
-  }
+  .header .logo { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
+  .header .sep { color: #555; font-weight: 300; font-size: 18px; }
+  .header .subtitle { font-size: 12px; color: #999; font-weight: 400; }
 
-  /* ── Body ───────────────────────────────── */
   .body {
     flex: 1;
     padding: 20px;
@@ -50,98 +35,85 @@
   }
 
   label {
-    font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-weight: 600; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.04em;
     color: var(--figma-color-text-secondary, #666);
   }
 
   select {
-    width: 100%;
-    padding: 10px 12px;
+    width: 100%; padding: 10px 12px;
     border: 1px solid var(--figma-color-border, #ddd);
-    border-radius: 6px;
-    font-size: 13px;
+    border-radius: 6px; font-size: 13px;
     background: var(--figma-color-bg, #fff);
     color: var(--figma-color-text, #333);
-    cursor: pointer;
-    outline: none;
+    cursor: pointer; outline: none;
   }
   select:focus { border-color: #2C66DD; }
 
-  /* ── Product Card ──────────────────────── */
-  .product-card {
-    display: none;
-    border: 1px solid var(--figma-color-border, #e0e0e0);
-    border-radius: 8px;
-    overflow: hidden;
-  }
+  .product-card { display: none; border: 1px solid var(--figma-color-border, #e0e0e0); border-radius: 8px; overflow: hidden; }
   .product-card.visible { display: block; }
+  .accent-bar { height: 6px; }
+  .product-info { padding: 16px; }
+  .product-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .product-desc { font-size: 12px; color: var(--figma-color-text-secondary, #888); margin-bottom: 12px; }
 
-  .accent-bar {
-    height: 6px;
+  .what-gets-created {
+    background: var(--figma-color-bg-secondary, #f8f8f8);
+    border-radius: 6px;
+    padding: 12px;
+  }
+  .what-gets-created h4 {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--figma-color-text-secondary, #888);
+    margin-bottom: 8px;
   }
 
-  .product-info {
-    padding: 16px;
-  }
-  .product-name {
-    font-size: 15px;
-    font-weight: 700;
+  .section-group { margin-bottom: 10px; }
+  .section-group-title {
+    font-size: 11px; font-weight: 600;
+    color: var(--figma-color-text-secondary, #888);
     margin-bottom: 4px;
   }
-  .product-desc {
-    font-size: 12px;
-    color: var(--figma-color-text-secondary, #888);
-    margin-bottom: 12px;
+  .token-list {
+    display: flex; flex-wrap: wrap; gap: 6px;
   }
-
-  .token-counts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .token-stat {
-    background: var(--figma-color-bg-secondary, #f5f5f5);
-    border-radius: 6px;
-    padding: 10px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .token-stat .count {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--figma-color-text, #333);
-  }
-  .token-stat .label {
-    font-size: 11px;
-    color: var(--figma-color-text-secondary, #888);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  /* ── Color Preview ─────────────────────── */
-  .color-preview {
-    display: flex;
-    gap: 2px;
-    margin-top: 12px;
-    height: 24px;
+  .token-chip {
+    background: var(--figma-color-bg, #fff);
+    border: 1px solid var(--figma-color-border, #e0e0e0);
     border-radius: 4px;
-    overflow: hidden;
+    padding: 4px 8px;
+    font-size: 11px;
+    display: flex; align-items: center; gap: 4px;
   }
-  .color-preview .swatch {
-    flex: 1;
-    min-width: 0;
+  .token-chip .count {
+    font-weight: 700;
+    color: #2C66DD;
   }
 
-  /* ── Status ────────────────────────────── */
+  .pages-list {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 4px;
+  }
+  .page-chip {
+    background: #EAF0FC;
+    border: 1px solid #C0D1F5;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 11px;
+    color: #2C66DD;
+    font-weight: 500;
+  }
+
+  .color-preview {
+    display: flex; gap: 2px; margin-top: 12px;
+    height: 24px; border-radius: 4px; overflow: hidden;
+  }
+  .color-preview .swatch { flex: 1; min-width: 0; }
+
   .status-area {
-    min-height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 36px;
+    display: flex; align-items: center; justify-content: center;
     text-align: center;
     font-size: 12px;
     color: var(--figma-color-text-secondary, #888);
@@ -150,64 +122,39 @@
   .status-area.error { color: #CC3929; }
   .status-area.success { color: #0C8844; font-weight: 600; }
 
-  /* ── Result Details ────────────────────── */
-  .result-details {
-    display: none;
-    padding: 0 20px 12px;
-  }
+  .result-details { display: none; padding: 0 20px 8px; }
   .result-details.visible { display: block; }
   .result-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 4px 0;
-    font-size: 12px;
+    display: flex; justify-content: space-between;
+    padding: 3px 0; font-size: 12px;
     border-bottom: 1px solid var(--figma-color-border, #eee);
   }
   .result-row:last-child { border-bottom: none; }
   .result-row .rlabel { color: var(--figma-color-text-secondary, #888); }
   .result-row .rvalue { font-weight: 600; }
 
-  /* ── Footer ────────────────────────────── */
   .footer {
     padding: 12px 20px;
-    display: flex;
-    gap: 10px;
+    display: flex; gap: 10px;
   }
-
   button {
-    flex: 1;
-    padding: 10px 0;
-    border: none;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
+    flex: 1; padding: 10px 0;
+    border: none; border-radius: 6px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: opacity 0.15s;
   }
   button:active { opacity: 0.8; }
-  button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
-  .btn-primary {
-    background: #2C66DD;
-    color: #fff;
-  }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: #2C66DD; color: #fff; }
   .btn-secondary {
     background: var(--figma-color-bg-secondary, #f0f0f0);
     color: var(--figma-color-text, #333);
-    flex: 0 0 auto;
-    padding: 10px 16px;
+    flex: 0 0 auto; padding: 10px 16px;
   }
 
-  /* ── Vulcan footer ─────────────────────── */
   .vulcan-footer {
-    text-align: center;
-    padding: 6px 0 10px;
-    color: #bbb;
-    font-size: 11px;
-    line-height: 1.6;
+    text-align: center; padding: 6px 0 10px;
+    color: #bbb; font-size: 11px; line-height: 1.6;
   }
   .vulcan-footer .emoji { font-size: 16px; }
 </style>
@@ -233,12 +180,26 @@
       <div class="product-info">
         <div class="product-name" id="product-name"></div>
         <div class="product-desc" id="product-desc"></div>
-        <div class="token-counts" id="token-counts">
-          <div class="token-stat"><span class="count" id="count-colors">—</span><span class="label">Colors</span></div>
-          <div class="token-stat"><span class="count" id="count-typo">—</span><span class="label">Typography</span></div>
-          <div class="token-stat"><span class="count" id="count-spacing">—</span><span class="label">Spacing</span></div>
-          <div class="token-stat"><span class="count" id="count-radii">—</span><span class="label">Radii</span></div>
+
+        <div class="what-gets-created">
+          <h4>What gets created</h4>
+
+          <div class="section-group">
+            <div class="section-group-title">Variable Collections</div>
+            <div class="token-list" id="collections-list"></div>
+          </div>
+
+          <div class="section-group">
+            <div class="section-group-title">Pages (Visual Reference)</div>
+            <div class="pages-list">
+              <span class="page-chip">Colors</span>
+              <span class="page-chip">Semantics</span>
+              <span class="page-chip">Typography</span>
+              <span class="page-chip">Spacing</span>
+            </div>
+          </div>
         </div>
+
         <div class="color-preview" id="color-preview"></div>
       </div>
     </div>
@@ -247,11 +208,13 @@
   <div class="status-area" id="status">Choose a product to begin</div>
 
   <div class="result-details" id="result-details">
-    <div class="result-row"><span class="rlabel">Colors</span><span class="rvalue" id="res-colors"></span></div>
-    <div class="result-row"><span class="rlabel">Typography</span><span class="rvalue" id="res-typo"></span></div>
+    <div class="result-row"><span class="rlabel">Font</span><span class="rvalue" id="res-font"></span></div>
     <div class="result-row"><span class="rlabel">Spacing</span><span class="rvalue" id="res-spacing"></span></div>
-    <div class="result-row"><span class="rlabel">Radii</span><span class="rvalue" id="res-radii"></span></div>
-    <div class="result-row"><span class="rlabel"><strong>Total</strong></span><span class="rvalue" id="res-total"></span></div>
+    <div class="result-row"><span class="rlabel">Icon Size</span><span class="rvalue" id="res-icon"></span></div>
+    <div class="result-row"><span class="rlabel">Stroke Width</span><span class="rvalue" id="res-stroke"></span></div>
+    <div class="result-row"><span class="rlabel">Radius</span><span class="rvalue" id="res-radius"></span></div>
+    <div class="result-row"><span class="rlabel">Pages</span><span class="rvalue" id="res-pages"></span></div>
+    <div class="result-row"><span class="rlabel"><strong>Total Variables</strong></span><span class="rvalue" id="res-total"></span></div>
   </div>
 
   <div class="footer">
@@ -269,12 +232,11 @@
 
   let productsRegistry = null;
   let selectedProduct = null;
-
-  // Cached fetched data
   let cachedColors = null;
   let cachedTypography = null;
   let cachedSpacing = null;
   let cachedRadii = null;
+  let cachedSemantic = null;
 
   const select = document.getElementById('product-select');
   const card = document.getElementById('product-card');
@@ -282,7 +244,6 @@
   const statusEl = document.getElementById('status');
   const resultDetails = document.getElementById('result-details');
 
-  // ── Fetch JSON from GitHub ────────────────────────────────────────────────
   async function fetchJSON(path) {
     const url = `${REPO_BASE}/${path}`;
     const res = await fetch(url, { cache: 'no-store' });
@@ -290,44 +251,55 @@
     return res.json();
   }
 
-  // ── Count tokens for preview ──────────────────────────────────────────────
-  function countColorTokens(colorsData, families) {
-    const colors = colorsData.primitive.color;
-    let count = 0;
-    // Essentials
-    ['white','black','half','blue1','blue2','purple1','purple2','overlay1','overlay2','link'].forEach(k => {
-      if (colors[k]) count++;
-    });
-    // Families
-    families.forEach(f => {
-      if (colors[f]) count += Object.keys(colors[f]).length;
-    });
-    return count;
+  // Resolve semantic token references to hex values
+  function resolveRef(ref, colorsData) {
+    // {primitive.color.grey.s90} → find colors.primitive.color.grey.s90.$value
+    const match = ref.match(/\{primitive\.color\.(.+)\}/);
+    if (!match) return ref;
+    const path = match[1].split('.');
+    let obj = colorsData.primitive.color;
+    for (const p of path) {
+      if (!obj) return '#888888';
+      obj = obj[p];
+    }
+    if (obj && obj.$value) return obj.$value;
+    if (typeof obj === 'string') return obj;
+    return '#888888';
   }
 
-  function countTypoTokens(data) {
+  // Build flat list of semantic tokens with resolved light/dark values
+  function buildSemanticTokens(semanticData, colorsData) {
+    const tokens = [];
+    if (!semanticData || !semanticData.semantic) return tokens;
+    for (const [group, entries] of Object.entries(semanticData.semantic)) {
+      for (const [name, modes] of Object.entries(entries)) {
+        tokens.push({
+          name: `${group}.${name}`,
+          light: resolveRef(modes.Light, colorsData),
+          dark: resolveRef(modes.Dark, colorsData)
+        });
+      }
+    }
+    return tokens;
+  }
+
+  // Count tokens per collection
+  function countFontTokens(data) {
     const f = data.primitive.font;
-    return Object.keys(f.size).length + Object.keys(f.weight).length +
-           Object.keys(f.lineHeight).length + Object.keys(f.family).length;
+    return Object.keys(f.family).length + Object.keys(f.weight).length +
+           Object.keys(f.size).length + Object.keys(f.lineHeight).length +
+           Object.keys(f.letterSpacing).length;
   }
+  function countSpacingTokens(data) { return Object.keys(data.primitive.spacing).length; }
+  function countIconTokens(data) { return Object.keys(data.primitive.iconSize).length; }
+  function countStrokeTokens(data) { return Object.keys(data.primitive.strokeWidth).length; }
+  function countRadiusTokens(data) { return Object.keys(data.primitive.radius).length; }
 
-  function countSpacingTokens(data) {
-    const p = data.primitive;
-    return Object.keys(p.spacing).length + Object.keys(p.iconSize).length + Object.keys(p.strokeWidth).length;
-  }
-
-  function countRadiiTokens(data) {
-    return Object.keys(data.primitive.radius).length;
-  }
-
-  // ── Build accent color swatches ───────────────────────────────────────────
   function renderColorPreview(colorsData, accentFamily) {
     const preview = document.getElementById('color-preview');
     preview.innerHTML = '';
     const family = colorsData.primitive.color[accentFamily];
     if (!family) return;
-
-    // Show base + tints
     const keys = ['base','t10','t20','t30','t40','t50','t60','t70','t80','t90','t100'];
     keys.forEach(k => {
       if (!family[k]) return;
@@ -339,13 +311,29 @@
     });
   }
 
-  // ── Load products registry ────────────────────────────────────────────────
+  function renderCollectionChips() {
+    const list = document.getElementById('collections-list');
+    list.innerHTML = '';
+    const collections = [
+      { name: 'Font', count: countFontTokens(cachedTypography) },
+      { name: 'Spacing', count: countSpacingTokens(cachedSpacing) },
+      { name: 'Icon Size', count: countIconTokens(cachedSpacing) },
+      { name: 'Stroke Width', count: countStrokeTokens(cachedSpacing) },
+      { name: 'Radius', count: countRadiusTokens(cachedRadii) }
+    ];
+    collections.forEach(c => {
+      const chip = document.createElement('span');
+      chip.className = 'token-chip';
+      chip.innerHTML = `${c.name} <span class="count">${c.count}</span>`;
+      list.appendChild(chip);
+    });
+  }
+
   async function init() {
     try {
       statusEl.textContent = 'Loading product registry…';
       productsRegistry = await fetchJSON('products.json');
 
-      // Populate dropdown
       for (const [key, prod] of Object.entries(productsRegistry.products)) {
         const opt = document.createElement('option');
         opt.value = key;
@@ -353,18 +341,19 @@
         select.appendChild(opt);
       }
 
-      // Prefetch all token files in parallel
       statusEl.textContent = 'Fetching tokens from GitHub…';
-      const [colors, typo, spacing, radii] = await Promise.all([
+      const [colors, typo, spacing, radii, semantic] = await Promise.all([
         fetchJSON('primitive/colors.json'),
         fetchJSON('primitive/typography.json'),
         fetchJSON('primitive/spacing.json'),
-        fetchJSON('primitive/radii.json')
+        fetchJSON('primitive/radii.json'),
+        fetchJSON('semantic/colors.json')
       ]);
       cachedColors = colors;
       cachedTypography = typo;
       cachedSpacing = spacing;
       cachedRadii = radii;
+      cachedSemantic = semantic;
 
       statusEl.textContent = 'Choose a product to begin';
       statusEl.className = 'status-area';
@@ -374,7 +363,6 @@
     }
   }
 
-  // ── Product Selection ─────────────────────────────────────────────────────
   select.addEventListener('change', () => {
     const key = select.value;
     resultDetails.className = 'result-details';
@@ -391,31 +379,23 @@
     selectedProduct = { key, ...productsRegistry.products[key] };
     const accentHex = cachedColors.primitive.color[selectedProduct.accent]?.base?.$value || '#666';
 
-    // Show card
     document.getElementById('accent-bar').style.background = accentHex;
     document.getElementById('product-name').textContent = selectedProduct.name;
     document.getElementById('product-desc').textContent = `${selectedProduct.description} · Accent: ${selectedProduct.accent}`;
 
-    // Token counts
-    const cc = countColorTokens(cachedColors, selectedProduct.colorFamilies);
-    const tc = countTypoTokens(cachedTypography);
-    const sc = countSpacingTokens(cachedSpacing);
-    const rc = countRadiiTokens(cachedRadii);
-
-    document.getElementById('count-colors').textContent = cc;
-    document.getElementById('count-typo').textContent = tc;
-    document.getElementById('count-spacing').textContent = sc;
-    document.getElementById('count-radii').textContent = rc;
-
+    renderCollectionChips();
     renderColorPreview(cachedColors, selectedProduct.accent);
+
+    const total = countFontTokens(cachedTypography) + countSpacingTokens(cachedSpacing) +
+                  countIconTokens(cachedSpacing) + countStrokeTokens(cachedSpacing) +
+                  countRadiusTokens(cachedRadii);
 
     card.className = 'product-card visible';
     btnSync.disabled = false;
-    statusEl.textContent = `Ready to sync ${cc + tc + sc + rc} tokens`;
+    statusEl.textContent = `Ready to sync ${total} variables + 4 pages`;
     statusEl.className = 'status-area';
   });
 
-  // ── Sync Button ───────────────────────────────────────────────────────────
   btnSync.addEventListener('click', () => {
     if (!selectedProduct || !cachedColors) return;
 
@@ -425,6 +405,8 @@
     statusEl.className = 'status-area';
     resultDetails.className = 'result-details';
 
+    const semanticTokens = buildSemanticTokens(cachedSemantic, cachedColors);
+
     parent.postMessage({
       pluginMessage: {
         type: 'sync-tokens',
@@ -433,12 +415,12 @@
         colorsData: cachedColors,
         typographyData: cachedTypography,
         spacingData: cachedSpacing,
-        radiiData: cachedRadii
+        radiiData: cachedRadii,
+        semanticTokens: semanticTokens
       }
     }, '*');
   });
 
-  // ── Messages from plugin sandbox ──────────────────────────────────────────
   window.onmessage = (event) => {
     const msg = event.data.pluginMessage;
     if (!msg) return;
@@ -454,14 +436,15 @@
       btnSync.disabled = false;
       select.disabled = false;
 
-      // Show breakdown
       if (msg.details) {
-        document.getElementById('res-colors').textContent = msg.details.colors;
-        document.getElementById('res-typo').textContent = msg.details.typography;
+        document.getElementById('res-font').textContent = msg.details.font;
         document.getElementById('res-spacing').textContent = msg.details.spacing;
-        document.getElementById('res-radii').textContent = msg.details.radii;
+        document.getElementById('res-icon').textContent = msg.details.iconSize;
+        document.getElementById('res-stroke').textContent = msg.details.strokeWidth;
+        document.getElementById('res-radius').textContent = msg.details.radius;
+        document.getElementById('res-pages').textContent = msg.details.pages;
         document.getElementById('res-total').textContent =
-          msg.details.colors + msg.details.typography + msg.details.spacing + msg.details.radii;
+          msg.details.font + msg.details.spacing + msg.details.iconSize + msg.details.strokeWidth + msg.details.radius;
         resultDetails.className = 'result-details visible';
       }
     }
@@ -474,7 +457,6 @@
     }
   };
 
-  // ── Boot ──────────────────────────────────────────────────────────────────
   init();
 </script>
 </body>

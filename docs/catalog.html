@@ -569,11 +569,18 @@
           { name: "S 90", hex: "#181818" }, { name: "S 100", hex: "#0C0C0C" }
         ]
       },
-      neutrals: {
-        family: "Neutrals", hex: null, isNeutrals: true,
+      essentials: {
+        family: "Essentials", hex: null, isEssentials: true,
         colors: [
           { name: "White", hex: "#FFFFFF" },
-          { name: "Black", hex: "#000000" }
+          { name: "Black", hex: "#000000" },
+          { name: "Half", hex: "#7F7F7F" },
+          { name: "Blue1", hex: "#006AFF" },
+          { name: "Blue2", hex: "#00A6FF" },
+          { name: "Purple1", hex: "#663399" },
+          { name: "Purple2", hex: "#A385C2" },
+          { name: "Overlay1", hex: "rgba(0,0,0,0.5)", display: "#000 50%" },
+          { name: "Overlay2", hex: "rgba(0,0,0,0.7)", display: "#000 70%" }
         ]
       }
     };
@@ -583,7 +590,7 @@
         name: "Zoho Writer",
         description: "Document Editor - Accent color : <strong>Cobalt</strong>",
         accent: { family: "Cobalt", hex: "#2C66DD" },
-        families: ["neutrals", "cobalt", "fern", "cardinal", "sunshine", "teal", "plum", "grey"]
+        families: ["essentials", "cobalt", "fern", "cardinal", "sunshine", "teal", "plum", "grey"]
       }
     };
 
@@ -611,7 +618,7 @@
         { name: "surface.secondary", light: "#F5F5F5", dark: "#141516", lightRef: "grey_s00", darkRef: "grey_t05" },
         { name: "surface.tertiary", light: "#E9E9E9", dark: "#07080A", lightRef: "grey_s05", darkRef: "grey_t00" },
         { name: "surface.elevated", light: "#FFFFFF", dark: "#39393B", lightRef: "white", darkRef: "grey_t20" },
-        { name: "surface.overlay", light: "rgba(0,0,0,0.5)", dark: "rgba(0,0,0,0.7)", lightRef: "—", darkRef: "—" }
+        { name: "surface.overlay", light: "rgba(0,0,0,0.5)", dark: "rgba(0,0,0,0.7)", lightRef: "overlay1", darkRef: "overlay2" }
       ],
       text: [
         { name: "text.primary", light: "#181818", dark: "#E7E7E7", lightRef: "grey_s90", darkRef: "grey_t90" },
@@ -619,8 +626,8 @@
         { name: "text.tertiary", light: "#939393", dark: "#6A6B6C", lightRef: "grey_s40", darkRef: "grey_t40" },
         { name: "text.disabled", light: "#C4C4C4", dark: "#39393B", lightRef: "grey_s20", darkRef: "grey_t20" },
         { name: "text.on-accent", light: "#FFFFFF", dark: "#FFFFFF", lightRef: "white", darkRef: "white" },
-        { name: "text.link", light: "#006AFF", dark: "#00A6FF", lightRef: "—", darkRef: "—" },
-        { name: "text.link-visited", light: "#663399", dark: "#A385C2", lightRef: "—", darkRef: "—" }
+        { name: "text.link", light: "#006AFF", dark: "#00A6FF", lightRef: "blue1", darkRef: "blue2" },
+        { name: "text.link-visited", light: "#663399", dark: "#A385C2", lightRef: "purple1", darkRef: "purple2" }
       ],
       border: [
         { name: "border.default", light: "#DCDCDC", dark: "#39393B", lightRef: "grey_s10", darkRef: "grey_t20" },
@@ -685,7 +692,7 @@
       semanticTokensContainer.innerHTML = groups;
     }
 
-    function createSwatch(name, hex, isMaster) {
+    function createSwatch(name, hex, isMaster, displayHex) {
       return `
         <div class="color-swatch">
           <div class="swatch-color" style="background: ${hex};">
@@ -693,7 +700,7 @@
           </div>
           <div class="swatch-info">
             <div class="swatch-name">${name}</div>
-            <div class="swatch-hex">${hex}</div>
+            <div class="swatch-hex">${displayHex || hex}</div>
           </div>
         </div>
       `;
@@ -711,7 +718,7 @@
     }
 
     function renderColorFamily(data) {
-      if (data.isNeutrals) {
+      if (data.isEssentials) {
         return `
           <div class="color-family">
             <div class="family-header">
@@ -720,7 +727,7 @@
             </div>
             <div class="section">
               <div class="color-grid">
-                ${data.colors.map(c => createSwatch(c.name, c.hex, false)).join('')}
+                ${data.colors.map(c => createSwatch(c.name, c.hex, false, c.display)).join('')}
               </div>
             </div>
           </div>

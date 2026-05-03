@@ -14,7 +14,7 @@
       "secondary": { "Light": "{primitive.color.grey.s00}", "Dark": "{primitive.color.grey.t05}" },
       "tertiary":  { "Light": "{primitive.color.grey.s05}", "Dark": "{primitive.color.grey.t00}" },
       "elevated":  { "Light": "{primitive.color.white}", "Dark": "{primitive.color.grey.t20}" },
-      "overlay":   { "Light": "rgba(0,0,0,0.5)", "Dark": "rgba(0,0,0,0.7)" }
+      "overlay":   { "Light": "{primitive.color.overlay1}", "Dark": "{primitive.color.overlay2}" }
     },
 
     "text": {
@@ -23,8 +23,8 @@
       "tertiary":     { "Light": "{primitive.color.grey.s40}", "Dark": "{primitive.color.grey.t40}" },
       "disabled":     { "Light": "{primitive.color.grey.s20}", "Dark": "{primitive.color.grey.t20}" },
       "on-accent":    { "Light": "{primitive.color.white}", "Dark": "{primitive.color.white}" },
-      "link":         { "Light": "#006AFF", "Dark": "#00A6FF" },
-      "link-visited": { "Light": "#663399", "Dark": "#A385C2" }
+      "link":         { "Light": "{primitive.color.blue1}", "Dark": "{primitive.color.blue2}" },
+      "link-visited": { "Light": "{primitive.color.purple1}", "Dark": "{primitive.color.purple2}" }
     },
 
     "border": {

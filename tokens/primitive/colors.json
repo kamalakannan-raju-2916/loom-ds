@@ -712,6 +712,13 @@
 
       "white":   { "$value": "#FFFFFF", "$type": "color" },
       "black":   { "$value": "#000000", "$type": "color" },
+      "half":    { "$value": "#7F7F7F", "$type": "color" },
+      "blue1":   { "$value": "#006AFF", "$type": "color" },
+      "blue2":   { "$value": "#00A6FF", "$type": "color" },
+      "purple1": { "$value": "#663399", "$type": "color" },
+      "purple2": { "$value": "#A385C2", "$type": "color" },
+      "overlay1":{ "$value": "rgba(0,0,0,0.5)", "$type": "color", "$description": "50% black overlay" },
+      "overlay2":{ "$value": "rgba(0,0,0,0.7)", "$type": "color", "$description": "70% black overlay" },
 
       "link": {
         "light": { "$value": "#006AFF", "$type": "color", "$description": "Hyperlink — Day/Light mode (4.66:1 contrast)" },

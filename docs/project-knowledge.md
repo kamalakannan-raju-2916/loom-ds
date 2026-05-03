@@ -43,6 +43,25 @@ Examples:
 - `primitive.color.cobalt.t80` → `#C0D1F5`
 - `primitive.color.grey.s60` → `#626262`
 
+**Token variable naming convention:**
+
+In the repo (JSON files, CSS custom properties, code references), primitive colors use underscore-delimited lowercase names:
+
+```
+cobalt_t100, cobalt_t90, cobalt_t80, ... cobalt_t10
+cobalt_s10, cobalt_s20, ... cobalt_s100
+fern_t100, fern_t90, ... fern_t10
+fern_s10, fern_s20, ... fern_s100
+cardinal_t100, ... cardinal_s100
+sunshine_t100, ... sunshine_s100
+teal_t100, ... teal_s100
+plum_t100, ... plum_s100
+grey_t100, grey_t90, ... grey_t00
+grey_s00, grey_s05, grey_s10, ... grey_s100
+```
+
+> **Note:** Figma variables retain their existing naming convention (e.g., "Cobalt/T 100", "Cobalt/S 10") and are NOT renamed to match the repo convention. The mapping between Figma names and repo token names is handled by the sync skill.
+
 **Color scale convention (from DSG):**
 - `base` = the canonical accent color
 - `s10–s100` = shades (progressively darker, mixed toward black)

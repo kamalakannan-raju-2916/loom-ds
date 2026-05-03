@@ -120,8 +120,6 @@ async function bootstrap() {
     colorFrame.paddingLeft = 10; colorFrame.paddingRight = 10;
     colorFrame.paddingTop = 10; colorFrame.paddingBottom = 10;
     colorFrame.resize(126, 84);
-    colorFrame.layoutSizingHorizontal = 'FILL';
-    colorFrame.layoutSizingVertical = 'FIXED';
     colorFrame.cornerRadius = 8;
     var cfFills = [figma.util.solidPaint('#7F7F7F')];
     cfFills[0] = figma.variables.setBoundVariableForPaint(cfFills[0], 'color', halfVar);
@@ -163,6 +161,8 @@ async function bootstrap() {
     colorFrame.appendChild(posText);
 
     component.appendChild(colorFrame);
+    colorFrame.layoutSizingHorizontal = 'FILL';
+    colorFrame.layoutSizingVertical = 'FIXED';
 
     // Hex Code Wrap
     var hexWrap = figma.createFrame();
@@ -173,8 +173,6 @@ async function bootstrap() {
     hexWrap.itemSpacing = 10;
     hexWrap.paddingTop = 8;
     hexWrap.paddingLeft = 0; hexWrap.paddingRight = 0; hexWrap.paddingBottom = 0;
-    hexWrap.layoutSizingHorizontal = 'FILL';
-    hexWrap.layoutSizingVertical = 'HUG';
     hexWrap.fills = [];
 
     var hexText = figma.createText();
@@ -184,14 +182,16 @@ async function bootstrap() {
     hexText.characters = 'Hex Code';
     hexText.textAutoResize = 'HEIGHT';
     hexText.resize(126, hexText.height);
-    hexText.layoutSizingHorizontal = 'FILL';
-    hexText.layoutSizingVertical = 'HUG';
     var htFills = [figma.util.solidPaint('#000000')];
     htFills[0] = figma.variables.setBoundVariableForPaint(htFills[0], 'color', blackVar);
     hexText.fills = htFills;
     hexWrap.appendChild(hexText);
+    hexText.layoutSizingHorizontal = 'FILL';
+    hexText.layoutSizingVertical = 'HUG';
 
     component.appendChild(hexWrap);
+    hexWrap.layoutSizingHorizontal = 'FILL';
+    hexWrap.layoutSizingVertical = 'HUG';
 
     component.addComponentProperty('Position', 'TEXT', 'Position');
     component.addComponentProperty('Hex Code', 'TEXT', 'Hex Code');

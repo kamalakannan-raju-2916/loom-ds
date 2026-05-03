@@ -10,7 +10,7 @@ argument-hint: "Hex code (e.g. #2C66DD) or 'Grey' for the grey token set"
 
 Creates a complete DSG (Design Standard Group) color token set in Figma using **pre-defined, exact hex values** — no algorithmic generation. Uses a "Color Palette Comp" component from the current file. Each color is also added as a variable in the **Primitives** collection and bound to the component fills.
 
-**Self-bootstrapping**: This skill auto-creates all prerequisites (Primitives collection, Black/White/Half variables, and the Color Palette Comp component) if they don't already exist. You can share this file and recipients can start using it immediately on any Figma file.
+**Self-bootstrapping**: This skill auto-creates all prerequisites (Primitives collection, Essentials variables, and the Color Palette Comp component) if they don't already exist. You can share this file and recipients can start using it immediately on any Figma file.
 
 ## Inputs
 
@@ -207,11 +207,20 @@ Triggered by user saying "Grey" — not by a hex code.
 
 ## Primitives Variable Collection
 
-The skill uses a variable collection named **"Primitives"** with three base variables. IDs are **not hardcoded** — the bootstrap step (Step 2) finds or creates them dynamically and returns the actual IDs to use.
+The skill uses a variable collection named **"Primitives"** with nine Essentials variables grouped under `Essentials/`. IDs are **not hardcoded** — the bootstrap step (Step 2) finds or creates them dynamically and returns the actual IDs to use.
 
 - **Collection**: "Primitives" (found or created by bootstrap)
 - **Mode**: First mode of the collection (found or created by bootstrap)
-- **Base variables**: `White` (#FFFFFF), `Black` (#000000), `Half` (#7F7F7F)
+- **Essentials variables** (all under `Essentials/` group):
+  - `Essentials/White` — #FFFFFF
+  - `Essentials/Black` — #000000
+  - `Essentials/Half` — #7F7F7F
+  - `Essentials/Blue1` — #006AFF
+  - `Essentials/Blue2` — #00A6FF
+  - `Essentials/Purple1` — #663399
+  - `Essentials/Purple2` — #A385C2
+  - `Essentials/Overlay1` — #000000 @ 50% opacity
+  - `Essentials/Overlay2` — #000000 @ 70% opacity
 
 ### Variable Naming Convention
 
@@ -224,7 +233,7 @@ Variables are created with slash-grouped names using three subgroups — **Tint*
 ### Variable Binding
 
 - The **"Color" frame fill** on each instance is bound to its corresponding Primitives variable (not a raw hex fill).
-- The **"Family Name"** and **"Position" text fills** are bound to the `Black` or `White` Primitives variable based on AAA contrast.
+- The **"Family Name"** and **"Position" text fills** are bound to the `Essentials/Black` or `Essentials/White` Primitives variable based on AAA contrast.
 
 ## AAA Contrast for Text Color
 
@@ -232,7 +241,7 @@ Variables are created with slash-grouped names using three subgroups — **Tint*
 - Calculate contrast ratio against both black and white
 - Choose whichever gives contrast ratio ≥ 7:1 (AAA)
 - If neither meets 7:1, choose the higher contrast one
-- Use the `Black` or `White` variable from the Primitives collection (IDs obtained from bootstrap)
+- Use the `Essentials/Black` or `Essentials/White` variable from the Primitives collection (IDs obtained from bootstrap)
 
 ## Placement Rules
 
@@ -251,14 +260,14 @@ Verify a Figma file is connected via `figma_list_open_files`.
 Run the bootstrap code below via `figma_execute` **once per session** (before the first color token generation). This ensures all prerequisites exist and returns the dynamic IDs to use in Step 4.
 
 The bootstrap handles **all combinations**:
-- If nothing exists → creates Primitives collection, Black/White/Half variables, and Color Palette Comp component
+- If nothing exists → creates Primitives collection, Essentials variables, and Color Palette Comp component
 - If only variables exist but no component → creates the component using existing variables
 - If only the component exists but no variables → creates the collection and variables, then re-binds the component
 - If everything exists and fills are already correctly bound → returns existing IDs without modifying anything
 - If everything exists but variables were recreated (different IDs) → re-binds only the mismatched fills
 
 ```javascript
-// === BOOTSTRAP: Find or create Primitives collection, Black/White/Half variables, and Color Palette Comp ===
+// === BOOTSTRAP: Find or create Primitives collection, Essentials variables, and Color Palette Comp ===
 
 // --- 1. Find or create Primitives collection ---
 let collection = null;
@@ -271,19 +280,25 @@ if (!collection) {
 }
 const modeId = collection.modes[0].modeId;
 
-// --- 2. Find or create Black, White, Half variables ---
-async function findOrCreateColorVar(name, r, g, b) {
+// --- 2. Find or create Essentials variables ---
+async function findOrCreateColorVar(name, r, g, b, a) {
   for (const varId of collection.variableIds) {
     const v = await figma.variables.getVariableByIdAsync(varId);
     if (v && v.name === name) return v;
   }
   const v = figma.variables.createVariable(name, collection, 'COLOR');
-  v.setValueForMode(modeId, { r, g, b, a: 1 });
+  v.setValueForMode(modeId, { r, g, b, a: a !== undefined ? a : 1 });
   return v;
 }
-const whiteVar = await findOrCreateColorVar('White', 1, 1, 1);
-const blackVar = await findOrCreateColorVar('Black', 0, 0, 0);
-const halfVar  = await findOrCreateColorVar('Half', 0.5, 0.5, 0.5);
+const whiteVar    = await findOrCreateColorVar('Essentials/White', 1, 1, 1);
+const blackVar    = await findOrCreateColorVar('Essentials/Black', 0, 0, 0);
+const halfVar     = await findOrCreateColorVar('Essentials/Half', 0.5, 0.5, 0.5);
+const blue1Var    = await findOrCreateColorVar('Essentials/Blue1', 0x00/255, 0x6A/255, 0xFF/255);
+const blue2Var    = await findOrCreateColorVar('Essentials/Blue2', 0x00/255, 0xA6/255, 0xFF/255);
+const purple1Var  = await findOrCreateColorVar('Essentials/Purple1', 0x66/255, 0x33/255, 0x99/255);
+const purple2Var  = await findOrCreateColorVar('Essentials/Purple2', 0xA3/255, 0x85/255, 0xC2/255);
+const overlay1Var = await findOrCreateColorVar('Essentials/Overlay1', 0, 0, 0, 0.5);
+const overlay2Var = await findOrCreateColorVar('Essentials/Overlay2', 0, 0, 0, 0.7);
 
 // --- 3. Find or create Color Palette Comp component ---
 let component = null;
@@ -454,6 +469,12 @@ return {
   whiteVarId: whiteVar.id,
   blackVarId: blackVar.id,
   halfVarId: halfVar.id,
+  blue1VarId: blue1Var.id,
+  blue2VarId: blue2Var.id,
+  purple1VarId: purple1Var.id,
+  purple2VarId: purple2Var.id,
+  overlay1VarId: overlay1Var.id,
+  overlay2VarId: overlay2Var.id,
   componentId: component.id,
   positionPropKey: positionPropKey,
   hexCodePropKey: hexCodePropKey,
@@ -673,6 +694,7 @@ Visually confirm:
 - **No hardcoded IDs** — all component/collection/variable/property IDs are obtained dynamically from the bootstrap step
 - **Run bootstrap once per session** (Step 2) before generating any color tokens. It is idempotent — safe to run multiple times
 - The bootstrap creates the "Color Palette Comp" component if missing, using **SF Mono** font (Medium, Regular, Semibold weights)
+- The Essentials group (`Essentials/White`, `Essentials/Black`, `Essentials/Half`, `Essentials/Blue1`, `Essentials/Blue2`, `Essentials/Purple1`, `Essentials/Purple2`, `Essentials/Overlay1`, `Essentials/Overlay2`) are base variables used for text contrast, overlays, and link colors
 - Component properties have generated suffixes (e.g. `Position#10:0`) that vary per file — the bootstrap discovers the actual keys
 - The color swatch is the fill of the "Color" FRAME (not a child Rectangle)
 - The hex code displayed in swatches is without the `#` prefix

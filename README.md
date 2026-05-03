@@ -155,6 +155,8 @@ loom-ds/
 │           ├── config.json              ← Writer product config (accent, components)
 │           └── components/              ← Figma-exported component specs
 ├── docs/
+│   ├── index.html                   ← Landing page (Designers Click Here)
+│   ├── catalog.html                 ← Product catalog (color palettes)
 │   └── project-knowledge.md         ← Full token spec and design rules
 ├── README.md
 └── SETUP-GUIDE.md

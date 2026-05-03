@@ -33,16 +33,27 @@ Future files (same format):
 
 ## Token JSON Format
 
-Each token has Light and Dark values:
+Each token has Light and Dark values — either **raw hex/rgba** or a **reference** to a Primitives variable:
 
 ```json
 {
   "semantic": {
     "group-name": {
-      "token-name": { "Light": "#HEX_OR_VALUE", "Dark": "#HEX_OR_VALUE" }
+      "token-name": { "Light": "{primitive.color.white}", "Dark": "{primitive.color.grey.t05}" }
     }
   }
 }
+```
+
+Reference format: `{primitive.color.<key>}` where `<key>` maps to a Figma Primitives variable:
+- `white`, `black`, `half` → `White` or `Essentials/White`
+- `blue1`, `overlay1`, etc. → `Essentials/Blue1`, `Essentials/Overlay1`
+- `grey.s90` → `Grey/Shade/90`
+- `grey.t05` → `Grey/Tint/05`
+- `cobalt.base` → `Cobalt/Master/Master`
+- `cobalt.t30` → `Cobalt/Tint/30`
+
+When a value is a reference, the skill creates a **Figma variable alias** pointing to the Primitives variable. Raw hex/rgba values are set directly.
 ```
 
 ## Figma Variable Structure
@@ -113,7 +124,7 @@ return {
 
 ### Step 4: Sync Color Tokens
 
-The agent substitutes `__TOKENS_JSON__` with the actual parsed token data from the JSON file. Each token becomes a Figma Variable with values set for both modes.
+The agent substitutes `__TOKENS_JSON__` with the actual parsed token data from the JSON file (the `semantic` object). Each token becomes a Figma Variable. **Reference values** (`{primitive.color.*}`) are created as variable aliases pointing to the Primitives collection; raw hex/rgba values are set directly.
 
 Run via `figma_execute`:
 
@@ -158,30 +169,78 @@ function parseColor(value) {
   return null;
 }
 
-// === GET COLLECTION ===
+function isReference(value) {
+  return typeof value === 'string' && value.startsWith('{') && value.endsWith('}');
+}
+
+function extractRefKey(value) {
+  return value.slice(1, -1).replace('primitive.color.', '');
+}
+
+// Converts Figma Primitives variable name to the reference key used in JSON
+function figmaNameToRefKey(name) {
+  if (name.startsWith('Essentials/')) return name.substring(11).toLowerCase();
+  const parts = name.split('/');
+  if (parts.length === 3 && parts[1] === 'Master') return parts[0].toLowerCase() + '.base';
+  if (parts.length === 3 && parts[1] === 'Shade') return parts[0].toLowerCase() + '.s' + parts[2];
+  if (parts.length === 3 && parts[1] === 'Tint') return parts[0].toLowerCase() + '.t' + parts[2];
+  return name.toLowerCase();
+}
+
+// === FIND PRIMITIVES COLLECTION & BUILD REFERENCE LOOKUP ===
+let primCollection = null;
+const allCollections = await figma.variables.getLocalVariableCollectionsAsync();
+for (const c of allCollections) {
+  if (c.name === 'Primitives') { primCollection = c; break; }
+}
+
+const refKeyToVar = {};
+if (primCollection) {
+  for (const varId of primCollection.variableIds) {
+    const v = await figma.variables.getVariableByIdAsync(varId);
+    if (v) refKeyToVar[figmaNameToRefKey(v.name)] = v;
+  }
+}
+
+// === GET SEMANTIC COLLECTION ===
 const collection = await figma.variables.getVariableCollectionByIdAsync(COLLECTION_ID);
 if (!collection) return { error: 'Semantic collection not found — run bootstrap first' };
 
-// === BUILD LOOKUP of existing variables ===
+// === BUILD LOOKUP of existing semantic variables ===
 const existingVars = {};
 for (const varId of collection.variableIds) {
   const v = await figma.variables.getVariableByIdAsync(varId);
   if (v) existingVars[v.name] = v;
 }
 
+// === RESOLVE VALUE: alias or raw color ===
+function resolveValue(value) {
+  if (isReference(value)) {
+    const key = extractRefKey(value);
+    const primVar = refKeyToVar[key];
+    if (primVar) return { type: 'VARIABLE_ALIAS', id: primVar.id };
+    // Reference not found — skip
+    return null;
+  }
+  return parseColor(value);
+}
+
 // === CREATE OR UPDATE VARIABLES ===
 let created = 0;
 let updated = 0;
 let skipped = 0;
+let aliased = 0;
+const skippedTokens = [];
 
 for (const [group, tokens] of Object.entries(TOKENS)) {
   for (const [name, values] of Object.entries(tokens)) {
     const varName = group + '/' + name;
-    const lightColor = parseColor(values.Light);
-    const darkColor = parseColor(values.Dark);
+    const lightVal = resolveValue(values.Light);
+    const darkVal = resolveValue(values.Dark);
 
-    if (!lightColor || !darkColor) {
+    if (!lightVal || !darkVal) {
       skipped++;
+      skippedTokens.push(varName);
       continue;
     }
 
@@ -193,8 +252,10 @@ for (const [group, tokens] of Object.entries(TOKENS)) {
       updated++;
     }
 
-    variable.setValueForMode(LIGHT_MODE_ID, lightColor);
-    variable.setValueForMode(DARK_MODE_ID, darkColor);
+    variable.setValueForMode(LIGHT_MODE_ID, lightVal);
+    variable.setValueForMode(DARK_MODE_ID, darkVal);
+
+    if (lightVal.type === 'VARIABLE_ALIAS' || darkVal.type === 'VARIABLE_ALIAS') aliased++;
   }
 }
 
@@ -202,8 +263,10 @@ return {
   created: created,
   updated: updated,
   skipped: skipped,
+  aliased: aliased,
+  skippedTokens: skippedTokens,
   total: created + updated,
-  message: 'Synced ' + (created + updated) + ' semantic color variables (' + created + ' new, ' + updated + ' updated, ' + skipped + ' skipped)'
+  message: 'Synced ' + (created + updated) + ' semantic color variables (' + created + ' new, ' + updated + ' updated, ' + aliased + ' aliased, ' + skipped + ' skipped)'
 };
 ```
 
@@ -251,6 +314,8 @@ Typography doesn't map cleanly to Figma Variables (it's multi-property). Instead
 - **One-way sync** — repo is the source of truth; Figma receives, never sends back
 - **No plugins required** — uses Figma Desktop Bridge (`figma_execute`) only
 - **Variable naming** uses slash-grouped format: `surface/page`, `text/primary`, `border/focus`
+- **Variable aliases** — reference values (`{primitive.color.*}`) create Figma variable aliases pointing to the Primitives collection, maintaining the live link between semantic and primitive tokens
 - RGBA colors (like overlays) are supported with alpha channel
+- The Primitives collection must exist with the referenced variables before syncing aliases. Run the DSG color token skill first if needed
 - Run bootstrap (Step 3) once per file; the sync step (Step 4) can be repeated freely
 - If a variable name changes in the JSON, the old variable remains in Figma (manual cleanup needed)

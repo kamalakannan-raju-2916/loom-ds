@@ -104,8 +104,6 @@ async function bootstrap() {
     component.itemSpacing = 0;
     component.paddingLeft = 16; component.paddingRight = 16;
     component.paddingTop = 16; component.paddingBottom = 16;
-    component.layoutSizingHorizontal = 'FIXED';
-    component.layoutSizingVertical = 'HUG';
     var compFills = [figma.util.solidPaint('#FFFFFF')];
     compFills[0] = figma.variables.setBoundVariableForPaint(compFills[0], 'color', whiteVar);
     component.fills = compFills;
@@ -138,12 +136,12 @@ async function bootstrap() {
     familyText.textAlignHorizontal = 'RIGHT';
     familyText.textAutoResize = 'HEIGHT';
     familyText.resize(75, familyText.height);
-    familyText.layoutSizingHorizontal = 'FIXED';
-    familyText.layoutSizingVertical = 'HUG';
     var ftFills = [figma.util.solidPaint('#000000')];
     ftFills[0] = figma.variables.setBoundVariableForPaint(ftFills[0], 'color', blackVar);
     familyText.fills = ftFills;
     colorFrame.appendChild(familyText);
+    familyText.layoutSizingHorizontal = 'FIXED';
+    familyText.layoutSizingVertical = 'HUG';
 
     // Position text
     var posText = figma.createText();
@@ -153,12 +151,12 @@ async function bootstrap() {
     posText.characters = 'Position';
     posText.textAlignHorizontal = 'RIGHT';
     posText.textAutoResize = 'WIDTH_AND_HEIGHT';
-    posText.layoutSizingHorizontal = 'HUG';
-    posText.layoutSizingVertical = 'HUG';
     var ptFills = [figma.util.solidPaint('#000000')];
     ptFills[0] = figma.variables.setBoundVariableForPaint(ptFills[0], 'color', blackVar);
     posText.fills = ptFills;
     colorFrame.appendChild(posText);
+    posText.layoutSizingHorizontal = 'HUG';
+    posText.layoutSizingVertical = 'HUG';
 
     component.appendChild(colorFrame);
     colorFrame.layoutSizingHorizontal = 'FILL';
@@ -344,8 +342,6 @@ async function createPrimitivesPage(bs, colorsData, families, varMap) {
     mainFrame.primaryAxisAlignItems = 'MIN';
     mainFrame.counterAxisAlignItems = 'MIN';
     mainFrame.itemSpacing = 40;
-    mainFrame.layoutSizingHorizontal = 'HUG';
-    mainFrame.layoutSizingVertical = 'HUG';
     mainFrame.fills = [];
     mainFrame.x = 0;
     mainFrame.y = startY;
@@ -362,8 +358,6 @@ async function createPrimitivesPage(bs, colorsData, families, varMap) {
     tsFrame.counterAxisSpacing = 0;
     var tsWidth = isGrey ? 1896 : 1580;
     tsFrame.resize(tsWidth, 10);
-    tsFrame.layoutSizingHorizontal = 'FIXED';
-    tsFrame.layoutSizingVertical = 'HUG';
     tsFrame.fills = [];
 
     // Collect tint keys (sorted descending: t100, t90, ..., t10 or t05, t00)
@@ -966,8 +960,6 @@ async function createSpacingPage(spacingData, radiiData, vars) {
       bar.cornerRadius = 3;
       bar.fills = [figma.util.solidPaint('#2C66DD')];
       bar.layoutMode = 'HORIZONTAL';
-      bar.layoutSizingHorizontal = 'FIXED';
-      bar.layoutSizingVertical = 'FIXED';
       page.appendChild(bar);
       bar.x = 180; bar.y = yOffset;
       // Bind width to spacing variable

@@ -377,7 +377,8 @@
     }
 
     selectedProduct = { key, ...productsRegistry.products[key] };
-    const accentHex = cachedColors.primitive.color[selectedProduct.accent]?.base?.$value || '#666';
+    const accentFamily = cachedColors.primitive.color[selectedProduct.accent];
+    const accentHex = (accentFamily && accentFamily.base && accentFamily.base.$value) || '#666';
 
     document.getElementById('accent-bar').style.background = accentHex;
     document.getElementById('product-name').textContent = selectedProduct.name;

@@ -198,7 +198,8 @@ async function createColorsPage(colorsData, productConfig) {
   yOffset += 60;
 
   // Accent indicator
-  const accentHex = colors[productConfig.accent]?.base?.$value || '#666666';
+  const accentFamily = colors[productConfig.accent];
+  const accentHex = (accentFamily && accentFamily.base && accentFamily.base.$value) || '#666666';
   const accentLabel = figma.createText();
   accentLabel.fontName = { family: 'Inter', style: 'Medium' };
   accentLabel.fontSize = 16;

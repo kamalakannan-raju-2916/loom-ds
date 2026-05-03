@@ -361,7 +361,6 @@ async function createTypographyPage(typographyData) {
   await figma.loadFontAsync({ family: 'Inter', style: 'Bold' });
   await figma.loadFontAsync({ family: 'Inter', style: 'Medium' });
   await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
-  await figma.loadFontAsync({ family: 'Inter', style: 'SemiBold' });
 
   const font = typographyData.primitive.font;
   const typeScale = typographyData.primitive.typeScale;
@@ -385,7 +384,7 @@ async function createTypographyPage(typographyData) {
   familyNote.x = 0; familyNote.y = yOffset;
   yOffset += 60;
 
-  const weightToStyle = { 'regular': 'Regular', 'medium': 'Medium', 'semibold': 'SemiBold', 'bold': 'Bold' };
+  const weightToStyle = { 'regular': 'Regular', 'medium': 'Medium', 'semibold': 'Bold', 'bold': 'Bold' };
 
   for (const [scaleName, config] of Object.entries(typeScale)) {
     const sizeVal = remToNumber(font.size[config.size]);

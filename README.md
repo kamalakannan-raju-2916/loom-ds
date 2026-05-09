@@ -8,10 +8,6 @@ Loom weaves consistent UI patterns across any Zoho product that adopts it. It pr
   <a href="https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html" target="_blank" rel="noopener noreferrer">
     <img height="36" src="https://img.shields.io/badge/🎨%20Designers%20Click%20Here-2C66DD?style=for-the-badge&labelColor=2C66DD&color=2C66DD&logoColor=white" alt="Designers Click Here">
   </a>
-  &nbsp;
-  <a href="https://github.com/kamalakannan-raju-2916/loom-ds/raw/main/assets/fonts/zoho-puvi.zip" download>
-    <img height="36" src="https://img.shields.io/badge/⬇%20Download%20Zoho%20Puvi%20Fonts-2C66DD?style=for-the-badge&labelColor=2C66DD&color=2C66DD&logoColor=white" alt="Download Zoho Puvi Fonts">
-  </a>
 </p>
 
 ---
@@ -30,7 +26,13 @@ Loom standardises on **Zoho Puvi** for all UI and design tooling. Always use thi
 | Zoho Puvi Slab | Display, marketing |
 | Zoho Puvi Tamil | Tamil script support |
 
-**Download:** [`assets/fonts/zoho-puvi.zip`](assets/fonts/zoho-puvi.zip) — unzip and install all `.otf` files locally, then restart Figma.
+<p align="center">
+  <a href="https://github.com/kamalakannan-raju-2916/loom-ds/raw/main/assets/fonts/zoho-puvi.zip" download>
+    <img height="36" src="https://img.shields.io/badge/⬇%20Download%20Zoho%20Puvi%20fonts-1A1A1A?style=for-the-badge&labelColor=1A1A1A&color=1A1A1A&logoColor=white" alt="Download Zoho Puvi fonts">
+  </a>
+</p>
+
+Unzip and install all `.otf` files locally, then restart Figma.
 
 To rebuild the bundle after adding/updating OTFs:
 

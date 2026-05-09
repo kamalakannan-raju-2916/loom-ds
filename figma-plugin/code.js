@@ -38,40 +38,43 @@ function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 // ─── FONTS ──────────────────────────────────────────────────────────────────
 // Loom standard: Zoho Puvi family. Fall back gracefully if not installed.
 
-var PUVI_AVAILABLE = false;
-var PUVI_MONO_AVAILABLE = false;
+var FONT_PUVI = 'Zoho Puvi';
+var FONT_PUVI_MONO = 'Zoho Puvi Mono';
+var FONT_INSTALL_URL = 'https://github.com/kamalakannan-raju-2916/loom-ds#fonts--zoho-puvi-proprietary';
 
 async function tryLoad(family, style) {
   try { await figma.loadFontAsync({ family: family, style: style }); return true; }
   catch (e) { return false; }
 }
 
+// Required font set — plugin refuses to run if any of these are missing.
 async function loadFonts() {
-  PUVI_AVAILABLE = await tryLoad('Zoho Puvi', 'Semibold');
-  await tryLoad('Zoho Puvi', 'Regular');
-  await tryLoad('Zoho Puvi', 'Medium');
-  PUVI_MONO_AVAILABLE = await tryLoad('Zoho Puvi Mono', 'Regular');
-
-  // Fallback fonts for systems without Puvi installed
-  await tryLoad('Inter', 'Semi Bold');
-  await tryLoad('Inter', 'Medium');
-  await tryLoad('Inter', 'Regular');
+  var required = [
+    { family: FONT_PUVI,      style: 'Semibold' },
+    { family: FONT_PUVI,      style: 'Medium' },
+    { family: FONT_PUVI,      style: 'Regular' },
+    { family: FONT_PUVI_MONO, style: 'Regular' }
+  ];
+  var missing = [];
+  for (var i = 0; i < required.length; i++) {
+    var ok = await tryLoad(required[i].family, required[i].style);
+    if (!ok) missing.push(required[i].family + ' ' + required[i].style);
+  }
+  if (missing.length > 0) {
+    var err = new Error(
+      'Zoho Puvi fonts are required but not installed in Figma.\n\n' +
+      'Missing: ' + missing.join(', ') + '\n\n' +
+      'Download and install all .otf files from:\n' + FONT_INSTALL_URL + '\n\n' +
+      'Then restart Figma and re-run the plugin.'
+    );
+    err.fontInstallRequired = true;
+    throw err;
+  }
 }
 
-function fontHex() {
-  if (PUVI_AVAILABLE) return { family: 'Zoho Puvi', style: 'Semibold' };
-  return { family: 'Inter', style: 'Semi Bold' };
-}
-function fontFamily() {
-  if (PUVI_MONO_AVAILABLE) return { family: 'Zoho Puvi Mono', style: 'Regular' };
-  if (PUVI_AVAILABLE) return { family: 'Zoho Puvi', style: 'Medium' };
-  return { family: 'Inter', style: 'Medium' };
-}
-function fontPosition() {
-  if (PUVI_MONO_AVAILABLE) return { family: 'Zoho Puvi Mono', style: 'Regular' };
-  if (PUVI_AVAILABLE) return { family: 'Zoho Puvi', style: 'Regular' };
-  return { family: 'Inter', style: 'Regular' };
-}
+function fontHex()      { return { family: FONT_PUVI,      style: 'Semibold' }; }
+function fontFamily()   { return { family: FONT_PUVI_MONO, style: 'Regular' };  }
+function fontPosition() { return { family: FONT_PUVI_MONO, style: 'Regular' };  }
 
 // ─── BOOTSTRAP ──────────────────────────────────────────────────────────────
 
@@ -114,6 +117,20 @@ async function bootstrap() {
   });
   if (localComponents.length > 0) component = localComponents[0];
 
+  // If an existing component was made with the old fonts/alignment, scrap it and rebuild.
+  // This guarantees a clean Zoho Puvi build without needing to reload legacy fonts.
+  if (component) {
+    // Detach all instances of the old component first, then remove it.
+    try {
+      var oldInstances = figma.root.findAll(function(n) {
+        return n.type === 'INSTANCE' && n.mainComponent && n.mainComponent.id === component.id;
+      });
+      for (var oi = 0; oi < oldInstances.length; oi++) oldInstances[oi].remove();
+    } catch (e) { /* best effort */ }
+    component.remove();
+    component = null;
+  }
+
   // Property keys (either freshly created or rediscovered from existing component)
   var positionPropKey = null, hexCodePropKey = null, familyNamePropKey = null;
 
@@ -148,6 +165,7 @@ async function bootstrap() {
 
     // -- Family Name text — Zoho Puvi Mono 11pt --
     var familyText = figma.createText();
+    familyText.name = 'Family Name';
     familyText.fontName = fontFamily();
     familyText.fontSize = 11;
     familyText.characters = 'Family Name';
@@ -163,6 +181,7 @@ async function bootstrap() {
 
     // -- Position text — Zoho Puvi Mono 12pt --
     var posText = figma.createText();
+    posText.name = 'Position';
     posText.fontName = fontPosition();
     posText.fontSize = 12;
     posText.characters = 'Position';
@@ -183,19 +202,20 @@ async function bootstrap() {
     var hexWrap = figma.createFrame();
     hexWrap.name = 'Hex Code Wrap';
     hexWrap.layoutMode = 'HORIZONTAL';
-    hexWrap.primaryAxisAlignItems = 'CENTER';
+    hexWrap.primaryAxisAlignItems = 'MIN';
     hexWrap.counterAxisAlignItems = 'CENTER';
     hexWrap.itemSpacing = 10;
     hexWrap.paddingTop = 8;
     hexWrap.paddingLeft = 0; hexWrap.paddingRight = 0; hexWrap.paddingBottom = 0;
     hexWrap.fills = [];
 
-    // -- Hex Code text — Zoho Puvi Semibold 14pt --
+    // -- Hex Code text — Zoho Puvi Semibold 14pt, left-aligned --
     var hexText = figma.createText();
+    hexText.name = 'Hex Code';
     hexText.fontName = fontHex();
     hexText.fontSize = 14;
     hexText.characters = 'Hex Code';
-    hexText.textAlignHorizontal = 'CENTER';
+    hexText.textAlignHorizontal = 'LEFT';
     hexText.textAutoResize = 'HEIGHT';
     hexText.resize(126, hexText.height);
     var htFills = [figma.util.solidPaint('#000000')];
@@ -219,7 +239,7 @@ async function bootstrap() {
     hexText.componentPropertyReferences   = { characters: hexCodePropKey };
     familyText.componentPropertyReferences = { characters: familyNamePropKey };
   } else {
-    // Existing component: rediscover keys + ensure references are bound
+    // Existing component: rediscover keys + force-refresh fonts, alignment, and prop references
     var propDefs = component.componentPropertyDefinitions;
     var keys = Object.keys(propDefs);
     for (var k = 0; k < keys.length; k++) {
@@ -230,15 +250,36 @@ async function bootstrap() {
     }
     var cf = component.children.find(function(c) { return c.name === 'Color'; });
     if (cf) {
-      var ft = cf.children.find(function(c) { return c.name === 'Family Name' || (c.componentPropertyReferences && c.componentPropertyReferences.characters === familyNamePropKey); });
-      var pt = cf.children.find(function(c) { return c.name === 'Position'  || (c.componentPropertyReferences && c.componentPropertyReferences.characters === positionPropKey); });
-      if (ft && familyNamePropKey) ft.componentPropertyReferences = { characters: familyNamePropKey };
-      if (pt && positionPropKey)   pt.componentPropertyReferences = { characters: positionPropKey };
+      var familyTextNode = null, posTextNode = null;
+      for (var ci = 0; ci < cf.children.length; ci++) {
+        var ch = cf.children[ci];
+        if (ch.type !== 'TEXT') continue;
+        if (ch.fontSize === 11 || ch.name === 'Family Name') familyTextNode = ch;
+        else if (ch.fontSize === 12 || ch.name === 'Position') posTextNode = ch;
+      }
+      if (familyTextNode) {
+        familyTextNode.fontName = fontFamily();
+        familyTextNode.fontSize = 11;
+        familyTextNode.textAlignHorizontal = 'RIGHT';
+        if (familyNamePropKey) familyTextNode.componentPropertyReferences = { characters: familyNamePropKey };
+      }
+      if (posTextNode) {
+        posTextNode.fontName = fontPosition();
+        posTextNode.fontSize = 12;
+        posTextNode.textAlignHorizontal = 'RIGHT';
+        if (positionPropKey) posTextNode.componentPropertyReferences = { characters: positionPropKey };
+      }
     }
     var hw = component.children.find(function(c) { return c.name === 'Hex Code Wrap'; });
     if (hw) {
+      hw.primaryAxisAlignItems = 'MIN';
       var ht = hw.children.find(function(c) { return c.type === 'TEXT'; });
-      if (ht && hexCodePropKey) ht.componentPropertyReferences = { characters: hexCodePropKey };
+      if (ht) {
+        ht.fontName = fontHex();
+        ht.fontSize = 14;
+        ht.textAlignHorizontal = 'LEFT';
+        if (hexCodePropKey) ht.componentPropertyReferences = { characters: hexCodePropKey };
+      }
     }
   }
 
@@ -517,8 +558,12 @@ figma.ui.onmessage = async function(msg) {
       });
       figma.notify('✅ Loom: Primitives synced for ' + productConfig.name);
     } catch (err) {
-      figma.ui.postMessage({ type: 'error', message: err.message || String(err) });
-      figma.notify('❌ Token sync failed — see plugin for details', { error: true });
+      var msg = err && err.message ? err.message : String(err);
+      figma.ui.postMessage({ type: 'error', message: msg, fontInstallRequired: !!(err && err.fontInstallRequired) });
+      var notice = err && err.fontInstallRequired
+        ? '❌ Loom: Zoho Puvi fonts not installed — see plugin panel'
+        : '❌ Token sync failed — see plugin for details';
+      figma.notify(notice, { error: true });
     }
   }
   if (msg.type === 'cancel') figma.closePlugin();

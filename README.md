@@ -5,12 +5,12 @@
 Loom weaves consistent UI patterns across any Zoho product that adopts it. It provides design tokens following Zoho DSG (Design Standard Groups) guidelines and component implementations using the [Lyte framework](https://lyteframework.com).
 
 <p align="center">
-  <a href="https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html">
-    <img src="https://img.shields.io/badge/🎨_Designers_Click_Here-2C66DD?style=for-the-badge&logoColor=white" alt="Designers Click Here">
+  <a href="https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html" target="_blank" rel="noopener noreferrer">
+    <img height="36" src="https://img.shields.io/badge/🎨%20Designers%20Click%20Here-2C66DD?style=for-the-badge&labelColor=2C66DD&color=2C66DD&logoColor=white" alt="Designers Click Here">
   </a>
   &nbsp;
-  <a href="assets/fonts/zoho-puvi.zip">
-    <img src="https://img.shields.io/badge/⬇_Download_Zoho_Puvi_Fonts-1A1A1A?style=for-the-badge&logoColor=white" alt="Download Zoho Puvi Fonts">
+  <a href="https://github.com/kamalakannan-raju-2916/loom-ds/raw/main/assets/fonts/zoho-puvi.zip" download>
+    <img height="36" src="https://img.shields.io/badge/⬇%20Download%20Zoho%20Puvi%20Fonts-2C66DD?style=for-the-badge&labelColor=2C66DD&color=2C66DD&logoColor=white" alt="Download Zoho Puvi Fonts">
   </a>
 </p>
 

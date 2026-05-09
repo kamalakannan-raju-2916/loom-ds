@@ -192,13 +192,12 @@
       color: #626262;
     }
     .empty-state .pointer-arrow {
-      position: fixed;
-      top: 80px;
-      right: 60px;
-      width: 140px;
+      position: absolute;
+      top: 50px;
+      left: calc(50% + 260px);
+      width: 120px;
       height: auto;
       pointer-events: none;
-      z-index: 200;
       animation: pointer-bob 2.4s ease-in-out infinite;
     }
     @keyframes pointer-bob {

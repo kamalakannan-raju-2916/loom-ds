@@ -192,17 +192,18 @@
       color: #626262;
     }
     .empty-state .pointer-arrow {
-      position: absolute;
-      top: -40px;
-      left: calc(50% + 280px);
-      width: 160px;
+      position: fixed;
+      top: 80px;
+      right: 60px;
+      width: 140px;
       height: auto;
       pointer-events: none;
+      z-index: 200;
       animation: pointer-bob 2.4s ease-in-out infinite;
     }
     @keyframes pointer-bob {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-6px); }
+      0%, 100% { transform: translate(0, 0); }
+      50%      { transform: translate(4px, -6px); }
     }
     @media (max-width: 900px) {
       .empty-state .pointer-arrow { display: none; }

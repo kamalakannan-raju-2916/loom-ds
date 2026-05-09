@@ -183,12 +183,29 @@
       text-align: center;
       padding: 80px 40px;
       color: #939393;
+      position: relative;
     }
     .empty-state h2 {
       border: none;
       font-size: 20px;
       margin-bottom: 8px;
       color: #626262;
+    }
+    .empty-state .pointer-arrow {
+      position: absolute;
+      top: -40px;
+      left: calc(50% + 280px);
+      width: 160px;
+      height: auto;
+      pointer-events: none;
+      animation: pointer-bob 2.4s ease-in-out infinite;
+    }
+    @keyframes pointer-bob {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+    @media (max-width: 900px) {
+      .empty-state .pointer-arrow { display: none; }
     }
 
     /* Accent info bar */
@@ -627,6 +644,7 @@
   </div>
 
   <div id="empty-state" class="empty-state">
+    <img class="pointer-arrow" src="assets/pointer-arrow.svg" alt="" aria-hidden="true">
     <h2>🚀 "Make it so, Number One."</h2>
     <p>Select a product above to engage the design tokens at warp speed.</p>
   </div>

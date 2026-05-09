@@ -168,9 +168,6 @@
             <div class="section-group-title">Pages</div>
             <div class="pages-list">
               <span class="page-chip">Primitives</span>
-              <span class="page-chip">Semantics</span>
-              <span class="page-chip">Typography</span>
-              <span class="page-chip">Spacing</span>
             </div>
           </div>
         </div>
@@ -196,10 +193,6 @@
   var productsRegistry = null;
   var selectedProduct = null;
   var cachedColors = null;
-  var cachedTypography = null;
-  var cachedSpacing = null;
-  var cachedRadii = null;
-  var cachedSemantic = null;
 
   var select = document.getElementById('product-select');
   var card = document.getElementById('product-card');
@@ -230,34 +223,11 @@
     return count;
   }
 
-  function countSemanticVars(data) {
-    var count = 0;
-    if (!data || !data.semantic) return 0;
-    var groups = Object.keys(data.semantic);
-    for (var g = 0; g < groups.length; g++) {
-      count += Object.keys(data.semantic[groups[g]]).length;
-    }
-    return count;
-  }
-
-  function countFontVars(data) {
-    var f = data.primitive.font;
-    return Object.keys(f.family).length + Object.keys(f.weight).length +
-           Object.keys(f.size).length + Object.keys(f.lineHeight).length +
-           Object.keys(f.letterSpacing).length;
-  }
-
   function renderCollectionChips(product) {
     var list = document.getElementById('collections-list');
     list.innerHTML = '';
     var collections = [
-      { name: 'Primitives', count: countColorVars(cachedColors, product.colorFamilies) },
-      { name: 'Semantic', count: countSemanticVars(cachedSemantic) },
-      { name: 'Font', count: countFontVars(cachedTypography) },
-      { name: 'Spacing', count: Object.keys(cachedSpacing.primitive.spacing).length },
-      { name: 'Icon Size', count: Object.keys(cachedSpacing.primitive.iconSize).length },
-      { name: 'Stroke Width', count: Object.keys(cachedSpacing.primitive.strokeWidth).length },
-      { name: 'Radius', count: Object.keys(cachedRadii.primitive.radius).length }
+      { name: 'Primitives', count: countColorVars(cachedColors, product.colorFamilies) }
     ];
     for (var i = 0; i < collections.length; i++) {
       var chip = document.createElement('span');
@@ -271,18 +241,10 @@
     statusEl.textContent = 'Loading tokens from GitHub…';
     Promise.all([
       fetchJSON('products.json'),
-      fetchJSON('primitive/colors.json'),
-      fetchJSON('primitive/typography.json'),
-      fetchJSON('primitive/spacing.json'),
-      fetchJSON('primitive/radii.json'),
-      fetchJSON('semantic/colors.json')
+      fetchJSON('primitive/colors.json')
     ]).then(function(results) {
       productsRegistry = results[0];
       cachedColors = results[1];
-      cachedTypography = results[2];
-      cachedSpacing = results[3];
-      cachedRadii = results[4];
-      cachedSemantic = results[5];
 
       var productKeys = Object.keys(productsRegistry.products);
       for (var i = 0; i < productKeys.length; i++) {
@@ -341,11 +303,7 @@
       pluginMessage: {
         type: 'sync-tokens',
         productConfig: selectedProduct,
-        colorsData: cachedColors,
-        typographyData: cachedTypography,
-        spacingData: cachedSpacing,
-        radiiData: cachedRadii,
-        semanticData: cachedSemantic
+        colorsData: cachedColors
       }
     }, '*');
   });

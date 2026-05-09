@@ -6,7 +6,7 @@ Loom weaves consistent UI patterns across any Zoho product that adopts it. It pr
 
 <p align="center">
   <a href="https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html" target="_blank" rel="noopener noreferrer">
-    <img height="36" src="https://img.shields.io/badge/🎨%20Designers%20Click%20Here-2C66DD?style=flat-square&labelColor=2C66DD&color=2C66DD" alt="Designers Click Here">
+    <img height="40" src="assets/badges/designers-click-here.svg" alt="Designers Click Here">
   </a>
 </p>
 
@@ -28,7 +28,7 @@ Loom standardises on **Zoho Puvi** for all UI and design tooling. Always use thi
 
 <p align="center">
   <a href="https://github.com/kamalakannan-raju-2916/loom-ds/raw/main/assets/fonts/zoho-puvi.zip" download>
-    <img height="36" src="https://img.shields.io/badge/⬇%20Download%20Zoho%20Puvi%20Fonts-1A1A1A?style=flat-square&labelColor=1A1A1A&color=1A1A1A" alt="Download Zoho Puvi Fonts">
+    <img height="40" src="assets/badges/download-zoho-puvi-fonts.svg" alt="Download Zoho Puvi Fonts">
   </a>
 </p>
 

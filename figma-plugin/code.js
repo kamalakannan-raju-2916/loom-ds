@@ -1,11 +1,6 @@
-// Loom Design Tokens — Figma Plugin
-// PRIMITIVES ONLY. Mirrors the DSG Color Tokens Generator skill exactly:
+// Loom Design Tokens — Figma Plugin (Primitives only)
+// Mirrors the DSG Color Tokens Generator skill:
 //   .github/skills/dsg-color-tokens-generator/SKILL.md
-//
-// Creates / updates:
-//   - Primitives variable collection (Essentials/* + {Family}/Tint|Master|Shade/N)
-//   - "Color Palette Comp" component (off-canvas at -500,-500)
-//   - "Primitives" page with one HORIZONTAL row per family: [Master] [Tints & Shades wrap]
 
 // ─── HELPERS ────────────────────────────────────────────────────────────────
 
@@ -40,43 +35,45 @@ function needsWhiteText(hex) {
 }
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
-// Try SF Mono (skill spec) first; fall back to Inter on systems without it.
-var FONT_FAMILY = 'SF Mono';
-async function loadFonts() {
-  var styles = ['Medium', 'Regular', 'Semibold'];
-  try {
-    for (var i = 0; i < styles.length; i++) {
-      await figma.loadFontAsync({ family: 'SF Mono', style: styles[i] });
-    }
-    FONT_FAMILY = 'SF Mono';
-    return;
-  } catch (e) {
-    // Fall through to Inter
-  }
-  // Inter doesn't have a true "Semibold" in the bundled set — map to Medium.
-  await figma.loadFontAsync({ family: 'Inter', style: 'Medium' });
-  await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
-  try {
-    await figma.loadFontAsync({ family: 'Inter', style: 'Semi Bold' });
-    FONT_FAMILY = 'Inter';
-  } catch (e2) {
-    FONT_FAMILY = 'Inter';
-  }
-}
-function fontFor(role) {
-  // role: 'family' (medium), 'position' (regular), 'hex' (semibold)
-  if (FONT_FAMILY === 'SF Mono') {
-    if (role === 'family') return { family: 'SF Mono', style: 'Medium' };
-    if (role === 'position') return { family: 'SF Mono', style: 'Regular' };
-    return { family: 'SF Mono', style: 'Semibold' };
-  }
-  if (role === 'family') return { family: 'Inter', style: 'Medium' };
-  if (role === 'position') return { family: 'Inter', style: 'Regular' };
-  // hex: try Semi Bold then fall back to Medium
-  return { family: 'Inter', style: 'Semi Bold' };
+// ─── FONTS ──────────────────────────────────────────────────────────────────
+// Loom standard: Zoho Puvi family. Fall back gracefully if not installed.
+
+var PUVI_AVAILABLE = false;
+var PUVI_MONO_AVAILABLE = false;
+
+async function tryLoad(family, style) {
+  try { await figma.loadFontAsync({ family: family, style: style }); return true; }
+  catch (e) { return false; }
 }
 
-// ─── BOOTSTRAP (skill Step 2 verbatim, ported to plugin sandbox) ────────────
+async function loadFonts() {
+  PUVI_AVAILABLE = await tryLoad('Zoho Puvi', 'Semibold');
+  await tryLoad('Zoho Puvi', 'Regular');
+  await tryLoad('Zoho Puvi', 'Medium');
+  PUVI_MONO_AVAILABLE = await tryLoad('Zoho Puvi Mono', 'Regular');
+
+  // Fallback fonts for systems without Puvi installed
+  await tryLoad('Inter', 'Semi Bold');
+  await tryLoad('Inter', 'Medium');
+  await tryLoad('Inter', 'Regular');
+}
+
+function fontHex() {
+  if (PUVI_AVAILABLE) return { family: 'Zoho Puvi', style: 'Semibold' };
+  return { family: 'Inter', style: 'Semi Bold' };
+}
+function fontFamily() {
+  if (PUVI_MONO_AVAILABLE) return { family: 'Zoho Puvi Mono', style: 'Regular' };
+  if (PUVI_AVAILABLE) return { family: 'Zoho Puvi', style: 'Medium' };
+  return { family: 'Inter', style: 'Medium' };
+}
+function fontPosition() {
+  if (PUVI_MONO_AVAILABLE) return { family: 'Zoho Puvi Mono', style: 'Regular' };
+  if (PUVI_AVAILABLE) return { family: 'Zoho Puvi', style: 'Regular' };
+  return { family: 'Inter', style: 'Regular' };
+}
+
+// ─── BOOTSTRAP ──────────────────────────────────────────────────────────────
 
 async function bootstrap() {
   // 1. Find or create Primitives collection
@@ -117,6 +114,9 @@ async function bootstrap() {
   });
   if (localComponents.length > 0) component = localComponents[0];
 
+  // Property keys (either freshly created or rediscovered from existing component)
+  var positionPropKey = null, hexCodePropKey = null, familyNamePropKey = null;
+
   if (!component) {
     component = figma.createComponent();
     component.name = 'Color Palette Comp';
@@ -131,7 +131,7 @@ async function bootstrap() {
     compFills[0] = figma.variables.setBoundVariableForPaint(compFills[0], 'color', whiteVar);
     component.fills = compFills;
 
-    // Color frame (84px tall, fill container width)
+    // -- Color frame (84px tall, fill container width) --
     var colorFrame = figma.createFrame();
     colorFrame.name = 'Color';
     colorFrame.layoutMode = 'VERTICAL';
@@ -146,9 +146,9 @@ async function bootstrap() {
     cfFills[0] = figma.variables.setBoundVariableForPaint(cfFills[0], 'color', halfVar);
     colorFrame.fills = cfFills;
 
-    // Family Name text
+    // -- Family Name text — Zoho Puvi Mono 11pt --
     var familyText = figma.createText();
-    familyText.fontName = fontFor('family');
+    familyText.fontName = fontFamily();
     familyText.fontSize = 11;
     familyText.characters = 'Family Name';
     familyText.textAlignHorizontal = 'RIGHT';
@@ -161,9 +161,9 @@ async function bootstrap() {
     familyText.layoutSizingHorizontal = 'FIXED';
     familyText.layoutSizingVertical = 'HUG';
 
-    // Position text
+    // -- Position text — Zoho Puvi Mono 12pt --
     var posText = figma.createText();
-    posText.fontName = fontFor('position');
+    posText.fontName = fontPosition();
     posText.fontSize = 12;
     posText.characters = 'Position';
     posText.textAlignHorizontal = 'RIGHT';
@@ -179,7 +179,7 @@ async function bootstrap() {
     colorFrame.layoutSizingHorizontal = 'FILL';
     colorFrame.layoutSizingVertical = 'FIXED';
 
-    // Hex Code Wrap frame
+    // -- Hex Code Wrap frame --
     var hexWrap = figma.createFrame();
     hexWrap.name = 'Hex Code Wrap';
     hexWrap.layoutMode = 'HORIZONTAL';
@@ -190,10 +190,12 @@ async function bootstrap() {
     hexWrap.paddingLeft = 0; hexWrap.paddingRight = 0; hexWrap.paddingBottom = 0;
     hexWrap.fills = [];
 
+    // -- Hex Code text — Zoho Puvi Semibold 14pt --
     var hexText = figma.createText();
-    hexText.fontName = fontFor('hex');
+    hexText.fontName = fontHex();
     hexText.fontSize = 14;
     hexText.characters = 'Hex Code';
+    hexText.textAlignHorizontal = 'CENTER';
     hexText.textAutoResize = 'HEIGHT';
     hexText.resize(126, hexText.height);
     var htFills = [figma.util.solidPaint('#000000')];
@@ -207,15 +209,40 @@ async function bootstrap() {
     hexWrap.layoutSizingHorizontal = 'FILL';
     hexWrap.layoutSizingVertical = 'HUG';
 
-    component.addComponentProperty('Position', 'TEXT', 'Position');
-    component.addComponentProperty('Hex Code', 'TEXT', 'Hex Code');
-    component.addComponentProperty('Family Name', 'TEXT', 'Family Name');
+    // -- Component properties (capture generated keys) --
+    positionPropKey    = component.addComponentProperty('Position', 'TEXT', 'Position');
+    hexCodePropKey     = component.addComponentProperty('Hex Code', 'TEXT', 'Hex Code');
+    familyNamePropKey  = component.addComponentProperty('Family Name', 'TEXT', 'Family Name');
 
-    component.x = -500;
-    component.y = -500;
+    // -- Bind text nodes' .characters to their respective properties --
+    posText.componentPropertyReferences   = { characters: positionPropKey };
+    hexText.componentPropertyReferences   = { characters: hexCodePropKey };
+    familyText.componentPropertyReferences = { characters: familyNamePropKey };
+  } else {
+    // Existing component: rediscover keys + ensure references are bound
+    var propDefs = component.componentPropertyDefinitions;
+    var keys = Object.keys(propDefs);
+    for (var k = 0; k < keys.length; k++) {
+      var baseName = keys[k].split('#')[0];
+      if (baseName === 'Position') positionPropKey = keys[k];
+      else if (baseName === 'Hex Code') hexCodePropKey = keys[k];
+      else if (baseName === 'Family Name') familyNamePropKey = keys[k];
+    }
+    var cf = component.children.find(function(c) { return c.name === 'Color'; });
+    if (cf) {
+      var ft = cf.children.find(function(c) { return c.name === 'Family Name' || (c.componentPropertyReferences && c.componentPropertyReferences.characters === familyNamePropKey); });
+      var pt = cf.children.find(function(c) { return c.name === 'Position'  || (c.componentPropertyReferences && c.componentPropertyReferences.characters === positionPropKey); });
+      if (ft && familyNamePropKey) ft.componentPropertyReferences = { characters: familyNamePropKey };
+      if (pt && positionPropKey)   pt.componentPropertyReferences = { characters: positionPropKey };
+    }
+    var hw = component.children.find(function(c) { return c.name === 'Hex Code Wrap'; });
+    if (hw) {
+      var ht = hw.children.find(function(c) { return c.type === 'TEXT'; });
+      if (ht && hexCodePropKey) ht.componentPropertyReferences = { characters: hexCodePropKey };
+    }
   }
 
-  // 4. Re-bind component fills only if not already correctly bound
+  // 4. Re-bind base fills (idempotent)
   function isBoundTo(fills, varId) {
     return fills && fills.length > 0 && fills[0].boundVariables && fills[0].boundVariables.color && fills[0].boundVariables.color.id === varId;
   }
@@ -229,29 +256,18 @@ async function bootstrap() {
     }
   }
   bindIfNeeded(component, whiteVar);
-  var cf = component.children.find(function(c) { return c.name === 'Color'; });
-  if (cf) {
-    bindIfNeeded(cf, halfVar);
-    var ft = cf.children.find(function(c) { return c.name === 'Family Name'; });
-    if (ft) bindIfNeeded(ft, blackVar);
-    var pt = cf.children.find(function(c) { return c.name === 'Position'; });
-    if (pt) bindIfNeeded(pt, blackVar);
+  var cfNode = component.children.find(function(c) { return c.name === 'Color'; });
+  if (cfNode) {
+    bindIfNeeded(cfNode, halfVar);
+    for (var ci = 0; ci < cfNode.children.length; ci++) {
+      var child = cfNode.children[ci];
+      if (child.type === 'TEXT') bindIfNeeded(child, blackVar);
+    }
   }
-  var hw = component.children.find(function(c) { return c.name === 'Hex Code Wrap'; });
-  if (hw) {
-    var ht = hw.children.find(function(c) { return c.name === 'Hex Code'; });
-    if (ht) bindIfNeeded(ht, blackVar);
-  }
-
-  // 5. Discover component property keys (suffixed like Position#10:0)
-  var propDefs = component.componentPropertyDefinitions;
-  var positionPropKey = null, hexCodePropKey = null, familyNamePropKey = null;
-  var keys = Object.keys(propDefs);
-  for (var k = 0; k < keys.length; k++) {
-    var baseName = keys[k].split('#')[0];
-    if (baseName === 'Position') positionPropKey = keys[k];
-    else if (baseName === 'Hex Code') hexCodePropKey = keys[k];
-    else if (baseName === 'Family Name') familyNamePropKey = keys[k];
+  var hwNode = component.children.find(function(c) { return c.name === 'Hex Code Wrap'; });
+  if (hwNode) {
+    var htNode = hwNode.children.find(function(c) { return c.type === 'TEXT'; });
+    if (htNode) bindIfNeeded(htNode, blackVar);
   }
 
   return {
@@ -259,6 +275,13 @@ async function bootstrap() {
     modeId: modeId,
     whiteVar: whiteVar,
     blackVar: blackVar,
+    halfVar: halfVar,
+    blue1Var: blue1Var,
+    blue2Var: blue2Var,
+    purple1Var: purple1Var,
+    purple2Var: purple2Var,
+    overlay1Var: overlay1Var,
+    overlay2Var: overlay2Var,
     component: component,
     positionPropKey: positionPropKey,
     hexCodePropKey: hexCodePropKey,
@@ -268,7 +291,7 @@ async function bootstrap() {
 
 // ─── PRIMITIVE VARIABLES ────────────────────────────────────────────────────
 
-async function ensureFamilyVar(collection, modeId, existingNames, varName, hex) {
+function ensureFamilyVar(collection, modeId, existingNames, varName, hex) {
   if (existingNames[varName]) return existingNames[varName];
   var v = figma.variables.createVariable(varName, collection, 'COLOR');
   var c = hexToFigma(hex);
@@ -277,14 +300,13 @@ async function ensureFamilyVar(collection, modeId, existingNames, varName, hex) 
   return v;
 }
 
-// JSON key (e.g. "t10", "s05", "base") → SKILL position display name (e.g. "Tint 10", "Shade 05", "Master")
+// JSON key (e.g. "t10", "s05", "base") → SKILL position display name
 function keyToPosition(key) {
   if (key === 'base') return 'Master';
   if (key.charAt(0) === 't') return 'Tint ' + key.substring(1);
   if (key.charAt(0) === 's') return 'Shade ' + key.substring(1);
   return key;
 }
-// Variable name segment for {Family}/X/N
 function keyToVarPath(displayName, key) {
   if (key === 'base') return displayName + '/Master/Master';
   if (key.charAt(0) === 't') return displayName + '/Tint/' + key.substring(1);
@@ -292,38 +314,54 @@ function keyToVarPath(displayName, key) {
   return displayName + '/' + key;
 }
 
-// ─── PRIMITIVES PAGE BUILDER ────────────────────────────────────────────────
+// ─── INSTANCE BUILDER ───────────────────────────────────────────────────────
 
-function buildSwatchInstance(bs, component, position, hex, displayName, colorVar) {
-  var inst = component.createInstance();
+function buildSwatchInstance(bs, position, hex, displayName, colorVar) {
+  var inst = bs.component.createInstance();
   inst.name = position;
+
+  // Set component property text values
   var props = {};
-  props[bs.positionPropKey] = position;
-  props[bs.hexCodePropKey] = hex.replace('#', '');
-  props[bs.familyNamePropKey] = displayName;
+  if (bs.positionPropKey)   props[bs.positionPropKey]   = position;
+  if (bs.hexCodePropKey)    props[bs.hexCodePropKey]    = hex.replace('#', '').toUpperCase();
+  if (bs.familyNamePropKey) props[bs.familyNamePropKey] = displayName;
   inst.setProperties(props);
 
+  // Bind fill on the Color frame to the variable, and choose AAA-contrast text var
   var colorFrame = inst.children.find(function(c) { return c.name === 'Color'; });
   if (colorFrame && colorVar) {
     var fills = [].concat(colorFrame.fills);
     fills[0] = figma.variables.setBoundVariableForPaint(fills[0], 'color', colorVar);
     colorFrame.fills = fills;
     var textVar = needsWhiteText(hex) ? bs.whiteVar : bs.blackVar;
-    var ft = colorFrame.children.find(function(c) { return c.name === 'Family Name'; });
-    if (ft) {
-      var tf = [].concat(ft.fills);
+    for (var i = 0; i < colorFrame.children.length; i++) {
+      var t = colorFrame.children[i];
+      if (t.type !== 'TEXT') continue;
+      var tf = [].concat(t.fills);
       tf[0] = figma.variables.setBoundVariableForPaint(tf[0], 'color', textVar);
-      ft.fills = tf;
-    }
-    var pt = colorFrame.children.find(function(c) { return c.name === 'Position'; });
-    if (pt) {
-      var pf = [].concat(pt.fills);
-      pf[0] = figma.variables.setBoundVariableForPaint(pf[0], 'color', textVar);
-      pt.fills = pf;
+      t.fills = tf;
     }
   }
   return inst;
 }
+
+// ─── ESSENTIALS DEFINITION ──────────────────────────────────────────────────
+
+function essentialsList(bs) {
+  return [
+    { position: 'White',    hex: '#FFFFFF', variable: bs.whiteVar },
+    { position: 'Black',    hex: '#000000', variable: bs.blackVar },
+    { position: 'Half',     hex: '#7F7F7F', variable: bs.halfVar },
+    { position: 'Blue1',    hex: '#006AFF', variable: bs.blue1Var },
+    { position: 'Blue2',    hex: '#00A6FF', variable: bs.blue2Var },
+    { position: 'Purple1',  hex: '#663399', variable: bs.purple1Var },
+    { position: 'Purple2',  hex: '#A385C2', variable: bs.purple2Var },
+    { position: 'Overlay1', hex: '#000000', variable: bs.overlay1Var },
+    { position: 'Overlay2', hex: '#000000', variable: bs.overlay2Var }
+  ];
+}
+
+// ─── PRIMITIVES PAGE BUILDER ────────────────────────────────────────────────
 
 async function createPrimitivesPage(bs, colorsData, families) {
   // Find or create Primitives page; clear children
@@ -333,8 +371,16 @@ async function createPrimitivesPage(bs, colorsData, families) {
     if (figma.root.children[pi].name === pageName) { page = figma.root.children[pi]; break; }
   }
   if (!page) { page = figma.createPage(); page.name = pageName; }
+  // Make Primitives the active page so subsequent createInstance() lands here too
+  await figma.setCurrentPageAsync(page);
+
   var existing = [].concat(page.children);
   for (var ec = 0; ec < existing.length; ec++) existing[ec].remove();
+
+  // Move the Color Palette Comp onto this page (off-canvas)
+  page.appendChild(bs.component);
+  bs.component.x = -500;
+  bs.component.y = -500;
 
   // Cache existing variable names in Primitives collection
   var existingVars = await figma.variables.getLocalVariablesAsync('COLOR');
@@ -345,9 +391,34 @@ async function createPrimitivesPage(bs, colorsData, families) {
     }
   }
 
-  var component = bs.component;
   var startY = 0;
 
+  // ── Essentials row (first) ─────────────────────────────────────────────
+  var essFrame = figma.createFrame();
+  essFrame.name = 'Essentials';
+  essFrame.layoutMode = 'HORIZONTAL';
+  essFrame.layoutWrap = 'WRAP';
+  essFrame.primaryAxisAlignItems = 'MIN';
+  essFrame.counterAxisAlignItems = 'MIN';
+  essFrame.itemSpacing = 0;
+  essFrame.counterAxisSpacing = 0;
+  essFrame.resize(1580, 10);
+  essFrame.fills = [];
+  essFrame.x = 0;
+  essFrame.y = startY;
+  page.appendChild(essFrame);
+
+  var ess = essentialsList(bs);
+  for (var ei = 0; ei < ess.length; ei++) {
+    var e = ess[ei];
+    var inst = buildSwatchInstance(bs, e.position, e.hex, 'Essentials', e.variable);
+    essFrame.appendChild(inst);
+  }
+  essFrame.layoutSizingHorizontal = 'FIXED';
+  essFrame.layoutSizingVertical = 'HUG';
+  startY += essFrame.height + 40;
+
+  // ── Family rows ────────────────────────────────────────────────────────
   for (var fi = 0; fi < families.length; fi++) {
     var familyName = families[fi];
     var familyData = colorsData.primitive.color[familyName];
@@ -358,7 +429,6 @@ async function createPrimitivesPage(bs, colorsData, families) {
     var hasMaster = !isGrey && !!familyData.base;
     var tsWidth = isGrey ? 1896 : 1580;
 
-    // Collect & sort tints (descending by num so 100→…→00) and shades (ascending)
     var tintKeys = [];
     var shadeKeys = [];
     var allKeys = Object.keys(familyData);
@@ -371,7 +441,6 @@ async function createPrimitivesPage(bs, colorsData, families) {
     tintKeys.sort(function(a, b) { return parseInt(b.substring(1), 10) - parseInt(a.substring(1), 10); });
     shadeKeys.sort(function(a, b) { return parseInt(a.substring(1), 10) - parseInt(b.substring(1), 10); });
 
-    // Build mainFrame (HORIZONTAL, gap 40, HUG x HUG) and tsFrame (HORIZONTAL WRAP, FIXED width, HUG height)
     var mainFrame = figma.createFrame();
     mainFrame.name = displayName;
     mainFrame.layoutMode = 'HORIZONTAL';
@@ -396,43 +465,35 @@ async function createPrimitivesPage(bs, colorsData, families) {
     tsFrame.resize(tsWidth, 10);
     tsFrame.fills = [];
 
-    // 1. Tints first (lightest → closest to master)
+    // 1. Tints (lightest → closest to master)
     for (var ti = 0; ti < tintKeys.length; ti++) {
       var tk = tintKeys[ti];
       var tHex = familyData[tk].$value;
-      var tVar = await ensureFamilyVar(bs.collection, bs.modeId, existingNames, keyToVarPath(displayName, tk), tHex);
-      var tInst = buildSwatchInstance(bs, component, keyToPosition(tk), tHex, displayName, tVar);
-      tsFrame.appendChild(tInst);
+      var tVar = ensureFamilyVar(bs.collection, bs.modeId, existingNames, keyToVarPath(displayName, tk), tHex);
+      tsFrame.appendChild(buildSwatchInstance(bs, keyToPosition(tk), tHex, displayName, tVar));
     }
 
     // 2. Master into mainFrame
     if (hasMaster) {
       var mHex = familyData.base.$value;
-      var mVar = await ensureFamilyVar(bs.collection, bs.modeId, existingNames, keyToVarPath(displayName, 'base'), mHex);
-      var mInst = buildSwatchInstance(bs, component, 'Master', mHex, displayName, mVar);
-      mainFrame.appendChild(mInst);
+      var mVar = ensureFamilyVar(bs.collection, bs.modeId, existingNames, keyToVarPath(displayName, 'base'), mHex);
+      mainFrame.appendChild(buildSwatchInstance(bs, 'Master', mHex, displayName, mVar));
     }
 
     // 3. Shades (closest to master → darkest)
     for (var si = 0; si < shadeKeys.length; si++) {
       var sk = shadeKeys[si];
       var sHex = familyData[sk].$value;
-      var sVar = await ensureFamilyVar(bs.collection, bs.modeId, existingNames, keyToVarPath(displayName, sk), sHex);
-      var sInst = buildSwatchInstance(bs, component, keyToPosition(sk), sHex, displayName, sVar);
-      tsFrame.appendChild(sInst);
+      var sVar = ensureFamilyVar(bs.collection, bs.modeId, existingNames, keyToVarPath(displayName, sk), sHex);
+      tsFrame.appendChild(buildSwatchInstance(bs, keyToPosition(sk), sHex, displayName, sVar));
     }
 
-    // 4. tsFrame appended last → mainFrame layout becomes [Master][Tints & Shades]
     mainFrame.appendChild(tsFrame);
     tsFrame.layoutSizingHorizontal = 'FIXED';
     tsFrame.layoutSizingVertical = 'HUG';
 
-    // Advance Y by mainFrame height + 40 gap (mainFrame has hugged content now)
     startY += mainFrame.height + 40;
   }
-
-  // Switch view to Primitives page so the user sees output
-  await figma.setCurrentPageAsync(page);
 }
 
 // ─── MAIN ───────────────────────────────────────────────────────────────────
@@ -452,7 +513,7 @@ figma.ui.onmessage = async function(msg) {
 
       figma.ui.postMessage({
         type: 'complete',
-        message: 'Done! Primitives synced for ' + productConfig.name + ' (' + productConfig.colorFamilies.length + ' families)'
+        message: 'Done! Primitives synced for ' + productConfig.name + ' (' + productConfig.colorFamilies.length + ' families + Essentials)'
       });
       figma.notify('✅ Loom: Primitives synced for ' + productConfig.name);
     } catch (err) {

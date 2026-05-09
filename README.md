@@ -8,7 +8,37 @@ Loom weaves consistent UI patterns across any Zoho product that adopts it. It pr
   <a href="https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html">
     <img src="https://img.shields.io/badge/🎨_Designers_Click_Here-2C66DD?style=for-the-badge&logoColor=white" alt="Designers Click Here">
   </a>
+  &nbsp;
+  <a href="assets/fonts/zoho-puvi.zip">
+    <img src="https://img.shields.io/badge/⬇_Download_Zoho_Puvi_Fonts-1A1A1A?style=for-the-badge&logoColor=white" alt="Download Zoho Puvi Fonts">
+  </a>
 </p>
+
+---
+
+## Fonts — Zoho Puvi (proprietary)
+
+Loom standardises on **Zoho Puvi** for all UI and design tooling. Always use this family unless explicitly instructed otherwise.
+
+| Family | Use |
+|---|---|
+| Zoho Puvi | Primary sans — UI text, headings, body |
+| Zoho Puvi Compact | Tight UI labels, badges |
+| Zoho Puvi Condensed | Narrow column headings |
+| Zoho Puvi Mono | Code, hex codes, design-tool labels (Family Name / Position in the Figma plugin) |
+| Zoho Puvi Serif | Editorial, long-form documents |
+| Zoho Puvi Slab | Display, marketing |
+| Zoho Puvi Tamil | Tamil script support |
+
+**Download:** [`assets/fonts/zoho-puvi.zip`](assets/fonts/zoho-puvi.zip) — unzip and install all `.otf` files locally, then restart Figma.
+
+To rebuild the bundle after adding/updating OTFs:
+
+```bash
+./scripts/zip-fonts.sh
+```
+
+See [assets/fonts/zoho-puvi/README.md](assets/fonts/zoho-puvi/README.md) for the full file manifest.
 
 ---
 

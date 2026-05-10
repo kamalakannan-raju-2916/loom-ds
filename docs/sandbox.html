@@ -8,10 +8,42 @@
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <script src="assets/loom-wcag.js"></script>
+  <link rel="preconnect" href="https://www.zohostatic.com" crossorigin>
+  <style>
+    /* Zoho Puvi - prefer locally installed; fall back to system stack. */
+    @font-face {
+      font-family: 'Zoho Puvi';
+      src: local('Zoho Puvi'), local('ZohoPuvi'), local('Zoho Puvi Regular');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Zoho Puvi';
+      src: local('Zoho Puvi Medium'), local('ZohoPuvi-Medium');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Zoho Puvi';
+      src: local('Zoho Puvi Semibold'), local('ZohoPuvi-Semibold'), local('Zoho Puvi SemiBold');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Zoho Puvi';
+      src: local('Zoho Puvi Bold'), local('ZohoPuvi-Bold');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Zoho Puvi', 'Segoe UI', sans-serif;
+      font-family: 'Zoho Puvi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #FFFFFF;
       color: #181818;
       min-height: 100vh;
@@ -148,6 +180,216 @@
     .sidebar-nav li a[data-soon="1"] { color: #939393; }
     .sidebar-nav li a[data-soon="1"]:hover { color: #626262; background: #F5F5F5; }
 
+    /* Semantics - level 1 */
+    .sem-group { margin-bottom: 28px; }
+    .sem-group-head {
+      font-family: 'Zoho Puvi', -apple-system, sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: #939393;
+      padding: 10px 0 14px;
+      letter-spacing: 0.01em;
+    }
+    .sem-group-head strong { color: #181818; font-weight: 700; }
+    .sem-row {
+      display: grid;
+      grid-template-columns: 240px 360px 220px 220px 120px;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 0;
+      border-top: 1px solid #F0F0F0;
+    }
+    .sem-row:last-child { border-bottom: 1px solid #F0F0F0; }
+    .sem-col-head {
+      display: grid;
+      grid-template-columns: 240px 360px 220px 220px 120px;
+      gap: 16px;
+      padding: 14px 0 10px;
+      align-items: end;
+      font-size: 12px;
+      font-weight: 700;
+      color: #181818;
+    }
+    .sem-col-head .h { padding-left: 2px; text-align: left; }
+    .sem-col-head .group-label {
+      grid-column: 1 / span 2;
+      font-size: 13px;
+      font-weight: 400;
+      color: #939393;
+      letter-spacing: 0.01em;
+    }
+    .sem-col-head .group-label strong { color: #181818; font-weight: 700; }
+    .sem-name-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #181818;
+    }
+    .sem-icon {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+      color: #626262;
+    }
+    .sem-icon svg { width: 100%; height: 100%; display: block; }
+    .sem-ref {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 12px 6px 8px;
+      border: 1px solid #E9E9E9;
+      border-radius: 8px;
+      background: #FFFFFF;
+      font-size: 12px;
+      color: #181818;
+      font-weight: 500;
+      max-width: 320px;
+      cursor: pointer;
+      transition: border-color 0.12s, box-shadow 0.12s;
+    }
+    .sem-ref:hover { border-color: #D0D0D0; }
+    .sem-ref.open  { border-color: #2D78FF; box-shadow: 0 0 0 3px rgba(45,120,255,0.15); }
+    .sem-chip {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.08);
+      flex: 0 0 18px;
+    }
+    .sem-ref.missing { color: #C72929; border-style: dashed; }
+
+    /* WCAG result badges */
+    .sem-wcag-cell { display: flex; flex-wrap: wrap; gap: 6px; }
+    .sem-wcag-cell .none { color: #C0C0C0; font-size: 12px; }
+    .wcag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: help;
+      position: relative;
+      border: 1px solid transparent;
+    }
+    .wcag-badge.pass { background: #E6F4EA; color: #146C43; border-color: #C6E6CF; }
+    .wcag-badge.fail { background: #FBE7E7; color: #B42318; border-color: #F2C7C7; }
+    .wcag-badge .glyph { font-weight: 800; }
+
+    .wcag-tip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #181818;
+      color: #FFFFFF;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.45;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.12s;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+      z-index: 50;
+    }
+    .wcag-tip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #181818;
+    }
+    .wcag-tip strong { color: #FFFFFF; font-weight: 700; }
+    .wcag-tip .row { display: flex; justify-content: space-between; gap: 16px; }
+    .wcag-badge:hover .wcag-tip { opacity: 1; }
+
+    /* Semantic ref picker (cascading popover) */
+    .sem-popover {
+      position: fixed;
+      z-index: 1000;
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      font-family: 'Zoho Puvi', -apple-system, sans-serif;
+      font-size: 14px;
+    }
+    .sem-pop-pane {
+      background: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.06);
+      padding: 8px;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    .sem-pop-left  { width: 200px; }
+    .sem-pop-right { width: 280px; }
+    .sem-fam {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 14px;
+      color: #181818;
+      text-align: left;
+      font-family: inherit;
+    }
+    .sem-fam:hover { background: #F5F5F5; }
+    .sem-fam.active { background: #EAF0FC; color: #2D78FF; font-weight: 600; }
+    .sem-fam .chev {
+      width: 14px; height: 14px;
+      flex: 0 0 14px;
+      color: #939393;
+    }
+    .sem-fam.active .chev { color: #2D78FF; }
+    .sem-pop-section { padding: 6px 4px 10px; }
+    .sem-pop-section + .sem-pop-section { border-top: 1px solid #F0F0F0; padding-top: 10px; }
+    .sem-pop-section h4 {
+      font-size: 11px;
+      font-weight: 700;
+      color: #181818;
+      letter-spacing: 0.06em;
+      padding: 4px 10px 8px;
+    }
+    .sem-shade {
+      display: grid;
+      grid-template-columns: 18px 44px 1fr;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 13px;
+      color: #181818;
+      text-align: left;
+      font-family: inherit;
+    }
+    .sem-shade:hover { background: #F5F5F5; }
+    .sem-shade .check { color: #181818; visibility: hidden; }
+    .sem-shade.selected .check { visibility: visible; }
+    .sem-shade .swatch {
+      height: 18px;
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
     /* Coming-soon panel */
     .coming-soon {
       text-align: center;
@@ -202,6 +444,12 @@
     .content-header h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
     .content-header p { font-size: 14px; color: #626262; }
 
+    .banner-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
     .read-only-banner {
       background: #FFF8E1;
       border: 1px solid #F1D77A;
@@ -209,9 +457,9 @@
       padding: 12px 16px;
       border-radius: 8px;
       font-size: 13px;
-      margin-bottom: 24px;
+      flex: 1;
+      max-width: 720px;
     }
-    .read-only-banner { max-width: 720px; }
     .read-only-banner strong { color: #4F3E0F; }
     .read-only-banner code {
       background: rgba(0,0,0,0.05);
@@ -220,6 +468,20 @@
       font-family: 'SF Mono', 'Fira Code', monospace;
       font-size: 12px;
     }
+    .banner-actions { margin-left: auto; display: flex; gap: 8px; }
+    .btn-reset-sem {
+      padding: 8px 14px;
+      border: 1px solid #E9E9E9;
+      background: #FFF;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #181818;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .btn-reset-sem:hover { border-color: #D0D0D0; background: #F5F5F5; }
+    .btn-reset-sem:active { background: #EEE; }
 
     /* WCAG widget */
     .wcag {
@@ -493,7 +755,7 @@
       <ul class="sidebar-nav">
         <li><a data-section="wcag" class="active"><span>WCAG Checker</span></a></li>
         <li><a data-section="colors"><span>Colors</span></a></li>
-        <li><a data-section="semantics"   data-soon="1"><span>Semantics</span><span class="soon-tag">Soon</span></a></li>
+        <li><a data-section="semantics"><span>Semantics</span></a></li>
         <li><a data-section="typography"  data-soon="1"><span>Typography</span><span class="soon-tag">Soon</span></a></li>
         <li><a data-section="spacing"     data-soon="1"><span>Spacing</span><span class="soon-tag">Soon</span></a></li>
         <li><a data-section="icons"       data-soon="1"><span>Icons</span><span class="soon-tag">Soon</span></a></li>
@@ -510,9 +772,14 @@
           <p id="content-sub">WCAG 2.2 contrast utility - pick any foreground and background to verify against AA / AAA thresholds.</p>
         </div>
 
-        <div class="read-only-banner">
-          <strong>Sealed.</strong> Sandbox is the locked base of Loom DS - only Makers commit here. Designers consume these rules in their product overrides.
-          To propose a change, open a PR on <code>kamalakannan-raju-2916/loom-ds</code>.
+        <div class="banner-row">
+          <div class="read-only-banner">
+            <strong>Sealed.</strong> Sandbox is the locked base of Loom DS - only Makers commit here. Designers consume these rules in their product overrides.
+            To propose a change, open a PR on <code>kamalakannan-raju-2916/loom-ds</code>.
+          </div>
+          <div class="banner-actions" id="banner-actions">
+            <button type="button" id="btn-reset-sem" class="btn-reset-sem" style="display:none;">Reset Semantics</button>
+          </div>
         </div>
 
         <!-- WCAG section -->
@@ -535,6 +802,9 @@
         <!-- Colors section -->
         <div id="section-colors" style="display:none;"></div>
 
+        <!-- Semantics section -->
+        <div id="section-semantics" style="display:none;"></div>
+
         <!-- Coming-soon placeholder (shared across SOON tabs) -->
         <div id="section-soon" style="display:none;"></div>
 
@@ -551,9 +821,8 @@
 
   <script>
     // -------- Section toggling (catalog-style) --------
-    const SOON_KEYS = ['semantics', 'typography', 'spacing', 'icons', 'components', 'layouts'];
+    const SOON_KEYS = ['typography', 'spacing', 'icons', 'components', 'layouts'];
     const SOON_LABELS = {
-      semantics:  'Semantics',
       typography: 'Typography',
       spacing:    'Spacing',
       icons:      'Icons',
@@ -561,7 +830,6 @@
       layouts:    'Layouts'
     };
     const SOON_BLURBS = {
-      semantics:  'Light/Dark semantic color tokens (text, surface, border, status) - the bridge layer between primitives and components.',
       typography: 'Type ramp, font families, weights, line-heights and the responsive scale that drives every component.',
       spacing:    'Spacing scale, radii and elevation primitives that govern layout rhythm across the system.',
       icons:      'The Loom icon library - browseable, copyable SVGs with sizing and color guidance.',
@@ -572,8 +840,9 @@
     function showSection(key, title, sub) {
       const isSoon = SOON_KEYS.includes(key);
       // Hide all
-      document.getElementById('section-wcag').style.display   = (key === 'wcag')   ? '' : 'none';
-      document.getElementById('section-colors').style.display = (key === 'colors') ? '' : 'none';
+      document.getElementById('section-wcag').style.display      = (key === 'wcag')      ? '' : 'none';
+      document.getElementById('section-colors').style.display    = (key === 'colors')    ? '' : 'none';
+      document.getElementById('section-semantics').style.display = (key === 'semantics') ? '' : 'none';
       const soonHost = document.getElementById('section-soon');
       soonHost.style.display = isSoon ? '' : 'none';
       if (isSoon) {
@@ -593,6 +862,11 @@
       document.querySelectorAll('.sidebar-nav li a').forEach(a => {
         a.classList.toggle('active', a.dataset.section === key);
       });
+      // Toggle Reset Semantics button
+      const resetBtn = document.getElementById('btn-reset-sem');
+      if (resetBtn) resetBtn.style.display = (key === 'semantics') ? '' : 'none';
+      // Persist active section
+      try { localStorage.setItem('loom.sandbox.activeSection', key); } catch (_) {}
       // Reset content scroll
       const c = document.querySelector('.content');
       if (c) c.scrollTop = 0;
@@ -883,14 +1157,432 @@
       });
     }
 
+    // -------- Semantics palette (Level 1) --------
+    const SEM_HOST = document.getElementById('section-semantics');
+    const PALETTE_ICON = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22a10 10 0 1 1 10-10c0 2-1 3-3 3h-2a2 2 0 0 0-1 4 2 2 0 0 1-1 3 4 4 0 0 1-3 0z"/>
+        <circle cx="7.5"  cy="10.5" r="1"/>
+        <circle cx="12"   cy="7.5"  r="1"/>
+        <circle cx="16.5" cy="10.5" r="1"/>
+      </svg>`;
+
+    // Map a $ref like "grey.t20" or "essentials.white" to a hex from the
+    // primitive palette + a pretty label like "Grey/Tint/20".
+    function resolveSemRef(ref, palette) {
+      if (!ref || !palette) return { hex: null, label: ref || '' };
+      // Essentials: "essentials.white" -> palette.white.$value
+      const ess = ref.match(/^essentials\.(.+)$/);
+      if (ess) {
+        const slot = ess[1];
+        const node = palette[slot];
+        const hex  = node && (node.$value || (node.light && node.light.$value));
+        const cap  = slot.charAt(0).toUpperCase() + slot.slice(1);
+        return { hex, label: `Essentials/${cap}` };
+      }
+      // Family base: "cornflower.base"
+      const base = ref.match(/^([a-z]+)\.base$/);
+      if (base) {
+        const family = base[1];
+        const node = palette[family];
+        const hex  = node && node.base && node.base.$value;
+        const cap  = family.charAt(0).toUpperCase() + family.slice(1);
+        return { hex, label: `${cap}/Base` };
+      }
+      // Family tint/shade: "grey.t20" / "cornflower.s30"
+      const fam = ref.match(/^([a-z]+)\.([ts])(\d+)$/);
+      if (fam) {
+        const [, family, kind, n] = fam;
+        const node = palette[family] && palette[family][`${kind}${n}`];
+        const hex  = node && node.$value;
+        const cap  = family.charAt(0).toUpperCase() + family.slice(1);
+        const kindLabel = kind === 't' ? 'Tint' : 'Shade';
+        return { hex, label: `${cap}/${kindLabel}/${n}` };
+      }
+      return { hex: null, label: ref };
+    }
+
+    // Pretty group head: "neutralGray" -> "Neutral Gray"
+    function prettyAccent(key) {
+      return key.replace(/([A-Z])/g, ' $1').replace(/^./, c => c.toUpperCase()).trim();
+    }
+    function prettySurface(key) {
+      // base, upperBase
+      return key.replace(/([A-Z])/g, ' $1').replace(/^./, c => c.toUpperCase()).trim();
+    }
+
+    // Resolve a $ref to a hex value only.
+    function refToHex(ref, palette) {
+      return resolveSemRef(ref, palette).hex;
+    }
+
+    // Pick the bg hex for a surface: <accent>.<surface>.bg.bg leaf, or 1st leaf in bg group.
+    function surfaceBgHex(structure, palette, accent, surface) {
+      const bgGroup = structure.semantic[accent][surface].bg;
+      if (!bgGroup) return null;
+      const leaf = bgGroup.bg || Object.values(bgGroup)[0];
+      return leaf && refToHex(leaf.$ref, palette);
+    }
+
+    function wcagBadge(label, ratio, threshold, fgHex, bgHex) {
+      const pass = ratio != null && ratio >= threshold;
+      const cls  = pass ? 'pass' : 'fail';
+      const glyph = pass ? '✓' : '✗';
+      const ratioTxt = ratio != null ? ratio.toFixed(2) + ' : 1' : '-';
+      const fgTxt = (fgHex || '------').toUpperCase();
+      const bgTxt = (bgHex || '------').toUpperCase();
+      return `
+        <span class="wcag-badge ${cls}">
+          <span class="glyph">${glyph}</span>${label}
+          <span class="wcag-tip">
+            <div><strong>${fgTxt}</strong> on <strong>${bgTxt}</strong></div>
+            <div class="row"><span>Required</span><strong>≥ ${threshold.toFixed(2)} : 1</strong></div>
+            <div class="row"><span>Current</span><strong>${ratioTxt}</strong></div>
+          </span>
+        </span>`;
+    }
+
+    function wcagCellsFor(fgHex, bgHex, isApplicable) {
+      if (!isApplicable) {
+        return ['<div class="sem-wcag-cell"><span class="none">--</span></div>',
+                '<div class="sem-wcag-cell"><span class="none">--</span></div>',
+                '<div class="sem-wcag-cell"><span class="none">--</span></div>'];
+      }
+      const ratio = (fgHex && bgHex) ? LoomWCAG.contrast(fgHex, bgHex) : null;
+      const T = LoomWCAG.thresholds;
+      const small   = `<div class="sem-wcag-cell">${wcagBadge('AA',  ratio, T.aaSmall,   fgHex, bgHex)}${wcagBadge('AAA', ratio, T.aaaSmall,  fgHex, bgHex)}</div>`;
+      const large   = `<div class="sem-wcag-cell">${wcagBadge('AA',  ratio, T.aaLarge,   fgHex, bgHex)}${wcagBadge('AAA', ratio, T.aaaLarge,  fgHex, bgHex)}</div>`;
+      const graphic = `<div class="sem-wcag-cell">${wcagBadge('AA',  ratio, T.uiGraphic, fgHex, bgHex)}</div>`;
+      return [small, large, graphic];
+    }
+
+    function semRowHTML(name, ref, palette, path, wcagCells) {
+      const { hex, label } = resolveSemRef(ref, palette);
+      const chipStyle = hex ? `background:${hex};` : `background:transparent;border-style:dashed;`;
+      const refClass  = hex ? 'sem-ref' : 'sem-ref missing';
+      const [small, large, graphic] = wcagCells || ['','',''];
+      return `
+        <div class="sem-row">
+          <div class="sem-name-cell">
+            <span class="sem-icon">${PALETTE_ICON}</span>
+            <span>${name}</span>
+          </div>
+          <div>
+            <button type="button" class="${refClass}" data-sem-path="${path}" data-sem-ref="${ref || ''}" title="${ref || ''}">
+              <span class="sem-chip" style="${chipStyle}"></span>
+              <span>${label}</span>
+            </button>
+          </div>
+          ${small}
+          ${large}
+          ${graphic}
+        </div>`;
+    }
+
+    function semGroupHTML(accent, surface, slot, leaves, palette, structure) {
+      const colHead = `
+        <div class="sem-col-head">
+          <div class="group-label">${prettyAccent(accent)} / ${prettySurface(surface)} / <strong>${slot}</strong></div>
+          <div class="h">Small Text</div>
+          <div class="h">Large Text</div>
+          <div class="h">Graphic</div>
+        </div>`;
+      const bgHex = surfaceBgHex(structure, palette, accent, surface);
+      const isFgSlot = slot !== 'bg';
+      const rows = Object.entries(leaves)
+        .map(([name, node]) => {
+          const path = `${accent}.${surface}.${slot}.${name}`;
+          const fgHex = refToHex(node && node.$ref, palette);
+          const cells = wcagCellsFor(fgHex, bgHex, isFgSlot);
+          return semRowHTML(name, node && node.$ref, palette, path, cells);
+        })
+        .join('');
+      return `<section class="sem-group">${colHead}${rows}</section>`;
+    }
+
+    // Mutable copy of the current structure + palette - the picker writes
+    // into this and re-renders. Reload the page to reset.
+    let SEM_STRUCT  = null;
+    let SEM_PALETTE = null;
+
+    function getSemNode(path) {
+      const [a, s, sl, n] = path.split('.');
+      return SEM_STRUCT.semantic[a][s][sl][n];
+    }
+    function setSemRef(path, ref) {
+      const node = getSemNode(path);
+      node.$ref = ref;
+      try { localStorage.setItem('loom.sandbox.semStruct', JSON.stringify(SEM_STRUCT)); } catch (_) {}
+      renderSemantics(SEM_STRUCT, SEM_PALETTE);
+    }
+
+    function renderSemantics(structure, palette) {
+      SEM_STRUCT  = structure;
+      SEM_PALETTE = palette;
+      if (!structure || !structure.semantic) {
+        SEM_HOST.innerHTML = '<p class="empty">No semantic structure found.</p>';
+        return;
+      }
+      const out = [];
+      for (const [accent, surfaces] of Object.entries(structure.semantic)) {
+        for (const [surface, slots] of Object.entries(surfaces)) {
+          for (const [slot, leaves] of Object.entries(slots)) {
+            out.push(semGroupHTML(accent, surface, slot, leaves, palette, structure));
+          }
+        }
+      }
+      SEM_HOST.innerHTML = out.join('');
+      SEM_HOST.querySelectorAll('.sem-ref').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          openSemPicker(btn);
+        });
+      });
+    }
+
+    // -------- Semantic ref picker (cascading two-pane popover) --------
+    const CHEV  = `<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>`;
+    const CHECK = `<svg class="check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
+    let SEM_POP = null;        // active popover element
+    let SEM_POP_BTN = null;    // the .sem-ref button that opened it
+
+    function familyDisplayList() {
+      // Essentials, Grey first; then DSG_ORDER as defined for the Colors tab.
+      return ['essentials', 'grey', ...DSG_ORDER];
+    }
+    function familyLabel(fam) {
+      return fam.charAt(0).toUpperCase() + fam.slice(1);
+    }
+
+    // Parse "family.kind" -> { family, slot }. essentials.white -> {essentials,'white'}.
+    function parseRef(ref) {
+      if (!ref) return { family: null, slot: null };
+      const i = ref.indexOf('.');
+      if (i < 0) return { family: ref, slot: null };
+      return { family: ref.slice(0, i), slot: ref.slice(i + 1) };
+    }
+
+    // Build the right-pane sections for a given family.
+    function paneRightHTML(family, palette, currentRef) {
+      if (family === 'essentials') {
+        // Show all top-level singles - not nested families.
+        const items = Object.entries(palette)
+          .filter(([k, v]) => v && typeof v.$value === 'string')
+          .map(([k, v]) => ({ ref: `essentials.${k}`, label: familyLabel(k), hex: v.$value }));
+        return `
+          <div class="sem-pop-section">
+            <h4>ESSENTIALS</h4>
+            ${items.map(it => shadeBtn(it, currentRef)).join('')}
+          </div>`;
+      }
+      const node = palette[family];
+      if (!node) return '<div class="sem-pop-section"><h4>Not available</h4></div>';
+      const sections = [];
+      if (node.base) {
+        sections.push(`
+          <div class="sem-pop-section">
+            <h4>BASE</h4>
+            ${shadeBtn({ ref: `${family}.base`, label: `Master ${node.base.$value}`, hex: node.base.$value }, currentRef)}
+          </div>`);
+      }
+      const tints = Object.keys(node).filter(k => /^t\d+$/.test(k)).sort((a,b) => parseInt(b.slice(1)) - parseInt(a.slice(1)));
+      const shades = Object.keys(node).filter(k => /^s\d+$/.test(k)).sort((a,b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
+      if (tints.length) {
+        sections.push(`
+          <div class="sem-pop-section">
+            <h4>TINTS</h4>
+            ${tints.map(k => {
+              const hex = node[k].$value;
+              return shadeBtn({ ref: `${family}.${k}`, label: `Tint ${parseInt(k.slice(1))} ${hex}`, hex }, currentRef);
+            }).join('')}
+          </div>`);
+      }
+      if (shades.length) {
+        sections.push(`
+          <div class="sem-pop-section">
+            <h4>SHADES</h4>
+            ${shades.map(k => {
+              const hex = node[k].$value;
+              return shadeBtn({ ref: `${family}.${k}`, label: `Shade ${parseInt(k.slice(1))} ${hex}`, hex }, currentRef);
+            }).join('')}
+          </div>`);
+      }
+      return sections.join('');
+    }
+
+    function shadeBtn(it, currentRef) {
+      const sel = it.ref === currentRef ? ' selected' : '';
+      return `
+        <button type="button" class="sem-shade${sel}" data-ref="${it.ref}">
+          ${CHECK}
+          <span class="swatch" style="background:${it.hex};"></span>
+          <span>${it.label}</span>
+        </button>`;
+    }
+
+    function openSemPicker(btn) {
+      closeSemPicker();
+      SEM_POP_BTN = btn;
+      btn.classList.add('open');
+      const path = btn.dataset.semPath;
+      const currentRef = btn.dataset.semRef;
+      const { family: currentFamily } = parseRef(currentRef);
+      const families = familyDisplayList().filter(f => SEM_PALETTE[f] || f === 'essentials');
+
+      const pop = document.createElement('div');
+      pop.className = 'sem-popover';
+      pop.innerHTML = `
+        <div class="sem-pop-pane sem-pop-left">
+          ${families.map(f => `
+            <button type="button" class="sem-fam${f === currentFamily ? ' active' : ''}" data-fam="${f}">
+              <span>${familyLabel(f)}</span>
+              ${CHEV}
+            </button>`).join('')}
+        </div>
+        <div class="sem-pop-pane sem-pop-right" id="sem-pop-right" style="display:none;"></div>`;
+      document.body.appendChild(pop);
+      SEM_POP = pop;
+
+      // Position the LEFT pane right next to the trigger; RIGHT pane appears
+      // on hover and is positioned next to the active family row.
+      positionPopoverLeft(btn);
+
+      const rightPane = pop.querySelector('#sem-pop-right');
+      let hideTimer = null;
+      const cancelHide = () => { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } };
+      const scheduleHide = () => { cancelHide(); hideTimer = setTimeout(() => { rightPane.style.display = 'none'; }, 180); };
+      const showRight = (famBtn) => {
+        cancelHide();
+        pop.querySelectorAll('.sem-fam').forEach(b => b.classList.toggle('active', b === famBtn));
+        rightPane.innerHTML = paneRightHTML(famBtn.dataset.fam, SEM_PALETTE, currentRef);
+        rightPane.style.display = '';
+        positionPopoverRight(famBtn);
+        wireShadeButtons(path);
+      };
+
+      pop.querySelectorAll('.sem-fam').forEach(famBtn => {
+        famBtn.addEventListener('mouseenter', () => showRight(famBtn));
+        famBtn.addEventListener('focus',      () => showRight(famBtn));
+      });
+      // Keep right pane open while pointer travels to it; only hide on real exit.
+      rightPane.addEventListener('mouseenter', cancelHide);
+      rightPane.addEventListener('mouseleave', scheduleHide);
+      pop.querySelector('.sem-pop-left').addEventListener('mouseleave', scheduleHide);
+    }
+
+    function positionPopoverLeft(btn) {
+      if (!SEM_POP) return;
+      const r = btn.getBoundingClientRect();
+      const margin = 8;
+      const left = SEM_POP.querySelector('.sem-pop-left');
+      // Hide right while measuring left
+      const right = SEM_POP.querySelector('.sem-pop-right');
+      const rightWasVisible = right && right.style.display !== 'none';
+      if (right) right.style.display = 'none';
+      const popH = left.offsetHeight;
+      const popW = left.offsetWidth;
+      let top = r.top;
+      if (top + popH > window.innerHeight - margin) {
+        top = Math.max(margin, window.innerHeight - popH - margin);
+      }
+      // Place to the RIGHT of the pill so the popover does not cover it.
+      let leftX = r.right + 6;
+      if (leftX + popW > window.innerWidth - margin) leftX = Math.max(margin, r.left - popW - 6);
+      SEM_POP.style.top  = `${top}px`;
+      SEM_POP.style.left = `${leftX}px`;
+      if (rightWasVisible && right) right.style.display = '';
+    }
+
+    function positionPopoverRight(famBtn) {
+      if (!SEM_POP) return;
+      const right = SEM_POP.querySelector('.sem-pop-right');
+      if (!right) return;
+      const famRect = famBtn.getBoundingClientRect();
+      const margin = 8;
+      const popH = right.offsetHeight;
+      let top = famRect.top - 12; // align top of right pane near hovered row
+      if (top + popH > window.innerHeight - margin) {
+        top = Math.max(margin, window.innerHeight - popH - margin);
+      }
+      // Convert viewport top to popover-relative.
+      const popTop  = parseFloat(SEM_POP.style.top  || '0');
+      const popLeft = parseFloat(SEM_POP.style.left || '0');
+      const leftPaneWidth = SEM_POP.querySelector('.sem-pop-left').offsetWidth;
+      right.style.position = 'fixed';
+      right.style.top  = `${top}px`;
+      right.style.left = `${popLeft + leftPaneWidth}px`;
+      // Reset to flow if needed (we use fixed for sub-pane independence).
+      void popTop;
+    }
+
+    function wireShadeButtons(path) {
+      if (!SEM_POP) return;
+      SEM_POP.querySelectorAll('.sem-shade').forEach(b => {
+        b.addEventListener('click', () => {
+          setSemRef(path, b.dataset.ref);
+          closeSemPicker();
+        });
+      });
+    }
+
+    function closeSemPicker() {
+      if (SEM_POP) { SEM_POP.remove(); SEM_POP = null; }
+      if (SEM_POP_BTN) { SEM_POP_BTN.classList.remove('open'); SEM_POP_BTN = null; }
+    }
+
+    document.addEventListener('click', e => {
+      if (!SEM_POP) return;
+      if (SEM_POP.contains(e.target)) return;
+      if (SEM_POP_BTN && SEM_POP_BTN.contains(e.target)) return;
+      closeSemPicker();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSemPicker(); });
+    window.addEventListener('resize', closeSemPicker);
+    document.querySelector('.content').addEventListener('scroll', closeSemPicker);
+
     async function load() {
-      // ---- Colors palette (independent of rules) -----------------------
+      // ---- Colors palette + Semantics (independent of rules) -----------
+      let primitivePalette = null;
       try {
         const tokens = await fetch('data/tokens/primitive-colors.json').then(r => r.json());
-        renderColors(tokens.primitive && tokens.primitive.color);
+        primitivePalette = tokens.primitive && tokens.primitive.color;
+        renderColors(primitivePalette);
       } catch (e) {
         document.getElementById('section-colors').innerHTML =
           `<p class="empty">Failed to load colors: ${e.message}.<br>Run <code>node scripts/build-sandbox-data.js</code> first.</p>`;
+      }
+
+      try {
+        const fetched = await fetch('data/tokens/semantic-structure.json').then(r => r.json());
+        // Stash the pristine copy so Reset can restore it without a network call
+        window.__SEM_PRISTINE__ = fetched;
+        let structure = fetched;
+        try {
+          const saved = localStorage.getItem('loom.sandbox.semStruct');
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed && parsed.semantic) structure = parsed;
+          }
+        } catch (_) {}
+        renderSemantics(structure, primitivePalette);
+      } catch (e) {
+        SEM_HOST.innerHTML =
+          `<p class="empty">Failed to load semantics: ${e.message}.</p>`;
+      }
+
+      // Wire Reset Semantics button (clears persisted edits, restores pristine JSON)
+      const resetBtn = document.getElementById('btn-reset-sem');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (!window.__SEM_PRISTINE__) return;
+          if (!confirm('Reset all semantic edits to their sealed defaults?')) return;
+          try { localStorage.removeItem('loom.sandbox.semStruct'); } catch (_) {}
+          // Deep clone so the pristine reference stays untouched for future resets
+          const fresh = JSON.parse(JSON.stringify(window.__SEM_PRISTINE__));
+          renderSemantics(fresh, primitivePalette);
+        });
       }
 
       try {
@@ -929,6 +1621,8 @@
               showSection('wcag', 'WCAG Checker', 'WCAG 2.2 contrast utility - pick any foreground and background to verify against AA / AAA thresholds.');
             } else if (key === 'colors') {
               showSection('colors', 'Colors', 'DSG primitive color palette - the locked source of truth. Click any swatch to copy its hex.');
+            } else if (key === 'semantics') {
+              showSection('semantics', 'Semantics', 'Level 1 semantic surfaces - role-based tokens that map to DSG primitives. The Figma Desktop Bridge mirrors this exact hierarchy as Variables.');
             } else if (SOON_KEYS.includes(key)) {
               const label = SOON_LABELS[key];
               showSection(key, label, `${label} foundation is on the roadmap - check back soon.`);
@@ -946,6 +1640,26 @@
           const r = rules.find(x => x.meta.component === m[1]);
           const sub = r && r.json.description ? r.json.description : `Provisions and constraints for ${m[1]}.`;
           showSection(m[1], m[1], sub);
+          return;
+        }
+
+        // Restore the last active section (localStorage), then URL hash, else WCAG
+        const KNOWN_TITLES = {
+          wcag:      ['WCAG Checker', 'WCAG 2.2 contrast utility - pick any foreground and background to verify against AA / AAA thresholds.'],
+          colors:    ['Colors', 'DSG primitive color palette - the locked source of truth. Click any swatch to copy its hex.'],
+          semantics: ['Semantics', 'Level 1 semantic surfaces - role-based tokens that map to DSG primitives. The Figma Desktop Bridge mirrors this exact hierarchy as Variables.']
+        };
+        const validKeys = new Set([...Object.keys(KNOWN_TITLES), ...SOON_KEYS]);
+        let initial = null;
+        try { initial = localStorage.getItem('loom.sandbox.activeSection'); } catch (_) {}
+        const hashKey = (location.hash || '').replace(/^#/, '');
+        if (!initial && hashKey && validKeys.has(hashKey)) initial = hashKey;
+        if (!initial || !validKeys.has(initial)) initial = 'wcag';
+        if (KNOWN_TITLES[initial]) {
+          showSection(initial, KNOWN_TITLES[initial][0], KNOWN_TITLES[initial][1]);
+        } else if (SOON_KEYS.includes(initial)) {
+          const label = SOON_LABELS[initial];
+          showSection(initial, label, `${label} foundation is on the roadmap - check back soon.`);
         }
       } catch (e) {
         compHost.innerHTML = `<p class="empty">Failed to load rules: ${e.message}.<br>Run <code>node scripts/build-sandbox-data.js</code> first.</p>`;

@@ -68,8 +68,9 @@ const SRC_TOKENS = path.join(ROOT, 'tokens');
 const DST_TOKENS = path.join(ROOT, 'docs', 'data', 'tokens');
 fs.mkdirSync(DST_TOKENS, { recursive: true });
 const tokenSources = [
-  ['primitive/colors.json', 'primitive-colors.json'],
-  ['semantic/colors.json',  'semantic-colors.json'],
+  ['primitive/colors.json',   'primitive-colors.json'],
+  ['semantic/colors.json',    'semantic-colors.json'],
+  ['semantic/structure.json', 'semantic-structure.json'],
 ];
 for (const [src, dst] of tokenSources) {
   const srcPath = path.join(SRC_TOKENS, src);

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "meta": {
+    "name": "Loom Semantic Structure - Level 1",
+    "description": "First-level semantic surfaces. Each leaf references a DSG primitive token. Hierarchy: <accent> / <surface> / <slot> / <variant>. The same hierarchy is mirrored 1:1 into Figma Variables via the Desktop Bridge.",
+    "version": "0.1.0"
+  },
+
+  "semantic": {
+    "neutralGray": {
+      "base": {
+        "bg": {
+          "bg": { "$ref": "essentials.white" }
+        },
+        "onbg": {
+          "strong":    { "$ref": "essentials.black" },
+          "subtle":    { "$ref": "grey.t20" },
+          "light":     { "$ref": "grey.t40" },
+          "primary":   { "$ref": "cornflower.s20" },
+          "error":     { "$ref": "cardinal.s20" },
+          "success":   { "$ref": "fern.t10" },
+          "warning":   { "$ref": "sunshine.s30" },
+          "info":      { "$ref": "teal.s10" },
+          "separator": { "$ref": "grey.s20" }
+        },
+        "component": {
+          "bg-default":      { "$ref": "grey.s00" },
+          "bg-hover":        { "$ref": "grey.s05" },
+          "bg-pressed":      { "$ref": "grey.s10" },
+          "outline-default": { "$ref": "grey.s10" },
+          "outline-hover":   { "$ref": "grey.s20" },
+          "outline-pressed": { "$ref": "grey.s30" },
+          "separator":       { "$ref": "grey.s20" }
+        }
+      },
+      "upperBase": {
+        "bg": {
+          "bg":      { "$ref": "grey.s00" },
+          "outline": { "$ref": "grey.s10" }
+        },
+        "onbg": {
+          "strong":    { "$ref": "essentials.black" },
+          "subtle":    { "$ref": "grey.t20" },
+          "light":     { "$ref": "grey.t30" },
+          "primary":   { "$ref": "cornflower.s30" },
+          "error":     { "$ref": "cardinal.s20" },
+          "success":   { "$ref": "fern.s10" },
+          "warning":   { "$ref": "sunshine.s60" },
+          "info":      { "$ref": "teal.s40" },
+          "separator": { "$ref": "grey.s30" }
+        },
+        "component": {
+          "bg-default":      { "$ref": "grey.s05" },
+          "bg-hover":        { "$ref": "grey.s10" },
+          "bg-pressed":      { "$ref": "grey.s20" },
+          "outline-default": { "$ref": "grey.s10" },
+          "outline-hover":   { "$ref": "grey.s20" },
+          "outline-pressed": { "$ref": "grey.s30" },
+          "separator":       { "$ref": "grey.s30" }
+        }
+      }
+    }
+  }
+}

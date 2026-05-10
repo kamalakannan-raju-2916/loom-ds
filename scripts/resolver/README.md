@@ -7,10 +7,10 @@ const { resolve } = require('./scripts/resolver');
 const { config, errors } = resolve({ sandbox, overrides });
 ```
 
-- `sandbox`   — `{ tokens, components, rules }` loaded from this repo.
-- `overrides` — `{ tokens?, components? }` loaded from a product repo.
-- `config`    — fully merged, ready to render.
-- `errors`    — `[]` when overrides are clean; otherwise an array of `{ path, code, message }`.
+- `sandbox`   - `{ tokens, components, rules }` loaded from this repo.
+- `overrides` - `{ tokens?, components? }` loaded from a product repo.
+- `config`    - fully merged, ready to render.
+- `errors`    - `[]` when overrides are clean; otherwise an array of `{ path, code, message }`.
 
 **Anything not declared editable in rules.json is rejected.** Implicit lock by design.
 

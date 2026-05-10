@@ -4,7 +4,7 @@ description: "Sync Loom semantic design tokens (colors, spacing, radii, shadows,
 argument-hint: "Optional: 'all' (default), 'colors', 'spacing', 'radii', 'shadows', 'typography'"
 ---
 
-# Semantic Token Sync — Repo → Figma Variables
+# Semantic Token Sync - Repo → Figma Variables
 
 ## Purpose
 
@@ -33,7 +33,7 @@ Future files (same format):
 
 ## Token JSON Format
 
-Each token has Light and Dark values — either **raw hex/rgba** or a **reference** to a Primitives variable:
+Each token has Light and Dark values - either **raw hex/rgba** or a **reference** to a Primitives variable:
 
 ```json
 {
@@ -133,7 +133,7 @@ const COLLECTION_ID = '__COLLECTION_ID__';
 const LIGHT_MODE_ID = '__LIGHT_MODE_ID__';
 const DARK_MODE_ID = '__DARK_MODE_ID__';
 
-// Token data — substituted by the agent from tokens/semantic/colors.json
+// Token data - substituted by the agent from tokens/semantic/colors.json
 const TOKENS = __TOKENS_JSON__;
 
 // === HELPERS ===
@@ -204,7 +204,7 @@ if (primCollection) {
 
 // === GET SEMANTIC COLLECTION ===
 const collection = await figma.variables.getVariableCollectionByIdAsync(COLLECTION_ID);
-if (!collection) return { error: 'Semantic collection not found — run bootstrap first' };
+if (!collection) return { error: 'Semantic collection not found - run bootstrap first' };
 
 // === BUILD LOOKUP of existing semantic variables ===
 const existingVars = {};
@@ -219,7 +219,7 @@ function resolveValue(value) {
     const key = extractRefKey(value);
     const primVar = refKeyToVar[key];
     if (primVar) return { type: 'VARIABLE_ALIAS', id: primVar.id };
-    // Reference not found — skip
+    // Reference not found - skip
     return null;
   }
   return parseColor(value);
@@ -285,7 +285,7 @@ When token values change in the repo JSON:
 1. User says "sync tokens" again
 2. The skill re-reads the JSON and runs Step 4
 3. Existing variables are **updated in place** (matched by name), new ones are created
-4. No duplicates — the skill is idempotent
+4. No duplicates - the skill is idempotent
 
 ## Extending to Other Token Types
 
@@ -310,11 +310,11 @@ Typography doesn't map cleanly to Figma Variables (it's multi-property). Instead
 
 ## Notes
 
-- **Idempotent** — safe to run multiple times; existing variables are updated, not duplicated
-- **One-way sync** — repo is the source of truth; Figma receives, never sends back
-- **No plugins required** — uses Figma Desktop Bridge (`figma_execute`) only
+- **Idempotent** - safe to run multiple times; existing variables are updated, not duplicated
+- **One-way sync** - repo is the source of truth; Figma receives, never sends back
+- **No plugins required** - uses Figma Desktop Bridge (`figma_execute`) only
 - **Variable naming** uses slash-grouped format: `surface/page`, `text/primary`, `border/focus`
-- **Variable aliases** — reference values (`{primitive.color.*}`) create Figma variable aliases pointing to the Primitives collection, maintaining the live link between semantic and primitive tokens
+- **Variable aliases** - reference values (`{primitive.color.*}`) create Figma variable aliases pointing to the Primitives collection, maintaining the live link between semantic and primitive tokens
 - RGBA colors (like overlays) are supported with alpha channel
 - The Primitives collection must exist with the referenced variables before syncing aliases. Run the DSG color token skill first if needed
 - Run bootstrap (Step 3) once per file; the sync step (Step 4) can be repeated freely

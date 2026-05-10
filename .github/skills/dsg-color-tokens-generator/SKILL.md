@@ -8,7 +8,7 @@ argument-hint: "Hex code (e.g. #2C66DD) or 'Grey' for the grey token set"
 
 ## Purpose
 
-Creates a complete DSG (Design Standard Group) color token set in Figma using **pre-defined, exact hex values** — no algorithmic generation. Uses a "Color Palette Comp" component from the current file. Each color is also added as a variable in the **Primitives** collection and bound to the component fills.
+Creates a complete DSG (Design Standard Group) color token set in Figma using **pre-defined, exact hex values** - no algorithmic generation. Uses a "Color Palette Comp" component from the current file. Each color is also added as a variable in the **Primitives** collection and bound to the component fills.
 
 **Self-bootstrapping**: This skill auto-creates all prerequisites (Primitives collection, Essentials variables, and the Color Palette Comp component) if they don't already exist. You can share this file and recipients can start using it immediately on any Figma file.
 
@@ -25,7 +25,7 @@ The user provides **only a HEX code** (e.g. `#2C66DD`). The skill:
 
 ## DSG Color Data
 
-All colors below are the **exact DSG-approved values**. Never generate colors algorithmically — always use these exact hex codes.
+All colors below are the **exact DSG-approved values**. Never generate colors algorithmically - always use these exact hex codes.
 
 ### Standard Colors (10 Shades, 10 Tints each)
 
@@ -176,7 +176,7 @@ All colors below are the **exact DSG-approved values**. Never generate colors al
 
 ### Grey (Special: No Master, 12 Shades + 12 Tints)
 
-Triggered by user saying "Grey" — not by a hex code.
+Triggered by user saying "Grey" - not by a hex code.
 
 ```json
 {
@@ -207,27 +207,27 @@ Triggered by user saying "Grey" — not by a hex code.
 
 ## Primitives Variable Collection
 
-The skill uses a variable collection named **"Primitives"** with nine Essentials variables grouped under `Essentials/`. IDs are **not hardcoded** — the bootstrap step (Step 2) finds or creates them dynamically and returns the actual IDs to use.
+The skill uses a variable collection named **"Primitives"** with nine Essentials variables grouped under `Essentials/`. IDs are **not hardcoded** - the bootstrap step (Step 2) finds or creates them dynamically and returns the actual IDs to use.
 
 - **Collection**: "Primitives" (found or created by bootstrap)
 - **Mode**: First mode of the collection (found or created by bootstrap)
 - **Essentials variables** (all under `Essentials/` group):
-  - `Essentials/White` — #FFFFFF
-  - `Essentials/Black` — #000000
-  - `Essentials/Half` — #7F7F7F
-  - `Essentials/Blue1` — #006AFF
-  - `Essentials/Blue2` — #00A6FF
-  - `Essentials/Purple1` — #663399
-  - `Essentials/Purple2` — #A385C2
-  - `Essentials/Overlay1` — #000000 @ 50% opacity
-  - `Essentials/Overlay2` — #000000 @ 70% opacity
+  - `Essentials/White` - #FFFFFF
+  - `Essentials/Black` - #000000
+  - `Essentials/Half` - #7F7F7F
+  - `Essentials/Blue1` - #006AFF
+  - `Essentials/Blue2` - #00A6FF
+  - `Essentials/Purple1` - #663399
+  - `Essentials/Purple2` - #A385C2
+  - `Essentials/Overlay1` - #000000 @ 50% opacity
+  - `Essentials/Overlay2` - #000000 @ 70% opacity
 
 ### Variable Naming Convention
 
-Variables are created with slash-grouped names using three subgroups — **Tint**, **Master**, **Shade**:
-- `{Family}/Master/Master` — e.g. `Cobalt/Master/Master`
-- `{Family}/Tint/10` through `{Family}/Tint/100` — e.g. `Cobalt/Tint/10`
-- `{Family}/Shade/10` through `{Family}/Shade/100` — e.g. `Cobalt/Shade/10`
+Variables are created with slash-grouped names using three subgroups - **Tint**, **Master**, **Shade**:
+- `{Family}/Master/Master` - e.g. `Cobalt/Master/Master`
+- `{Family}/Tint/10` through `{Family}/Tint/100` - e.g. `Cobalt/Tint/10`
+- `{Family}/Shade/10` through `{Family}/Shade/100` - e.g. `Cobalt/Shade/10`
 - For Grey: `Grey/Shade/00`, `Grey/Shade/05`, `Grey/Shade/10`, ..., `Grey/Tint/00`, `Grey/Tint/05`, `Grey/Tint/10`, ...
 
 ### Variable Binding
@@ -479,27 +479,27 @@ return {
   positionPropKey: positionPropKey,
   hexCodePropKey: hexCodePropKey,
   familyNamePropKey: familyNamePropKey,
-  message: 'Bootstrap complete — all prerequisites verified/created'
+  message: 'Bootstrap complete - all prerequisites verified/created'
 };
 ```
 
-The bootstrap returns a JSON object with all dynamic IDs. **Save these values** — they are used as substitution parameters in Step 4.
+The bootstrap returns a JSON object with all dynamic IDs. **Save these values** - they are used as substitution parameters in Step 4.
 
 ### Step 3: Look Up Color Data
 
 From the user's hex input (strip `#`, uppercase), find the matching entry in the DSG Color Data above. Extract:
-- `FAMILY_NAME` — the family name
-- `MASTER_HEX` — the master hex (without #)
-- `SHADES` — object of position→hex for shades
-- `TINTS` — object of position→hex for tints
+- `FAMILY_NAME` - the family name
+- `MASTER_HEX` - the master hex (without #)
+- `SHADES` - object of position→hex for shades
+- `TINTS` - object of position→hex for tints
 - For Grey: no master, 12+12 positions
 
 ### Step 4: Execute Color Token Generation
 
 Run the code below via `figma_execute`. The agent must **substitute**:
-- `__FAMILY_NAME__`, `__MASTER_HEX__`, `__HAS_MASTER__`, `__TINTS_SHADES_WIDTH__`, `__SHADES_JSON__`, `__TINTS_JSON__` — from Step 3 lookup
-- `__COMPONENT_ID__`, `__COLLECTION_ID__`, `__MODE_ID__`, `__WHITE_VAR_ID__`, `__BLACK_VAR_ID__` — from Step 2 bootstrap result
-- `__POSITION_PROP_KEY__`, `__HEX_CODE_PROP_KEY__`, `__FAMILY_NAME_PROP_KEY__` — from Step 2 bootstrap result
+- `__FAMILY_NAME__`, `__MASTER_HEX__`, `__HAS_MASTER__`, `__TINTS_SHADES_WIDTH__`, `__SHADES_JSON__`, `__TINTS_JSON__` - from Step 3 lookup
+- `__COMPONENT_ID__`, `__COLLECTION_ID__`, `__MODE_ID__`, `__WHITE_VAR_ID__`, `__BLACK_VAR_ID__` - from Step 2 bootstrap result
+- `__POSITION_PROP_KEY__`, `__HEX_CODE_PROP_KEY__`, `__FAMILY_NAME_PROP_KEY__` - from Step 2 bootstrap result
 
 - For standard colors: `__HAS_MASTER__` = `true`, `__TINTS_SHADES_WIDTH__` = `1580`
 - For Grey: `__HAS_MASTER__` = `false`, `__TINTS_SHADES_WIDTH__` = `1896`
@@ -557,9 +557,9 @@ const startY = maxBottom+40;
 
 // === GET COMPONENT, COLLECTION & VARIABLES (using IDs from bootstrap) ===
 const component = await figma.getNodeByIdAsync(COMPONENT_ID);
-if (!component) return 'Component not found — run bootstrap first';
+if (!component) return 'Component not found - run bootstrap first';
 const collection = await figma.variables.getVariableCollectionByIdAsync(COLLECTION_ID);
-if (!collection) return 'Primitives collection not found — run bootstrap first';
+if (!collection) return 'Primitives collection not found - run bootstrap first';
 const whiteVar = await figma.variables.getVariableByIdAsync(WHITE_VAR_ID);
 const blackVar = await figma.variables.getVariableByIdAsync(BLACK_VAR_ID);
 
@@ -690,12 +690,12 @@ Visually confirm:
 
 ## Notes
 
-- **Never generate colors algorithmically** — always use the exact DSG hex values from this file
-- **No hardcoded IDs** — all component/collection/variable/property IDs are obtained dynamically from the bootstrap step
-- **Run bootstrap once per session** (Step 2) before generating any color tokens. It is idempotent — safe to run multiple times
+- **Never generate colors algorithmically** - always use the exact DSG hex values from this file
+- **No hardcoded IDs** - all component/collection/variable/property IDs are obtained dynamically from the bootstrap step
+- **Run bootstrap once per session** (Step 2) before generating any color tokens. It is idempotent - safe to run multiple times
 - The bootstrap creates the "Color Palette Comp" component if missing, using **SF Mono** font (Medium, Regular, Semibold weights)
 - The Essentials group (`Essentials/White`, `Essentials/Black`, `Essentials/Half`, `Essentials/Blue1`, `Essentials/Blue2`, `Essentials/Purple1`, `Essentials/Purple2`, `Essentials/Overlay1`, `Essentials/Overlay2`) are base variables used for text contrast, overlays, and link colors
-- Component properties have generated suffixes (e.g. `Position#10:0`) that vary per file — the bootstrap discovers the actual keys
+- Component properties have generated suffixes (e.g. `Position#10:0`) that vary per file - the bootstrap discovers the actual keys
 - The color swatch is the fill of the "Color" FRAME (not a child Rectangle)
 - The hex code displayed in swatches is without the `#` prefix
 - Standard families use 1580px width (10 swatches per row × 158px each)
@@ -705,7 +705,7 @@ Visually confirm:
 - Each variable is created under `Primitives` collection with `{Family}/Tint/{num}`, `{Family}/Master/Master`, `{Family}/Shade/{num}` naming
 - **Variable creation order**: Tints (100→10) → Master → Shades (10→100), so they appear grouped correctly in the Primitives panel
 - Both fill colors and text colors use Primitives variable bindings (not raw color values)
-- `createVariable` must be called with the collection **node** (not the ID string) — use `getVariableCollectionByIdAsync` first
+- `createVariable` must be called with the collection **node** (not the ID string) - use `getVariableCollectionByIdAsync` first
 - When wrapping occurs, tints appear on the top row(s) and shades on the bottom row(s)
 - The bootstrap places the component at x=-500, y=-500 (off-canvas) so it doesn't interfere with token layouts
-- The bootstrap only re-binds component fills when the existing binding doesn't match the current variable ID — if already correctly bound, nothing is modified
+- The bootstrap only re-binds component fills when the existing binding doesn't match the current variable ID - if already correctly bound, nothing is modified

@@ -4,7 +4,7 @@ description: "Export component designs from Figma back to the Loom repo as produ
 argument-hint: "Product name (e.g. 'writer') and component name (e.g. 'button'), or 'all' for all components"
 ---
 
-# Figma Component Export — Figma → Repo
+# Figma Component Export - Figma → Repo
 
 ## Purpose
 
@@ -264,8 +264,8 @@ Report what was exported and ask the user if they want to commit/push to the rep
 ## Notes
 
 - Designer must **select** the component(s) in Figma before running
-- Variable bindings are preserved — the spec shows which Loom token each fill/stroke uses
+- Variable bindings are preserved - the spec shows which Loom token each fill/stroke uses
 - Re-running for the same component **overwrites** the previous export (latest Figma state wins)
 - This is a one-way Figma → repo flow; the repo becomes the documented spec
 - Component specs in the repo serve as the **contract** between design and development
-- Only maintainers (you) can merge these exports into `main` — designers can submit PRs
+- Only maintainers (you) can merge these exports into `main` - designers can submit PRs

@@ -1,4 +1,4 @@
-# Loom Design System — GitHub Setup Guide
+# Loom Design System - GitHub Setup Guide
 
 ## Step-by-step: Creating the repository
 
@@ -54,7 +54,7 @@ In Settings → Collaborators and teams:
 - **Designers** (broader team): Read access
 - **HTML developers:** Read access
 
-This maps directly to your requirement #2 — permissioned designers can update, others can only view.
+This maps directly to your requirement #2 - permissioned designers can update, others can only view.
 
 ---
 
@@ -90,7 +90,7 @@ When reviewing designs:
 - Flag any DSG violations
 ```
 
-6. **Invite team members** to the project — they'll all share the same context
+6. **Invite team members** to the project - they'll all share the same context
 
 ---
 
@@ -114,7 +114,7 @@ This creates a two-way sync: designers update tokens in Figma → creates a PR i
 
 ## What to build next (priority order)
 
-### Phase 1 — Foundation (current)
+### Phase 1 - Foundation (current)
 - [x] Extract DSG primitive color tokens (616 tokens)
 - [x] Create project knowledge document
 - [x] Set up GitHub repository structure
@@ -122,7 +122,7 @@ This creates a two-way sync: designers update tokens in Figma → creates a PR i
 - [ ] Build CSS generation script (tokens → CSS custom properties)
 - [ ] Create contrast validation script
 
-### Phase 2 — Core components
+### Phase 2 - Core components
 - [ ] Button (all variants, sizes, states)
 - [ ] Input / Text field
 - [ ] Select / Dropdown
@@ -133,14 +133,14 @@ This creates a two-way sync: designers update tokens in Figma → creates a PR i
 - [ ] Tabs
 - [ ] Table
 
-### Phase 3 — Product patterns
+### Phase 3 - Product patterns
 - [ ] Sidebar navigation (Writer/PDF Editor pattern)
 - [ ] Toolbar (Writer toolbar, PDF annotation bar)
 - [ ] Document canvas area
 - [ ] Settings panel layout
 - [ ] Onboarding flows
 
-### Phase 4 — AI workflow
+### Phase 4 - AI workflow
 - [ ] Fine-tune Claude Project with real screen examples
 - [ ] Create sketch-to-screen prompt templates
 - [ ] Set up Figma Desktop Bridge workflows

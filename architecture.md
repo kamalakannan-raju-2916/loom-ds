@@ -1,4 +1,4 @@
-# Loom DS — Architecture
+# Loom DS - Architecture
 
 > Canonical reference for personas, repository topology, the override model, and the sandbox-bump notification flow.
 > If anything in this doc disagrees with code, **this doc wins** until updated.
@@ -82,15 +82,15 @@ Sandbox base  +  Product overrides  =  Resolved config
    (frozen)        (gated by rules)        (rendered)
 ```
 
-- **Sandbox base** — primitives, semantics, base components, `rules.json` per component.
-- **Product overrides** — only the diff. Validated against the corresponding `rules.json`. Anything not declared editable in rules is **rejected** by the resolver before commit.
-- **Resolved config** — what the catalogue renders and what `Copy Lyte code` emits.
+- **Sandbox base** - primitives, semantics, base components, `rules.json` per component.
+- **Product overrides** - only the diff. Validated against the corresponding `rules.json`. Anything not declared editable in rules is **rejected** by the resolver before commit.
+- **Resolved config** - what the catalogue renders and what `Copy Lyte code` emits.
 
 The resolver is a pure function: `resolve(sandbox, overrides) → finalConfig | ValidationError[]`.
 
 ---
 
-## 5. `rules.json` — provisions & exceptions contract
+## 5. `rules.json` - provisions & exceptions contract
 
 One file per component: `sandbox/components/<name>.rules.json`.
 
@@ -126,7 +126,7 @@ When Makers publish `@loom/sandbox@x.y.z`:
 4. **Accept** → catalogue triggers commit (PR or direct per `team.json.directCommit`).
 5. On merge → catalogue + Figma sync re-run, downstream consumers see the change.
 
-Devs see the banner read-only — they cannot accept, but they're aware change is coming.
+Devs see the banner read-only - they cannot accept, but they're aware change is coming.
 
 **Override conflict policy:** if a sandbox bump invalidates an existing override (e.g., a token was removed, an enum value pruned), the resolver marks it as `requires-resolution`. The product cannot deploy until Admin/Designer chooses keep-old (pin sandbox), drop-override, or migrate-to-new.
 
@@ -171,7 +171,7 @@ Per WCAG 2.2 thresholds:
 |---|---|---|
 | Small text (<18pt or <14pt bold) | ≥ 4.5 : 1 | ≥ 7.0 : 1 |
 | Large text (≥18pt or ≥14pt bold) | ≥ 3.0 : 1 | ≥ 4.5 : 1 |
-| Graphics / UI components | ≥ 3.0 : 1 | — |
+| Graphics / UI components | ≥ 3.0 : 1 | - |
 
 Computed client-side against every paired surface in both Light and Dark modes. Designer cannot save a semantic that fails AA Small without an explicit "I accept" override (logged in commit message).
 

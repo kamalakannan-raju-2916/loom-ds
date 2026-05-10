@@ -1,4 +1,4 @@
-# Zoho Puvi — Loom DS Font Pack
+# Zoho Puvi - Loom DS Font Pack
 
 This folder is the canonical source for **Zoho Puvi**, the proprietary font family used across Loom Design System.
 
@@ -59,4 +59,4 @@ This produces `assets/fonts/zoho-puvi.zip` which is what the README links to for
 1. Download `zoho-puvi.zip` from the repo (link in root README).
 2. Unzip.
 3. Double-click each `.otf` and click **Install Font** (macOS Font Book / Windows Settings → Fonts).
-4. Restart Figma — the Loom plugin will now pick up `Zoho Puvi` and `Zoho Puvi Mono` automatically.
+4. Restart Figma - the Loom plugin will now pick up `Zoho Puvi` and `Zoho Puvi Mono` automatically.

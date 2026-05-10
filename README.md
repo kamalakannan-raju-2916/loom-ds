@@ -1,6 +1,6 @@
 # Loom Design System
 
-> A unified design system for Zoho products — built on DSG standards, implemented with Lyte components.
+> A unified design system for Zoho products - built on DSG standards, implemented with Lyte components.
 
 Loom weaves consistent UI patterns across any Zoho product that adopts it. It provides design tokens following Zoho DSG (Design Standard Groups) guidelines and component implementations using the [Lyte framework](https://lyteframework.com).
 
@@ -15,12 +15,12 @@ Loom weaves consistent UI patterns across any Zoho product that adopts it. It pr
 | **Designer** | Their product repo | ✅ Product (via catalogue UI) |
 | **Developer** | Their product repo | ❌ Read-only (copy Lyte code) |
 
-Sandbox is sealed — no one but Makers commits here, ever.
+Sandbox is sealed - no one but Makers commits here, ever.
 
 **Pages:**
-- [Sandbox Catalogue](https://kamalakannan-raju-2916.github.io/loom-ds/sandbox.html) — base components, rules, WCAG checker (Makers + reference)
-- [Designer Edit UI](https://kamalakannan-raju-2916.github.io/loom-ds/designer.html) — token + component editors with live preview & WCAG (Designers)
-- [Product Catalogue](https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html) — Writer (Designers + Devs)
+- [Sandbox Catalogue](https://kamalakannan-raju-2916.github.io/loom-ds/sandbox.html) - base components, rules, WCAG checker (Makers + reference)
+- [Designer Edit UI](https://kamalakannan-raju-2916.github.io/loom-ds/designer.html) - token + component editors with live preview & WCAG (Designers)
+- [Product Catalogue](https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html) - Writer (Designers + Devs)
 
 <p align="center">
   <a href="https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html" target="_blank" rel="noopener noreferrer">
@@ -30,13 +30,13 @@ Sandbox is sealed — no one but Makers commits here, ever.
 
 ---
 
-## Fonts — Zoho Puvi (proprietary)
+## Fonts - Zoho Puvi (proprietary)
 
 Loom standardises on **Zoho Puvi** for all UI and design tooling. Always use this family unless explicitly instructed otherwise.
 
 | Family | Use |
 |---|---|
-| Zoho Puvi | Primary sans — UI text, headings, body |
+| Zoho Puvi | Primary sans - UI text, headings, body |
 | Zoho Puvi Compact | Tight UI labels, badges |
 | Zoho Puvi Condensed | Narrow column headings |
 | Zoho Puvi Mono | Code, hex codes, design-tool labels (Family Name / Position in the Figma plugin) |
@@ -92,7 +92,7 @@ See [assets/fonts/zoho-puvi/README.md](assets/fonts/zoho-puvi/README.md) for the
 
 ## Token Architecture
 
-Tokens flow through three tiers — every design decision traces back to DSG primitives.
+Tokens flow through three tiers - every design decision traces back to DSG primitives.
 
 | Tier | Source | Purpose | Example |
 |---|---|---|---|
@@ -140,11 +140,11 @@ Themes are applied via a `data-theme` attribute:
 | Layer | Technology |
 |---|---|
 | Design tokens | JSON (DTCG format), CSS custom properties |
-| CSS build | `node scripts/build-css.js` — generates `css/loom-*.css` from token JSON |
+| CSS build | `node scripts/build-css.js` - generates `css/loom-*.css` from token JSON |
 | Component framework | [Lyte](https://lyteframework.com) v3.9 |
 | UI components | `@zoho/lyte-ui-component` (buttons, dropdowns, modals, tables, etc.) |
 | Styling | CSS with `--loom-*` custom properties |
-| Figma plugin | `figma-plugin/` — reads tokens from GitHub, creates Figma variables |
+| Figma plugin | `figma-plugin/` - reads tokens from GitHub, creates Figma variables |
 | Figma sync (advanced) | Desktop Bridge + AI skills for maintainers |
 
 ---
@@ -161,7 +161,7 @@ This generates three files in `css/`:
 
 | File | Contents |
 |---|---|
-| `loom-primitives.css` | 713 custom properties — colors, typography, spacing, radii, shadows |
+| `loom-primitives.css` | 713 custom properties - colors, typography, spacing, radii, shadows |
 | `loom-semantic.css` | Light/Dark theme tokens + component tokens |
 | `loom-tokens.css` | Combined entry point (imports both above) |
 
@@ -189,7 +189,7 @@ This generates three files in `css/`:
 
 ### For designers (Figma Plugin)
 
-Loom ships a **Figma plugin** that reads tokens directly from the GitHub repo — no Desktop Bridge needed.
+Loom ships a **Figma plugin** that reads tokens directly from the GitHub repo - no Desktop Bridge needed.
 
 <p align="center">
   <a href="https://github.com/kamalakannan-raju-2916/loom-ds/raw/main/assets/figma-plugin/loom-figma-plugin.zip" download>
@@ -203,7 +203,7 @@ Loom ships a **Figma plugin** that reads tokens directly from the GitHub repo �
 3. Select `manifest.json` from the unzipped folder (or `figma-plugin/manifest.json` from the repo)
 4. Run the plugin: **Plugins → Loom Design Tokens**
 5. Choose a product (e.g. Zoho Writer)
-6. Click **Sync to Figma** — the plugin creates a `Loom / <Product> / Primitives` variable collection with all color, typography, spacing, and radii tokens
+6. Click **Sync to Figma** - the plugin creates a `Loom / <Product> / Primitives` variable collection with all color, typography, spacing, and radii tokens
 
 The plugin fetches live from `main` branch, so tokens are always current.
 
@@ -312,10 +312,10 @@ Loom targets **WCAG AA** as mandatory, **AAA** wherever possible:
 
 1. Create an issue describing the proposed change
 2. Branch from `main`, make your changes
-3. Submit a PR — requires maintainer approval
+3. Submit a PR - requires maintainer approval
 
-**Rule:** Never override DSG primitives. If a value exists in DSG, Loom references it — it does not redefine it.
+**Rule:** Never override DSG primitives. If a value exists in DSG, Loom references it - it does not redefine it.
 
 ## License
 
-Internal use only — Zoho Corporation.
+Internal use only - Zoho Corporation.

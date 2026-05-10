@@ -1,4 +1,4 @@
-# Loom Design System — Project Knowledge
+# Loom Design System - Project Knowledge
 
 > **Version:** 1.0.0  
 > **Maintained by:** Zoho Writer Design Team  
@@ -16,21 +16,21 @@ The name "Loom" reflects its purpose: weaving consistent patterns across product
 
 ### Who uses Loom?
 
-- **Designers** — create UI screens using Loom tokens and components in Figma and Claude
-- **HTML developers** — consume CSS custom properties and component markup from the Loom GitHub repo
-- **Product managers** — reference Loom documentation for feature spec consistency
+- **Designers** - create UI screens using Loom tokens and components in Figma and Claude
+- **HTML developers** - consume CSS custom properties and component markup from the Loom GitHub repo
+- **Product managers** - reference Loom documentation for feature spec consistency
 
 ### Design governance
 
 Loom follows the Zoho DSG (Design Standard Groups) standards. DSG defines the global color palette, typography scales, and foundational UI rules that apply across all Zoho Corp products. Loom extends DSG standards with product-specific semantic tokens and components tailored for office/productivity applications.
 
-**Rule: Never override DSG primitives.** If a color, font, or spacing value exists in DSG, Loom references it — it does not redefine it.
+**Rule: Never override DSG primitives.** If a color, font, or spacing value exists in DSG, Loom references it - it does not redefine it.
 
 ---
 
 ## 2. Token Architecture
 
-Loom uses a three-tier token system. This is critical to understand — every design decision flows through these tiers.
+Loom uses a three-tier token system. This is critical to understand - every design decision flows through these tiers.
 
 ### Tier 1: Primitive Tokens (Global)
 
@@ -111,7 +111,7 @@ These map primitives to UI roles. **This is where theming happens.** Each semant
 | `status.danger` | Cardinal | `cardinal.t100` | `cardinal.s10` | `cardinal.s60` | `cardinal.t50` |
 | `status.info` | Cornflower | `cornflower.t100` | `cornflower.s10` | `cornflower.s60` | `cornflower.t50` |
 
-**Product accent tokens (Tier 2.5 — product-specific):**
+**Product accent tokens (Tier 2.5 - product-specific):**
 
 Each product selects its own accent from the DSG palette. The accent token resolves differently per product:
 
@@ -148,7 +148,7 @@ button.ghost.text         → {text.primary}
 ## 3. Typography
 
 ### Font stack
-- **Primary:** Zoho Puvi (Zoho's proprietary font) — fallback to system sans-serif
+- **Primary:** Zoho Puvi (Zoho's proprietary font) - fallback to system sans-serif
 - **Monospace:** Zoho Puvi Mono → fallback to `"SF Mono", "Fira Code", monospace`
 - **Document content (Writer):** Supports user-selected fonts; UI chrome always uses Zoho Puvi
 
@@ -171,7 +171,7 @@ button.ghost.text         → {text.primary}
 | Regular | 400 | Body text, descriptions |
 | Medium | 500 | Labels, emphasis |
 | Semibold | 600 | Headings, buttons |
-| Bold | 700 | Rare — data emphasis only |
+| Bold | 700 | Rare - data emphasis only |
 
 ---
 
@@ -180,7 +180,7 @@ button.ghost.text         → {text.primary}
 ### Spacing scale (4px base unit)
 | Token | Value | Usage |
 |---|---|---|
-| `space.0` | 0px | — |
+| `space.0` | 0px | - |
 | `space.1` | 4px | Tight internal gaps |
 | `space.2` | 8px | Default internal padding |
 | `space.3` | 12px | Between related elements |
@@ -255,7 +255,7 @@ In Dark mode, shadows use `rgba(0,0,0,0.3)` base instead of `0.06–0.16`.
 **States:** Default, Hover, Focused, Error, Disabled, Read-only
 
 **Accessibility:**
-- Label is REQUIRED — either visible or `aria-label`
+- Label is REQUIRED - either visible or `aria-label`
 - Error state: `aria-invalid="true"`, `aria-describedby` pointing to error message
 - Helper text: linked via `aria-describedby`
 - Placeholder is NOT a substitute for label
@@ -276,7 +276,7 @@ Same sizes as Input. Opens a listbox panel with `role="listbox"`, each option ha
 
 - Track: 36×20px (medium)
 - Thumb: 16×16px
-- MUST have visible label — toggle alone is insufficient
+- MUST have visible label - toggle alone is insufficient
 - `role="switch"`, `aria-checked`
 
 ### Modal / Dialog
@@ -354,7 +354,7 @@ Same sizes as Input. Opens a listbox panel with `role="listbox"`, each option ha
 6. Form inputs have programmatic labels
 7. Error messages are announced to screen readers
 8. Heading hierarchy is sequential (no skipping levels)
-9. Reduced motion: respect `prefers-reduced-motion` — disable animations
+9. Reduced motion: respect `prefers-reduced-motion` - disable animations
 10. Content reflows at 400% zoom without horizontal scrolling
 
 ### Contrast validation per theme
@@ -469,7 +469,7 @@ zoho-office/loom-ds/
 1. Propose change in GitHub issue with rationale
 2. Update the relevant JSON file in a branch
 3. Run `validate-contrast.js` to check all color pairings
-4. Submit pull request — requires 1 designer + 1 dev approval
+4. Submit pull request - requires 1 designer + 1 dev approval
 5. After merge, CI generates updated CSS and Figma sync
 
 ### For designers generating screens in Claude
@@ -482,7 +482,7 @@ zoho-office/loom-ds/
 ### For HTML developers consuming Loom
 1. Include `loom-tokens.css` + theme-specific CSS (light/dark/grey)
 2. Include `loom-components.css` for base component styles
-3. Use CSS custom properties in all styling — never hardcode values
+3. Use CSS custom properties in all styling - never hardcode values
 4. Reference component docs for markup patterns and ARIA requirements
 
 ---
@@ -516,16 +516,16 @@ Neutral: Grey (with dedicated light-mode shades and dark-mode tints)
 ### Do
 - Always use semantic tokens in UI screens, not primitive hex values
 - Validate every screen against all three themes before handoff
-- Use the component specs — don't reinvent buttons, inputs, etc.
+- Use the component specs - don't reinvent buttons, inputs, etc.
 - Test keyboard navigation for every interactive element
 - Include ARIA attributes in every component instance
 - Follow the DSG naming conventions for any new color additions
 
 ### Don't
-- Override DSG primitive colors — ever
+- Override DSG primitive colors - ever
 - Use color as the only state indicator
 - Skip focus management in modals and dropdowns
 - Use placeholder text instead of labels
-- Hardcode hex values in CSS — always use custom properties
+- Hardcode hex values in CSS - always use custom properties
 - Create new spacing values outside the 4px scale
 - Nest interactive elements inside clickable containers

@@ -21,7 +21,8 @@
     /* Header — same shell as catalog.html */
     .header {
       background: #0A0A0F;
-      padding: 16px 32px;
+      height: 64px;
+      padding: 0 32px;
       display: flex;
       align-items: center;
       position: sticky;
@@ -29,7 +30,7 @@
       z-index: 100;
       justify-content: space-between;
     }
-    .header-left { display: flex; align-items: center; }
+    .header-left { display: flex; align-items: center; gap: 12px; }
     .header-logo {
       font-size: 22px;
       font-weight: 700;
@@ -49,10 +50,13 @@
       padding-left: 12px;
       border-left: 1px solid #39393B;
     }
-    .header-right { display: flex; align-items: center; gap: 12px; }
+    .header-right { display: flex; align-items: center; gap: 8px; }
     .header-tag {
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
       font-size: 11px;
-      padding: 4px 10px;
+      padding: 0 10px;
       background: rgba(45,120,255,0.15);
       color: #5793FF;
       border: 1px solid rgba(45,120,255,0.35);
@@ -61,17 +65,27 @@
       text-transform: uppercase;
       font-weight: 600;
     }
-    .header-link {
-      color: #B5B5B6;
+    .header-btn {
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 14px;
       font-size: 13px;
+      font-weight: 600;
+      border: 1px solid #39393B;
+      border-radius: 6px;
+      background: #202123;
+      color: #E7E7E7;
       text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .header-link:hover { color: #FFF; }
+    .header-btn:hover { background: #2A2A33; color: #FFFFFF; }
 
     /* Main layout */
     .main-layout {
       display: flex;
-      height: calc(100vh - 54px);
+      height: calc(100vh - 64px);
     }
     .sidebar {
       width: 220px;
@@ -80,8 +94,8 @@
       border-right: 1px solid #E9E9E9;
       padding: 16px 0;
       position: sticky;
-      top: 54px;
-      height: calc(100vh - 54px);
+      top: 64px;
+      height: calc(100vh - 64px);
       overflow-y: auto;
     }
     .sidebar-section {
@@ -118,7 +132,7 @@
       padding: 32px 40px;
       padding-bottom: 0;
       overflow-y: auto;
-      height: calc(100vh - 54px);
+      height: calc(100vh - 64px);
       display: flex;
       flex-direction: column;
       min-width: 0;
@@ -308,11 +322,11 @@
     <div class="header-left">
       <a href="index.html" class="header-logo"><span>Loom</span></a>
       <span class="header-title">Sandbox Catalogue</span>
+      <span class="header-tag">Read-only</span>
     </div>
     <div class="header-right">
-      <span class="header-tag">Read-only</span>
-      <a href="designer.html" class="header-link">Designer →</a>
-      <a href="catalog.html" class="header-link">Product Catalogue →</a>
+      <a href="designer.html" class="header-btn">Designer →</a>
+      <a href="catalog.html" class="header-btn">Product Catalogue →</a>
     </div>
   </div>
 

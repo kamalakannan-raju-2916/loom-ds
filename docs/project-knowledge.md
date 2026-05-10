@@ -39,8 +39,8 @@ Raw values with no semantic meaning. These come directly from DSG.
 **Naming:** `{category}.{family}.{variant}`
 
 Examples:
-- `primitive.color.cobalt.base` → `#2C66DD`
-- `primitive.color.cobalt.t80` → `#C0D1F5`
+- `primitive.color.cornflower.base` → `#2D78FF`
+- `primitive.color.cornflower.t80` → `#C0D7FF`
 - `primitive.color.grey.s60` → `#626262`
 
 **Token variable naming convention:**
@@ -48,8 +48,8 @@ Examples:
 In the repo (JSON files, CSS custom properties, code references), primitive colors use underscore-delimited lowercase names:
 
 ```
-cobalt_t100, cobalt_t90, cobalt_t80, ... cobalt_t10
-cobalt_s10, cobalt_s20, ... cobalt_s100
+cornflower_t100, cornflower_t90, cornflower_t80, ... cornflower_t10
+cornflower_s10, cornflower_s20, ... cornflower_s100
 fern_t100, fern_t90, ... fern_t10
 fern_s10, fern_s20, ... fern_s100
 cardinal_t100, ... cardinal_s100
@@ -60,7 +60,7 @@ grey_t100, grey_t90, ... grey_t00
 grey_s00, grey_s05, grey_s10, ... grey_s100
 ```
 
-> **Note:** Figma variables retain their existing naming convention (e.g., "Cobalt/T 100", "Cobalt/S 10") and are NOT renamed to match the repo convention. The mapping between Figma names and repo token names is handled by the sync skill.
+> **Note:** Figma variables retain their existing naming convention (e.g., "Cornflower/T 100", "Cornflower/S 10") and are NOT renamed to match the repo convention. The mapping between Figma names and repo token names is handled by the sync skill.
 
 **Color scale convention (from DSG):**
 - `base` = the canonical accent color
@@ -101,7 +101,7 @@ These map primitives to UI roles. **This is where theming happens.** Each semant
 | `border.default` | `grey.s10` (#DCDCDC) | `grey.t20` (#39393B) | `grey.s10` (#DCDCDC) |
 | `border.strong` | `grey.s20` (#C4C4C4) | `grey.t30` (#525354) | `grey.s20` (#C4C4C4) |
 | `border.subtle` | `grey.s05` (#E9E9E9) | `grey.t10` (#202123) | `grey.s05` (#E9E9E9) |
-| `border.focus` | `cobalt.base` (#2C66DD) | `cobalt.t30` (#5685E4) | `cobalt.base` (#2C66DD) |
+| `border.focus` | `cornflower.base` (#2D78FF) | `cornflower.t30` (#5793FF) | `cornflower.base` (#2D78FF) |
 
 **Status tokens (same pattern for each status):**
 | Role | Color family | Light bg | Light text | Dark bg | Dark text |
@@ -109,7 +109,7 @@ These map primitives to UI roles. **This is where theming happens.** Each semant
 | `status.success` | Fern | `fern.t100` | `fern.s30` | `fern.s60` | `fern.t60` |
 | `status.warning` | Tangerine | `tangerine.t100` | `tangerine.s50` | `tangerine.s70` | `tangerine.t50` |
 | `status.danger` | Cardinal | `cardinal.t100` | `cardinal.s10` | `cardinal.s60` | `cardinal.t50` |
-| `status.info` | Cobalt | `cobalt.t100` | `cobalt.s10` | `cobalt.s60` | `cobalt.t50` |
+| `status.info` | Cornflower | `cornflower.t100` | `cornflower.s10` | `cornflower.s60` | `cornflower.t50` |
 
 **Product accent tokens (Tier 2.5 — product-specific):**
 
@@ -117,11 +117,11 @@ Each product selects its own accent from the DSG palette. The accent token resol
 
 | Token | Writer | PDF Editor | RFP | Kanaa |
 |---|---|---|---|---|
-| `accent.primary` | `cobalt.base` | `cardinal.base` | `fern.base` | `cerulean.base` |
-| `accent.hover` | `cobalt.s10` | `cardinal.s10` | `fern.s10` | `cerulean.s10` |
-| `accent.active` | `cobalt.s20` | `cardinal.s20` | `fern.s20` | `cerulean.s20` |
-| `accent.subtle` | `cobalt.t90` | `cardinal.t90` | `fern.t90` | `cerulean.t90` |
-| `accent.muted` | `cobalt.t100` | `cardinal.t100` | `fern.t100` | `cerulean.t100` |
+| `accent.primary` | `cornflower.base` | `cardinal.base` | `fern.base` | `cerulean.base` |
+| `accent.hover` | `cornflower.s10` | `cardinal.s10` | `fern.s10` | `cerulean.s10` |
+| `accent.active` | `cornflower.s20` | `cardinal.s20` | `fern.s20` | `cerulean.s20` |
+| `accent.subtle` | `cornflower.t90` | `cardinal.t90` | `fern.t90` | `cerulean.t90` |
+| `accent.muted` | `cornflower.t100` | `cardinal.t100` | `fern.t100` | `cerulean.t100` |
 
 ### Tier 3: Component Tokens
 
@@ -491,7 +491,8 @@ zoho-office/loom-ds/
 
 | Name | Hex | Usage |
 |---|---|---|
-| Cobalt | `#2C66DD` | Primary accent, Zoho Writer |
+| Cornflower | `#2D78FF` | Primary accent, Zoho Writer |
+| Cobalt | `#2C66DD` | Primary blue accent (legacy/alt) |
 | Cardinal | `#CC3929` | Error states, Zoho PDF Editor |
 | Fern | `#0C8844` | Success states, Zoho RFP |
 | Tangerine | `#EBB625` | Warning states |

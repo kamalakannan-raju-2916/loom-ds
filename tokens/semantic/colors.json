@@ -31,7 +31,7 @@
       "default": { "Light": "{primitive.color.grey.s10}", "Dark": "{primitive.color.grey.t20}" },
       "strong":  { "Light": "{primitive.color.grey.s20}", "Dark": "{primitive.color.grey.t30}" },
       "subtle":  { "Light": "{primitive.color.grey.s05}", "Dark": "{primitive.color.grey.t10}" },
-      "focus":   { "Light": "{primitive.color.cobalt.base}", "Dark": "{primitive.color.cobalt.t30}" }
+      "focus":   { "Light": "{primitive.color.cornflower.base}", "Dark": "{primitive.color.cornflower.t30}" }
     },
 
     "status": {
@@ -41,8 +41,8 @@
       "warning-text": { "Light": "{primitive.color.sunshine.s50}", "Dark": "{primitive.color.sunshine.t50}" },
       "danger-bg":    { "Light": "{primitive.color.cardinal.t100}", "Dark": "{primitive.color.cardinal.s60}" },
       "danger-text":  { "Light": "{primitive.color.cardinal.s10}", "Dark": "{primitive.color.cardinal.t50}" },
-      "info-bg":      { "Light": "{primitive.color.cobalt.t100}", "Dark": "{primitive.color.cobalt.s60}" },
-      "info-text":    { "Light": "{primitive.color.cobalt.s10}", "Dark": "{primitive.color.cobalt.t50}" }
+      "info-bg":      { "Light": "{primitive.color.cornflower.t100}", "Dark": "{primitive.color.cornflower.s60}" },
+      "info-text":    { "Light": "{primitive.color.cornflower.s10}", "Dark": "{primitive.color.cornflower.t50}" }
     }
   }
 }

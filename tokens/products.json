@@ -7,8 +7,8 @@
   "products": {
     "writer": {
       "name": "Zoho Writer",
-      "accent": "cobalt",
-      "colorFamilies": ["cobalt", "fern", "cardinal", "sunshine", "teal", "plum", "grey"],
+      "accent": "cornflower",
+      "colorFamilies": ["cornflower", "fern", "cardinal", "sunshine", "teal", "plum", "grey"],
       "description": "Document Editor"
     },
     "pdf-editor": {

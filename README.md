@@ -78,7 +78,7 @@ Tokens flow through three tiers — every design decision traces back to DSG pri
 
 | Tier | Source | Purpose | Example |
 |---|---|---|---|
-| **Primitive** | DSG | Raw values (no meaning) | `cobalt.base` → `#2C66DD` |
+| **Primitive** | DSG | Raw values (no meaning) | `cornflower.base` → `#2D78FF` |
 | **Semantic** | Loom | UI roles (themed) | `surface.primary`, `text.secondary` |
 | **Component** | Loom | Scoped to component | `button.primary.bg`, `input.border` |
 

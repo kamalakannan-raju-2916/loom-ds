@@ -38,7 +38,7 @@
       text-decoration: none;
     }
     .header-logo span {
-      background: linear-gradient(135deg, #2C66DD, #5685E4);
+      background: linear-gradient(135deg, #2D78FF, #5793FF);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -74,7 +74,7 @@
     }
     .product-dropdown:focus {
       outline: none;
-      border-color: #2C66DD;
+      border-color: #2D78FF;
       box-shadow: 0 0 0 3px rgba(44, 102, 221, 0.15);
     }
     .product-dropdown option {
@@ -118,9 +118,9 @@
       background: #F0F0F0;
     }
     .sidebar-nav li a.active {
-      color: #2C66DD;
+      color: #2D78FF;
       font-weight: 600;
-      border-left-color: #2C66DD;
+      border-left-color: #2D78FF;
       background: #EAF0FC;
     }
     .sidebar-nav li a.disabled {
@@ -408,7 +408,7 @@
     .token-ref {
       font-size: 11px;
       font-family: 'SF Mono', 'Fira Code', monospace;
-      color: #2C66DD;
+      color: #2D78FF;
       font-weight: 500;
     }
     .token-hex {
@@ -453,7 +453,7 @@
     .type-token {
       font-size: 12px;
       font-family: 'SF Mono', 'Fira Code', monospace;
-      color: #2C66DD;
+      color: #2D78FF;
       font-weight: 500;
     }
     .type-meta {
@@ -551,7 +551,7 @@
     }
     .spacing-bar {
       height: 24px;
-      background: #2C66DD;
+      background: #2D78FF;
       border-radius: 4px;
       opacity: 0.2;
       min-width: 2px;
@@ -559,7 +559,7 @@
     .spacing-token {
       font-size: 12px;
       font-family: 'SF Mono', 'Fira Code', monospace;
-      color: #2C66DD;
+      color: #2D78FF;
       font-weight: 500;
       white-space: nowrap;
     }
@@ -583,7 +583,7 @@
       width: 72px;
       height: 72px;
       background: #EAF0FC;
-      border: 2px solid #2C66DD;
+      border: 2px solid #2D78FF;
       margin: 0 auto 8px;
     }
     .radius-label {
@@ -712,6 +712,23 @@
   <script>
     // DSG color families for Writer
     const colorFamilies = {
+      cornflower: {
+        family: "Cornflower", hex: "#2D78FF",
+        tints: [
+          { name: "T 10", hex: "#387FFF" }, { name: "T 20", hex: "#4286FF" },
+          { name: "T 30", hex: "#5793FF" }, { name: "T 40", hex: "#6CA1FF" },
+          { name: "T 50", hex: "#81AEFF" }, { name: "T 60", hex: "#96BCFF" },
+          { name: "T 70", hex: "#ABC9FF" }, { name: "T 80", hex: "#C0D7FF" },
+          { name: "T 90", hex: "#D5E4FF" }, { name: "T 100", hex: "#EAF2FF" }
+        ],
+        shades: [
+          { name: "S 10", hex: "#2B72F2" }, { name: "S 20", hex: "#286CE5" },
+          { name: "S 30", hex: "#2460CC" }, { name: "S 40", hex: "#1F54B2" },
+          { name: "S 50", hex: "#1B4899" }, { name: "S 60", hex: "#163C7F" },
+          { name: "S 70", hex: "#123066" }, { name: "S 80", hex: "#0D244C" },
+          { name: "S 90", hex: "#091833" }, { name: "S 100", hex: "#040C19" }
+        ]
+      },
       cobalt: {
         family: "Cobalt", hex: "#2C66DD",
         tints: [
@@ -852,9 +869,9 @@
     const products = {
       writer: {
         name: "Zoho Writer",
-        description: "Document Editor - Accent color : <strong>Cobalt</strong>",
-        accent: { family: "Cobalt", hex: "#2C66DD" },
-        families: ["essentials", "cobalt", "fern", "cardinal", "sunshine", "teal", "plum", "grey"]
+        description: "Document Editor - Accent color : <strong>Cornflower</strong>",
+        accent: { family: "Cornflower", hex: "#2D78FF" },
+        families: ["essentials", "cornflower", "fern", "cardinal", "sunshine", "teal", "plum", "grey"]
       }
     };
 
@@ -915,7 +932,7 @@
         { name: "border.default", light: "#DCDCDC", dark: "#39393B", lightRef: "grey_s10", darkRef: "grey_t20" },
         { name: "border.strong", light: "#C4C4C4", dark: "#525354", lightRef: "grey_s20", darkRef: "grey_t30" },
         { name: "border.subtle", light: "#E9E9E9", dark: "#202123", lightRef: "grey_s05", darkRef: "grey_t10" },
-        { name: "border.focus", light: "#2C66DD", dark: "#5685E4", lightRef: "cobalt_base", darkRef: "cobalt_t30" }
+        { name: "border.focus", light: "#2D78FF", dark: "#5793FF", lightRef: "cornflower_base", darkRef: "cornflower_t30" }
       ],
       status: [
         { name: "status.success.bg", light: "#E7F3ED", dark: "#064422", lightRef: "fern_t100", darkRef: "fern_s60" },
@@ -924,8 +941,8 @@
         { name: "status.warning.text", light: "#956B11", dark: "#FCD685", lightRef: "sunshine_s50", darkRef: "sunshine_t50" },
         { name: "status.danger.bg", light: "#FAECEA", dark: "#5D1A12", lightRef: "cardinal_t100", darkRef: "cardinal_s60" },
         { name: "status.danger.text", light: "#BA3425", dark: "#E0887F", lightRef: "cardinal_s10", darkRef: "cardinal_t50" },
-        { name: "status.info.bg", light: "#EAF0FC", dark: "#112E68", lightRef: "cobalt_t100", darkRef: "cobalt_s60" },
-        { name: "status.info.text", light: "#225CCF", dark: "#80A3EB", lightRef: "cobalt_s10", darkRef: "cobalt_t50" }
+        { name: "status.info.bg", light: "#EAF2FF", dark: "#163C7F", lightRef: "cornflower_t100", darkRef: "cornflower_s60" },
+        { name: "status.info.text", light: "#2B72F2", dark: "#81AEFF", lightRef: "cornflower_s10", darkRef: "cornflower_t50" }
       ]
     };
 
@@ -1076,7 +1093,7 @@
           <tr>
             <td><span class="spacing-token">${i.token}</span></td>
             <td><span class="spacing-value">${i.value}</span></td>
-            <td><div style="width:${px}px; height:${px}px; background:#2C66DD; border-radius:4px; opacity:0.3;"></div></td>
+            <td><div style="width:${px}px; height:${px}px; background:#2D78FF; border-radius:4px; opacity:0.3;"></div></td>
           </tr>
         `;
       }).join('');

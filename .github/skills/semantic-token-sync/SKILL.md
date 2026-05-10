@@ -50,8 +50,8 @@ Reference format: `{primitive.color.<key>}` where `<key>` maps to a Figma Primit
 - `blue1`, `overlay1`, etc. → `Essentials/Blue1`, `Essentials/Overlay1`
 - `grey.s90` → `Grey/Shade/90`
 - `grey.t05` → `Grey/Tint/05`
-- `cobalt.base` → `Cobalt/Master/Master`
-- `cobalt.t30` → `Cobalt/Tint/30`
+- `cornflower.base` → `Cornflower/Master/Master`
+- `cornflower.t30` → `Cornflower/Tint/30`
 
 When a value is a reference, the skill creates a **Figma variable alias** pointing to the Primitives variable. Raw hex/rgba values are set directly.
 ```

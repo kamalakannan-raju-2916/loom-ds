@@ -35,6 +35,30 @@
         "t100":  { "$value": "#EAF0FC", "$type": "color" }
       },
 
+      "cornflower": {
+        "base":  { "$value": "#2D78FF", "$type": "color" },
+        "s10":   { "$value": "#2B72F2", "$type": "color" },
+        "s20":   { "$value": "#286CE5", "$type": "color" },
+        "s30":   { "$value": "#2460CC", "$type": "color" },
+        "s40":   { "$value": "#1F54B2", "$type": "color" },
+        "s50":   { "$value": "#1B4899", "$type": "color" },
+        "s60":   { "$value": "#163C7F", "$type": "color" },
+        "s70":   { "$value": "#123066", "$type": "color" },
+        "s80":   { "$value": "#0D244C", "$type": "color" },
+        "s90":   { "$value": "#091833", "$type": "color" },
+        "s100":  { "$value": "#040C19", "$type": "color" },
+        "t10":   { "$value": "#387FFF", "$type": "color" },
+        "t20":   { "$value": "#4286FF", "$type": "color" },
+        "t30":   { "$value": "#5793FF", "$type": "color" },
+        "t40":   { "$value": "#6CA1FF", "$type": "color" },
+        "t50":   { "$value": "#81AEFF", "$type": "color" },
+        "t60":   { "$value": "#96BCFF", "$type": "color" },
+        "t70":   { "$value": "#ABC9FF", "$type": "color" },
+        "t80":   { "$value": "#C0D7FF", "$type": "color" },
+        "t90":   { "$value": "#D5E4FF", "$type": "color" },
+        "t100":  { "$value": "#EAF2FF", "$type": "color" }
+      },
+
       "cardinal": {
         "base":  { "$value": "#CC3929", "$type": "color" },
         "s10":   { "$value": "#BA3425", "$type": "color" },

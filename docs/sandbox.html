@@ -160,6 +160,7 @@
       font-size: 13px;
       margin-bottom: 24px;
     }
+    .read-only-banner { max-width: 720px; }
     .read-only-banner strong { color: #4F3E0F; }
     .read-only-banner code {
       background: rgba(0,0,0,0.05);
@@ -179,22 +180,23 @@
     }
     .wcag-row {
       display: grid;
-      grid-template-columns: 110px 1fr 1fr;
+      grid-template-columns: 110px 36px 1fr;
       gap: 12px;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
-    .wcag-row label { font-size: 12px; color: #626262; }
+    .wcag-row label { font-size: 13px; color: #626262; font-weight: 500; }
     .wcag-row input[type="color"] {
-      width: 100%; height: 36px;
+      width: 36px; height: 36px;
       border: 1px solid #E9E9E9;
       border-radius: 6px;
       cursor: pointer;
       background: transparent;
+      padding: 2px;
     }
     .wcag-row input[type="text"] {
       width: 100%; height: 36px;
-      padding: 0 10px;
+      padding: 0 12px;
       border: 1px solid #E9E9E9;
       border-radius: 6px;
       font-family: 'SF Mono', 'Fira Code', monospace;
@@ -206,35 +208,36 @@
       border-radius: 8px;
       background: #FAFAFA;
       display: grid;
-      grid-template-columns: 140px minmax(0, 1fr);
-      gap: 16px;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 18px;
       align-items: center;
     }
     .wcag-swatch {
-      height: 80px;
+      height: 110px;
+      width: 110px;
       border-radius: 8px;
       border: 1px solid #E9E9E9;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      font-size: 18px;
+      font-size: 36px;
     }
     .wcag-ratio { font-size: 28px; font-weight: 700; }
     .wcag-ratio small { font-size: 13px; font-weight: 400; color: #626262; }
     .wcag-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: 6px;
       margin-top: 10px;
     }
     .wcag-cell {
-      padding: 6px 4px;
+      padding: 6px 10px;
       border-radius: 6px;
       text-align: center;
       font-size: 11px;
       font-weight: 600;
-      min-width: 0;
+      white-space: nowrap;
     }
     .wcag-pass { background: #E3F4EA; color: #0C8844; }
     .wcag-fail { background: #F8E2DF; color: #A02C20; }

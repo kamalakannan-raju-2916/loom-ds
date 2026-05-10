@@ -1,0 +1,52 @@
+{
+  "component": "button",
+  "description": "Button component tokens. All values reference semantic or accent tokens.",
+
+  "variants": {
+    "primary": {
+      "bg":         { "Light": "{accent.primary}",  "Dark": "{accent.primary}" },
+      "bg-hover":   { "Light": "{accent.hover}",    "Dark": "{accent.hover}" },
+      "bg-active":  { "Light": "{accent.active}",   "Dark": "{accent.active}" },
+      "text":       { "Light": "{text.on-accent}",  "Dark": "{text.on-accent}" },
+      "border":     { "Light": "transparent",       "Dark": "transparent" }
+    },
+    "secondary": {
+      "bg":         { "Light": "transparent",        "Dark": "transparent" },
+      "bg-hover":   { "Light": "{accent.muted}",    "Dark": "{accent.muted}" },
+      "bg-active":  { "Light": "{accent.subtle}",   "Dark": "{accent.subtle}" },
+      "text":       { "Light": "{accent.primary}",  "Dark": "{accent.primary}" },
+      "border":     { "Light": "{border.default}",  "Dark": "{border.default}" }
+    },
+    "ghost": {
+      "bg":         { "Light": "transparent",           "Dark": "transparent" },
+      "bg-hover":   { "Light": "{surface.secondary}",  "Dark": "{surface.secondary}" },
+      "bg-active":  { "Light": "{surface.tertiary}",   "Dark": "{surface.tertiary}" },
+      "text":       { "Light": "{text.primary}",       "Dark": "{text.primary}" },
+      "border":     { "Light": "transparent",          "Dark": "transparent" }
+    },
+    "danger": {
+      "bg":         { "Light": "{status.danger-text}", "Dark": "{status.danger-text}" },
+      "bg-hover":   { "Light": "#A72E21",              "Dark": "#D66154" },
+      "bg-active":  { "Light": "#95291D",              "Dark": "#E0887F" },
+      "text":       { "Light": "{text.on-accent}",     "Dark": "{text.on-accent}" },
+      "border":     { "Light": "transparent",          "Dark": "transparent" }
+    }
+  },
+
+  "sizes": {
+    "sm": { "height": 28, "padding-x": 12, "font-size": 12, "radius": "{radius.md}" },
+    "md": { "height": 36, "padding-x": 16, "font-size": 14, "radius": "{radius.md}" },
+    "lg": { "height": 44, "padding-x": 20, "font-size": 16, "radius": "{radius.md}" }
+  },
+
+  "states": {
+    "disabled": {
+      "opacity": 0.4,
+      "cursor": "not-allowed"
+    },
+    "loading": {
+      "opacity": 0.7,
+      "cursor": "wait"
+    }
+  }
+}

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loom — Designer</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <script src="assets/loom-wcag.js"></script>
+  <script src="assets/loom-resolver.js"></script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    :root{
+      --bg:#0A0A0F;--surface:#FFF;--surface-2:#F5F6F8;--border:#E1E2E6;
+      --text:#181818;--text-2:#5C5D62;
+      --accent:#2D78FF;--accent-2:#5793FF;
+      --good:#0C8844;--warn:#EBB625;--bad:#CC3929;
+      --mono:ui-monospace,"Zoho Puvi Mono",SFMono-Regular,Menlo,monospace;
+    }
+    body{font-family:-apple-system,BlinkMacSystemFont,"Zoho Puvi","Segoe UI",sans-serif;background:var(--surface);color:var(--text);line-height:1.5;}
+
+    .header{background:var(--bg);color:#FFF;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid #1d1d24;}
+    .header-left{display:flex;align-items:center;gap:14px;}
+    .logo{font-size:20px;font-weight:700;}
+    .logo span{background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .role{font-size:12px;padding:4px 10px;background:rgba(45,120,255,.15);color:var(--accent-2);border:1px solid rgba(45,120,255,.35);border-radius:999px;letter-spacing:.04em;text-transform:uppercase;}
+    .product-pick{display:flex;gap:6px;align-items:center;font-size:13px;}
+    .product-pick select{background:#1d1d24;color:#FFF;border:1px solid #2c2c34;border-radius:6px;padding:6px 10px;font-size:13px;}
+    .header-right{display:flex;gap:8px;align-items:center;}
+    .btn{padding:8px 14px;border-radius:6px;border:1px solid transparent;font-size:13px;font-weight:600;cursor:pointer;}
+    .btn-ghost{background:transparent;color:#FFF;border-color:#2c2c34;}
+    .btn-primary{background:var(--accent);color:#FFF;}
+    .btn-primary:hover{background:#2B72F2;}
+
+    .layout{display:grid;grid-template-columns:240px minmax(0,1fr) 380px;min-height:calc(100vh - 56px);}
+    @media (max-width: 1100px){
+      .layout{grid-template-columns:200px minmax(0,1fr);}
+      .preview{grid-column:1 / -1;border-left:0;border-top:1px solid var(--border);position:static;height:auto;}
+    }
+    .nav{border-right:1px solid var(--border);padding:20px 14px;overflow-y:auto;position:sticky;top:56px;height:calc(100vh - 56px);}
+    .nav h4{font-size:11px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.06em;margin:14px 6px 6px;}
+    .nav button{display:block;width:100%;text-align:left;padding:8px 12px;border-radius:6px;border:0;background:transparent;color:var(--text);font:inherit;font-size:13px;cursor:pointer;}
+    .nav button:hover{background:var(--surface-2);}
+    .nav button.active{background:var(--accent);color:#FFF;}
+
+    .editor{padding:24px 32px 80px;overflow-y:auto;min-width:0;}
+    .editor h1{font-size:22px;margin-bottom:4px;}
+    .editor .sub{color:var(--text-2);font-size:13px;margin-bottom:24px;}
+    .panel{border:1px solid var(--border);border-radius:10px;background:var(--surface);margin-bottom:18px;overflow:hidden;}
+    .panel-head{padding:12px 16px;background:var(--surface-2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    .panel-head h3{font-size:14px;}
+    .panel-head .meta{font-size:11px;color:var(--text-2);font-family:var(--mono);}
+    .panel-body{padding:14px 16px;}
+
+    .field{display:grid;grid-template-columns:160px 1fr 110px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--border);}
+    .field:last-child{border-bottom:0;}
+    .field label{font-size:13px;font-family:var(--mono);}
+    .field .meta{font-size:11px;color:var(--text-2);font-family:var(--mono);text-align:right;}
+    .field .locked{font-size:11px;color:var(--bad);font-family:var(--mono);}
+    input[type="range"]{width:100%;}
+    input[type="number"],input[type="text"]{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-family:var(--mono);font-size:13px;}
+    input[type="color"]{width:100%;height:32px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:transparent;}
+    select{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;}
+
+    .pair{display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center;padding:8px 0;}
+    .pair label{font-size:12px;color:var(--text-2);}
+
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;}
+    .pill-edit{background:#E3F4EA;color:#0C8844;}
+    .pill-lock{background:#F8E2DF;color:#A02C20;}
+
+    .preview{border-left:1px solid var(--border);padding:24px;background:var(--surface-2);position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+    .preview h4{font-size:11px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    .preview-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;}
+    .preview-card.dark{background:#202123;}
+    .errors{background:#F8E2DF;color:#A02C20;border:1px solid #ECC5BD;border-radius:8px;padding:10px 12px;font-size:12px;font-family:var(--mono);margin-bottom:12px;}
+    .errors div{margin:2px 0;}
+    .ok-banner{background:#E3F4EA;color:#0C8844;border:1px solid #BCDFC8;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;margin-bottom:12px;}
+
+    /* Live button preview implementation */
+    .lyte-button{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      font-family:inherit;font-weight:600;cursor:pointer;border:1px solid transparent;
+      transition:background .12s ease;
+      background:var(--btn-bg);color:var(--btn-text);border-color:var(--btn-border, transparent);
+      border-radius:var(--btn-radius);
+      padding:var(--btn-py) var(--btn-px);
+      font-size:var(--btn-fs);
+      min-height:44px;
+    }
+    .lyte-button:hover{background:var(--btn-bg-hover, var(--btn-bg));}
+    .lyte-button:active{background:var(--btn-bg-active, var(--btn-bg));}
+
+    .wcag-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin-top:8px;}
+    .wcag-cell{padding:4px;border-radius:4px;text-align:center;font-size:10px;font-weight:600;}
+    .wcag-pass{background:#E3F4EA;color:#0C8844;}
+    .wcag-fail{background:#F8E2DF;color:#A02C20;}
+
+    .save-modal{display:none;position:fixed;inset:0;background:rgba(10,10,15,.55);align-items:center;justify-content:center;z-index:200;}
+    .save-modal.open{display:flex;}
+    .save-card{background:#FFF;border-radius:12px;width:min(640px,92vw);max-height:80vh;display:flex;flex-direction:column;overflow:hidden;}
+    .save-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    .save-body{padding:16px 20px;overflow-y:auto;}
+    .save-body pre{background:var(--surface-2);border-radius:8px;padding:14px;font-family:var(--mono);font-size:12px;line-height:1.5;overflow-x:auto;}
+    .save-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;}
+    .small{font-size:12px;color:var(--text-2);}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <a class="logo" href="index.html">L<span>oom</span></a>
+      <span class="role" id="role-badge">Designer</span>
+      <div class="product-pick">
+        <span style="color:#B5B5B6;">Product:</span>
+        <select id="product-select"></select>
+      </div>
+    </div>
+    <div class="header-right">
+      <a class="btn btn-ghost" href="sandbox.html" style="text-decoration:none;">Sandbox →</a>
+      <button class="btn btn-primary" id="save-btn">Save…</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="nav">
+      <h4>Foundation</h4>
+      <button data-section="accent" class="active">Brand &amp; Accent</button>
+      <button data-section="semantics">Semantics &amp; WCAG</button>
+      <h4>Components</h4>
+      <div id="component-nav"></div>
+    </aside>
+
+    <main class="editor" id="editor">
+      <p class="sub">Loading product…</p>
+    </main>
+
+    <aside class="preview">
+      <h4>Live Preview</h4>
+      <div id="errors-area"></div>
+      <div class="preview-card" id="preview-light"></div>
+      <h4 style="margin-top:18px;">Dark Surface</h4>
+      <div class="preview-card dark" id="preview-dark"></div>
+      <h4 style="margin-top:18px;">Accent vs Surface — WCAG</h4>
+      <div id="wcag-area" class="small"></div>
+    </aside>
+  </div>
+
+  <!-- Save modal -->
+  <div class="save-modal" id="save-modal" role="dialog" aria-modal="true">
+    <div class="save-card">
+      <div class="save-head">
+        <h3 style="font-size:16px;">Save overrides</h3>
+        <button class="btn btn-ghost" id="save-close" style="color:var(--text);border-color:var(--border);">✕</button>
+      </div>
+      <div class="save-body">
+        <p class="small" style="margin-bottom:12px;">
+          This is the JSON the catalogue would commit to your product repo. Phase 5 wires this up to GitHub directly. For now, copy or download.
+        </p>
+        <pre id="save-output">{}</pre>
+      </div>
+      <div class="save-foot">
+        <button class="btn btn-ghost" id="copy-btn" style="color:var(--text);border-color:var(--border);">Copy</button>
+        <button class="btn btn-primary" id="download-btn">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // ---- State -------------------------------------------------------------
+    const state = {
+      products: [],
+      currentSlug: null,
+      productConfig: null,    // tokens/products/<slug>/config.json
+      ruleIndex: [],
+      rules: {},              // name -> rules.json
+      bases: {},              // name -> tokens/components/<name>.json
+      overrides: {            // editable in-browser; what we'd commit
+        tokens: {},
+        components: {},
+      },
+      currentSection: 'accent',
+    };
+
+    // ---- Utilities ---------------------------------------------------------
+    const $ = sel => document.querySelector(sel);
+    const fetchJson = url => fetch(url).then(r => { if (!r.ok) throw new Error(url); return r.json(); });
+
+    function deepClone(o){ return JSON.parse(JSON.stringify(o)); }
+
+    function tokenDefault(rule, fallback) {
+      if (Array.isArray(rule.enum)) return rule.enum[0];
+      if (rule.min != null) return rule.min;
+      return fallback;
+    }
+
+    function ensureCompOverride(name) {
+      if (!state.overrides.components[name]) state.overrides.components[name] = {};
+      const o = state.overrides.components[name];
+      if (!o.tokens) o.tokens = {};
+      if (!o.variants) o.variants = {};
+      if (!o.sizes) o.sizes = {};
+      return o;
+    }
+
+    function effectiveTokens(name) {
+      // Defaults from rules + current override
+      const rule = state.rules[name] || {};
+      const ovr  = (state.overrides.components[name] || {}).tokens || {};
+      const out = {};
+      for (const [t, r] of Object.entries(rule.tokens || {})) {
+        if (ovr[t] !== undefined) { out[t] = ovr[t]; continue; }
+        // Fall back to a sensible default for live preview
+        if (r.min != null) out[t] = r.min;
+        else if (Array.isArray(r.enum)) out[t] = r.enum[0];
+        else out[t] = null;
+      }
+      return out;
+    }
+
+    function accentLight() {
+      const ov = (state.overrides.tokens && state.overrides.tokens.accent && state.overrides.tokens.accent.primary) || null;
+      if (ov && ov.Light) return ov.Light;
+      return state.productConfig && state.productConfig.tokens && state.productConfig.tokens.accent
+        ? state.productConfig.tokens.accent.primary.Light : '#2D78FF';
+    }
+    function accentDark() {
+      const ov = (state.overrides.tokens && state.overrides.tokens.accent && state.overrides.tokens.accent.primary) || null;
+      if (ov && ov.Dark) return ov.Dark;
+      return state.productConfig && state.productConfig.tokens && state.productConfig.tokens.accent
+        ? state.productConfig.tokens.accent.primary.Dark : '#5793FF';
+    }
+
+    // ---- Rendering: editor sections ---------------------------------------
+    function renderEditor() {
+      const ed = $('#editor');
+      if (state.currentSection === 'accent')      return renderAccent(ed);
+      if (state.currentSection === 'semantics')   return renderSemantics(ed);
+      if (state.currentSection.startsWith('cmp:')) return renderComponent(ed, state.currentSection.slice(4));
+      ed.innerHTML = '<p class="sub">Pick a section.</p>';
+    }
+
+    function renderAccent(root) {
+      const al = accentLight(), ad = accentDark();
+      root.innerHTML = `
+        <h1>Brand &amp; Accent</h1>
+        <p class="sub">Set the product's primary accent. Pick from DSG-allowed families. WCAG contrast against page surfaces is shown in the preview pane.</p>
+        <div class="panel">
+          <div class="panel-head"><h3>Accent · primary</h3><span class="meta">accent.primary</span></div>
+          <div class="panel-body">
+            <div class="pair">
+              <label>Light</label>
+              <input type="color" id="acc-light" value="${al}">
+              <input type="text" id="acc-light-hex" value="${al}">
+            </div>
+            <div class="pair">
+              <label>Dark</label>
+              <input type="color" id="acc-dark" value="${ad}">
+              <input type="text" id="acc-dark-hex" value="${ad}">
+            </div>
+          </div>
+        </div>
+      `;
+      const bind = (col, txt, key) => {
+        const apply = v => {
+          if (!/^#?[0-9a-fA-F]{6}$/.test(v)) return;
+          const hex = (v.startsWith('#') ? v : '#'+v).toUpperCase();
+          col.value = hex.toLowerCase(); txt.value = hex;
+          state.overrides.tokens = state.overrides.tokens || {};
+          state.overrides.tokens.accent = state.overrides.tokens.accent || {};
+          state.overrides.tokens.accent.primary = state.overrides.tokens.accent.primary || {};
+          state.overrides.tokens.accent.primary[key] = hex;
+          renderPreview();
+        };
+        col.addEventListener('input', () => apply(col.value));
+        txt.addEventListener('input', () => apply(txt.value.trim()));
+      };
+      bind($('#acc-light'), $('#acc-light-hex'), 'Light');
+      bind($('#acc-dark'),  $('#acc-dark-hex'),  'Dark');
+    }
+
+    function renderSemantics(root) {
+      root.innerHTML = `
+        <h1>Semantics &amp; WCAG</h1>
+        <p class="sub">v1: only accent semantic is editable here. Full semantic editor lands once Kicha publishes the semantic surface (see <a href="sandbox.html#wcag" style="color:var(--accent);">sandbox WCAG checker</a> for the calculator).</p>
+        <div class="panel">
+          <div class="panel-head"><h3>WCAG checker</h3><span class="meta">live</span></div>
+          <div class="panel-body small">
+            See preview pane for accent vs surface contrast on this product.
+          </div>
+        </div>
+      `;
+    }
+
+    function renderComponent(root, name) {
+      const rule = state.rules[name];
+      const ovr  = ensureCompOverride(name);
+      if (!rule) { root.innerHTML = `<p class="sub">No rules.json for "${name}".</p>`; return; }
+
+      let html = `
+        <h1>${rule.component}</h1>
+        <p class="sub">${rule.description || ''}</p>
+
+        <div class="panel">
+          <div class="panel-head"><h3>Tokens</h3><span class="meta">gated by rules.json</span></div>
+          <div class="panel-body">
+      `;
+      for (const [tok, r] of Object.entries(rule.tokens || {})) {
+        const editable = r.editable !== false;
+        const cur = ovr.tokens[tok];
+        const suffix = r.unit ? r.unit : '';
+        const meta = [
+          r.source ? `↳ ${r.source}` : '',
+          r.unit ? r.unit : '',
+          r.min != null ? `min ${r.min}` : '',
+          r.max != null ? `max ${r.max}` : '',
+          r.enum ? `enum [${r.enum.join(',')}]` : '',
+        ].filter(Boolean).join(' · ');
+
+        let control = '';
+        if (!editable) {
+          control = `<div class="locked">locked: ${r.reason || ''}</div>`;
+        } else if (Array.isArray(r.enum)) {
+          control = `<select data-tok="${tok}">${r.enum.map(v => `<option ${cur===v?'selected':''}>${v}</option>`).join('')}</select>`;
+        } else if (r.min != null && r.max != null) {
+          const v = cur != null ? cur : r.min;
+          control = `<input type="range" min="${r.min}" max="${r.max}" step="${r.step||1}" value="${v}" data-tok="${tok}">
+                     <input type="number" min="${r.min}" max="${r.max}" step="${r.step||1}" value="${v}" data-tok-num="${tok}" style="margin-top:6px;">`;
+        } else {
+          control = `<input type="text" value="${cur||''}" data-tok="${tok}" placeholder="value">`;
+        }
+        html += `
+          <div class="field">
+            <label>${tok}</label>
+            <div>${control}</div>
+            <div class="meta">${meta}</div>
+          </div>
+        `;
+      }
+      html += `</div></div>`;
+
+      // Variants summary + add
+      if (rule.variants) {
+        const baseVariants = Object.keys((state.bases[name]||{}).variants || {});
+        const ovrVariants  = Object.keys(ovr.variants || {});
+        const all = [...new Set([...baseVariants, ...ovrVariants])];
+        html += `
+          <div class="panel">
+            <div class="panel-head"><h3>Variants</h3><span class="meta">${rule.variants.addable?'addable':'locked'} · max ${rule.variants.max||'∞'}</span></div>
+            <div class="panel-body">
+              <p class="small" style="margin-bottom:8px;">Existing: ${all.map(v => `<code>${v}</code>`).join(', ') || '<em>none</em>'}</p>
+              ${rule.variants.addable
+                ? `<div class="pair">
+                     <label>New variant name</label>
+                     <input type="text" id="new-variant-name" placeholder="e.g. outline">
+                     <button class="btn btn-primary" id="add-variant-btn" data-cmp="${name}">Add</button>
+                   </div>`
+                : '<p class="small">Locked by Maker.</p>'}
+            </div>
+          </div>
+        `;
+      }
+      root.innerHTML = html;
+
+      // Wire token inputs
+      root.querySelectorAll('[data-tok]').forEach(el => {
+        el.addEventListener('input', () => {
+          const tok = el.dataset.tok;
+          let v = el.value;
+          if (el.type === 'range' || el.type === 'number') v = Number(v);
+          ovr.tokens[tok] = v;
+          // sync sibling number/range
+          const sib = root.querySelector(`[data-tok-num="${tok}"]`) || root.querySelector(`[data-tok="${tok}"]`);
+          if (sib && sib !== el) sib.value = v;
+          rerender();
+        });
+      });
+      root.querySelectorAll('[data-tok-num]').forEach(el => {
+        el.addEventListener('input', () => {
+          const tok = el.dataset.tokNum;
+          ovr.tokens[tok] = Number(el.value);
+          const r = root.querySelector(`[data-tok="${tok}"]`);
+          if (r) r.value = el.value;
+          rerender();
+        });
+      });
+      const addBtn = root.querySelector('#add-variant-btn');
+      if (addBtn) addBtn.addEventListener('click', () => {
+        const v = ($('#new-variant-name').value || '').trim();
+        if (!v) return;
+        ovr.variants[v] = { bg:'transparent', text:'{accent.primary}', border:'1px solid currentColor' };
+        renderEditor(); rerender();
+      });
+    }
+
+    // ---- Live preview ------------------------------------------------------
+    function renderPreview() {
+      const ovr = ensureCompOverride('button');
+      const tok = ovr.tokens || {};
+      const cssVars = (surface, accent) => `
+        --btn-bg: ${accent};
+        --btn-bg-hover: ${shade(accent, -8)};
+        --btn-bg-active: ${shade(accent, -16)};
+        --btn-text: ${pickFg(accent)};
+        --btn-radius: ${num(tok['--button-radius'], 6)}px;
+        --btn-px: ${num(tok['--button-padding-x'], 16)}px;
+        --btn-py: ${num(tok['--button-padding-y'], 8)}px;
+        --btn-fs: ${num(tok['--button-font-size'], 14)}px;
+      `;
+      const variants = Object.keys((state.bases.button||{}).variants||{}).concat(Object.keys(ovr.variants||{}));
+      const uniq = [...new Set(variants)];
+      const renderInto = (id, surface, accent) => {
+        $(id).style.cssText = cssVars(surface, accent);
+        $(id).style.background = surface;
+        $(id).innerHTML = uniq.map(v => `<button class="lyte-button">${v}</button>`).join('');
+      };
+      renderInto('#preview-light', '#FFFFFF', accentLight());
+      renderInto('#preview-dark',  '#202123', accentDark());
+
+      // WCAG: accent vs each surface
+      const pairs = [
+        ['Accent ↔ White (Light)',  accentLight(), '#FFFFFF'],
+        ['Accent ↔ Page (Dark)',    accentDark(),  '#202123'],
+        ['Text on Accent (Light)',  pickFg(accentLight()), accentLight()],
+        ['Text on Accent (Dark)',   pickFg(accentDark()),  accentDark()],
+      ];
+      $('#wcag-area').innerHTML = pairs.map(([label, fg, bg]) => {
+        const r = LoomWCAG.contrast(fg, bg); const s = LoomWCAG.score(r);
+        return `
+          <div style="margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;font-weight:600;">
+              <span>${label}</span><span>${r ? r.toFixed(2)+' : 1' : '—'}</span>
+            </div>
+            <div class="wcag-strip">
+              ${cell('AA Sm', s && s.aaSmall)}${cell('AAA Sm', s && s.aaaSmall)}
+              ${cell('AA Lg', s && s.aaLarge)}${cell('AAA Lg', s && s.aaaLarge)}
+              ${cell('UI', s && s.uiGraphic)}
+            </div>
+          </div>`;
+      }).join('');
+
+      // Validation banner
+      const { errors } = LoomResolver.resolve({ sandbox: sandboxObj(), overrides: state.overrides });
+      const ea = $('#errors-area');
+      if (errors.length) {
+        ea.innerHTML = `<div class="errors"><strong>${errors.length} validation error(s):</strong>${errors.map(e=>`<div>[${e.code}] ${e.path}: ${e.message}</div>`).join('')}</div>`;
+      } else {
+        ea.innerHTML = `<div class="ok-banner">✓ Overrides validate against sandbox rules.</div>`;
+      }
+    }
+
+    function cell(label, ok) {
+      return `<div class="wcag-cell ${ok?'wcag-pass':'wcag-fail'}">${ok?'✓':'✗'} ${label}</div>`;
+    }
+    function num(v, d){ return (v == null || isNaN(v)) ? d : Number(v); }
+    function pickFg(bgHex) {
+      const r = LoomWCAG.contrast('#FFFFFF', bgHex);
+      return (r != null && r >= 4.5) ? '#FFFFFF' : '#181818';
+    }
+    function shade(hex, delta) {
+      const m = LoomWCAG.parseHex(hex); if (!m) return hex;
+      const c = v => Math.max(0, Math.min(255, v + delta));
+      return '#' + [c(m.r), c(m.g), c(m.b)].map(n => n.toString(16).padStart(2,'0')).join('').toUpperCase();
+    }
+
+    // Compose a sandbox object the resolver expects
+    function sandboxObj() {
+      return {
+        tokens: {},
+        components: state.bases,
+        rules: state.rules,
+      };
+    }
+
+    function rerender() { renderPreview(); }
+
+    // ---- Save modal --------------------------------------------------------
+    function openSave() {
+      const ovr = deepClone(state.overrides);
+      // Strip empty branches for cleanliness
+      function prune(o){ if(!o||typeof o!=='object')return; for(const k of Object.keys(o)){ if(o[k]&&typeof o[k]==='object'){prune(o[k]); if(Object.keys(o[k]).length===0)delete o[k];}}}
+      prune(ovr);
+      $('#save-output').textContent = JSON.stringify(ovr, null, 2);
+      $('#save-modal').classList.add('open');
+    }
+    $('#save-btn').addEventListener('click', openSave);
+    $('#save-close').addEventListener('click', () => $('#save-modal').classList.remove('open'));
+    $('#copy-btn').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText($('#save-output').textContent); $('#copy-btn').textContent = 'Copied ✓'; setTimeout(()=>$('#copy-btn').textContent='Copy', 1500); } catch(e){}
+    });
+    $('#download-btn').addEventListener('click', () => {
+      const blob = new Blob([$('#save-output').textContent], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${state.currentSlug}-overrides.json`;
+      a.click(); URL.revokeObjectURL(a.href);
+    });
+
+    // ---- Bootstrap ---------------------------------------------------------
+    async function load() {
+      // Products
+      state.products = await fetchJson('data/products/index.json');
+      const sel = $('#product-select');
+      sel.innerHTML = state.products.map(p => `<option value="${p.slug}">${p.product}</option>`).join('');
+      sel.addEventListener('change', () => switchProduct(sel.value));
+      await switchProduct(state.products[0].slug);
+
+      // Rules + component bases
+      const idx = await fetchJson('data/rules/index.json');
+      state.ruleIndex = idx;
+      for (const r of idx) state.rules[r.component.replace(/^lyte-/, '')] = await fetchJson(`data/rules/${r.file}`);
+      // Component bases
+      try { state.bases.button = await fetchJson('data/components/button.json'); } catch(e){}
+      try { state.bases.input  = await fetchJson('data/components/input.json'); } catch(e){}
+
+      // Component nav
+      $('#component-nav').innerHTML = idx.map(r => {
+        const name = r.component.replace(/^lyte-/, '');
+        return `<button data-section="cmp:${name}">${r.component}</button>`;
+      }).join('');
+      document.querySelectorAll('.nav button').forEach(b => {
+        b.addEventListener('click', () => {
+          state.currentSection = b.dataset.section;
+          document.querySelectorAll('.nav button').forEach(x => x.classList.toggle('active', x === b));
+          renderEditor(); renderPreview();
+        });
+      });
+      renderEditor();
+      renderPreview();
+    }
+
+    async function switchProduct(slug) {
+      state.currentSlug = slug;
+      state.productConfig = await fetchJson(`data/products/${slug}/config.json`);
+      // Reset overrides to empty for v1 (Phase 5 will load committed overrides)
+      state.overrides = { tokens: {}, components: {} };
+    }
+
+    load().catch(e => { $('#editor').innerHTML = `<p class="errors">Failed to load: ${e.message}</p>`; });
+  })();
+  </script>
+</body>
+</html>

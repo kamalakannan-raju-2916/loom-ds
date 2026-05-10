@@ -1,0 +1,28 @@
+{
+  "product": "Zoho Writer",
+  "slug": "writer",
+  "accent": {
+    "family": "Cornflower",
+    "hex": "#2D78FF"
+  },
+  "tokens": {
+    "accent": {
+      "primary":  { "Light": "#2D78FF", "Dark": "#5793FF" },
+      "hover":    { "Light": "#2B72F2", "Dark": "#6CA1FF" },
+      "active":   { "Light": "#286CE5", "Dark": "#81AEFF" },
+      "subtle":   { "Light": "#D5E4FF", "Dark": "#123066" },
+      "muted":    { "Light": "#EAF2FF", "Dark": "#0D244C" }
+    }
+  },
+  "components": [
+    "button",
+    "input",
+    "dropdown",
+    "modal",
+    "tooltip",
+    "toolbar",
+    "tabs",
+    "sidebar",
+    "toast"
+  ]
+}

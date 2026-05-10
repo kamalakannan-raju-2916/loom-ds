@@ -1,6 +1,10 @@
 #!/usr/bin/env node
-// Mirror sandbox/components/*.rules.json into docs/data/rules/ so the
-// GitHub-Pages-served catalogue can fetch them without leaving the docs/ root.
+// Mirror sandbox/components/*.rules.json into docs/data/rules/ AND mirror
+// product configs into docs/data/products/ so the GitHub-Pages-served catalogue
+// can fetch them without leaving the docs/ root.
+//
+// Also generates docs/assets/loom-resolver.js from scripts/resolver/index.js
+// (browser-friendly IIFE wrap) so both runtimes share the same source of truth.
 
 'use strict';
 
@@ -8,27 +12,75 @@ const fs   = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
-const SRC  = path.join(ROOT, 'sandbox', 'components');
-const DST  = path.join(ROOT, 'docs', 'data', 'rules');
 
-fs.mkdirSync(DST, { recursive: true });
+// -- 1. Mirror rules ---------------------------------------------------------
+const SRC_RULES = path.join(ROOT, 'sandbox', 'components');
+const DST_RULES = path.join(ROOT, 'docs', 'data', 'rules');
+fs.mkdirSync(DST_RULES, { recursive: true });
 
-const files = fs.existsSync(SRC)
-  ? fs.readdirSync(SRC).filter(f => f.endsWith('.rules.json'))
+const ruleFiles = fs.existsSync(SRC_RULES)
+  ? fs.readdirSync(SRC_RULES).filter(f => f.endsWith('.rules.json'))
   : [];
 
-const index = [];
-for (const file of files) {
-  const src = path.join(SRC, file);
-  const dst = path.join(DST, file);
-  fs.copyFileSync(src, dst);
-  const json = JSON.parse(fs.readFileSync(src, 'utf8'));
-  index.push({
-    file,
-    component: json.component,
-    description: json.description || '',
-  });
-  console.log(`  • ${file}`);
+const ruleIndex = [];
+for (const file of ruleFiles) {
+  const json = JSON.parse(fs.readFileSync(path.join(SRC_RULES, file), 'utf8'));
+  fs.copyFileSync(path.join(SRC_RULES, file), path.join(DST_RULES, file));
+  ruleIndex.push({ file, component: json.component, description: json.description || '' });
+  console.log(`  rules • ${file}`);
 }
-fs.writeFileSync(path.join(DST, 'index.json'), JSON.stringify(index, null, 2) + '\n');
-console.log(`✓ wrote ${files.length} rule file(s) + index.json → docs/data/rules/`);
+fs.writeFileSync(path.join(DST_RULES, 'index.json'), JSON.stringify(ruleIndex, null, 2) + '\n');
+
+// -- 2. Mirror components base (token defaults) -----------------------------
+const SRC_COMP = path.join(ROOT, 'tokens', 'components');
+const DST_COMP = path.join(ROOT, 'docs', 'data', 'components');
+fs.mkdirSync(DST_COMP, { recursive: true });
+if (fs.existsSync(SRC_COMP)) {
+  for (const file of fs.readdirSync(SRC_COMP)) {
+    if (!file.endsWith('.json')) continue;
+    fs.copyFileSync(path.join(SRC_COMP, file), path.join(DST_COMP, file));
+    console.log(`  comp  • ${file}`);
+  }
+}
+
+// -- 3. Mirror products + their overrides -----------------------------------
+const SRC_PRODUCTS = path.join(ROOT, 'tokens', 'products');
+const DST_PRODUCTS = path.join(ROOT, 'docs', 'data', 'products');
+fs.mkdirSync(DST_PRODUCTS, { recursive: true });
+
+const productIndex = [];
+if (fs.existsSync(SRC_PRODUCTS)) {
+  for (const slug of fs.readdirSync(SRC_PRODUCTS)) {
+    const cfg = path.join(SRC_PRODUCTS, slug, 'config.json');
+    if (!fs.existsSync(cfg)) continue;
+    const dstDir = path.join(DST_PRODUCTS, slug);
+    fs.mkdirSync(dstDir, { recursive: true });
+    fs.copyFileSync(cfg, path.join(dstDir, 'config.json'));
+    const json = JSON.parse(fs.readFileSync(cfg, 'utf8'));
+    productIndex.push({ slug, product: json.product, accent: json.accent });
+    console.log(`  prod  • ${slug}/config.json`);
+  }
+}
+fs.writeFileSync(path.join(DST_PRODUCTS, 'index.json'), JSON.stringify(productIndex, null, 2) + '\n');
+
+// -- 4. Generate browser resolver --------------------------------------------
+const SRC_RESOLVER = path.join(ROOT, 'scripts', 'resolver', 'index.js');
+const DST_RESOLVER = path.join(ROOT, 'docs', 'assets', 'loom-resolver.js');
+let src = fs.readFileSync(SRC_RESOLVER, 'utf8');
+src = src.replace(/^'use strict';\s*/m, '');
+src = src.replace(/module\.exports\s*=\s*\{[^}]*\};?/, '');
+const wrapped =
+`// AUTO-GENERATED from scripts/resolver/index.js by scripts/build-sandbox-data.js
+// Do not edit by hand. Re-run the build to refresh.
+
+(function () {
+  'use strict';
+${src.split('\n').map(l => l ? '  ' + l : l).join('\n')}
+  window.LoomResolver = { resolve, deepMerge, validateComponent };
+})();
+`;
+fs.writeFileSync(DST_RESOLVER, wrapped);
+console.log(`  resolver → docs/assets/loom-resolver.js`);
+
+console.log(`\n✓ rules:${ruleIndex.length}  products:${productIndex.length}`);
+

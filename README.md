@@ -19,6 +19,7 @@ Sandbox is sealed — no one but Makers commits here, ever.
 
 **Pages:**
 - [Sandbox Catalogue](https://kamalakannan-raju-2916.github.io/loom-ds/sandbox.html) — base components, rules, WCAG checker (Makers + reference)
+- [Designer Edit UI](https://kamalakannan-raju-2916.github.io/loom-ds/designer.html) — token + component editors with live preview & WCAG (Designers)
 - [Product Catalogue](https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html) — Writer (Designers + Devs)
 
 <p align="center">

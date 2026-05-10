@@ -1,0 +1,30 @@
+{
+  "component": "input",
+  "description": "Text input / text field component tokens.",
+
+  "variants": {
+    "default": {
+      "bg":            { "Light": "{surface.primary}",   "Dark": "{surface.primary}" },
+      "text":          { "Light": "{text.primary}",      "Dark": "{text.primary}" },
+      "placeholder":   { "Light": "{text.tertiary}",     "Dark": "{text.tertiary}" },
+      "border":        { "Light": "{border.default}",    "Dark": "{border.default}" },
+      "border-hover":  { "Light": "{border.strong}",     "Dark": "{border.strong}" },
+      "border-focus":  { "Light": "{border.focus}",      "Dark": "{border.focus}" }
+    },
+    "error": {
+      "border":        { "Light": "{status.danger-text}", "Dark": "{status.danger-text}" },
+      "helper-text":   { "Light": "{status.danger-text}", "Dark": "{status.danger-text}" }
+    },
+    "disabled": {
+      "bg":            { "Light": "{surface.secondary}",  "Dark": "{surface.secondary}" },
+      "text":          { "Light": "{text.disabled}",      "Dark": "{text.disabled}" },
+      "border":        { "Light": "{border.subtle}",      "Dark": "{border.subtle}" }
+    }
+  },
+
+  "sizes": {
+    "sm": { "height": 28, "padding-x": 8,  "font-size": 12, "radius": "{radius.md}" },
+    "md": { "height": 36, "padding-x": 12, "font-size": 14, "radius": "{radius.md}" },
+    "lg": { "height": 44, "padding-x": 16, "font-size": 16, "radius": "{radius.md}" }
+  }
+}

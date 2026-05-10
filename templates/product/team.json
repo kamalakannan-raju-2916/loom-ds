@@ -1,0 +1,10 @@
+{
+  "$schema": "../../sandbox/team.schema.json",
+  "product": "__PRODUCT__",
+  "slug": "__SLUG__",
+  "admin": "__ADMIN__",
+  "designers": [],
+  "developers": [],
+  "directCommit": false,
+  "notes": "Set directCommit=true to let designers commit straight to main (skip PR). Default is PR-required."
+}

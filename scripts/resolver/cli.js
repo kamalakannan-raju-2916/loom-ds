@@ -30,6 +30,7 @@ function readDirJson(dir) {
   if (!fs.existsSync(dir)) return {};
   const out = {};
   for (const file of fs.readdirSync(dir)) {
+    if (file.startsWith('.')) continue;          // skip .keep, .DS_Store, etc.
     if (!file.endsWith('.json')) continue;
     const name = path.basename(file, '.json').replace(/\.rules$/, '');
     out[name] = readJson(path.join(dir, file));

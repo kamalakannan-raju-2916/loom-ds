@@ -101,6 +101,24 @@ Tokens flow through three tiers — every design decision traces back to DSG pri
 
 ---
 
+## Spinning up a new product
+
+Each product lives in its own repo (`loom-ds-<slug>`) consuming `@loom/sandbox`. Scaffold one with:
+
+```bash
+node scripts/new-product.js \
+  --slug=writer \
+  --product="Zoho Writer" \
+  --admin=<github-user> \
+  [--out=../loom-ds-writer]
+```
+
+The scaffolder copies [templates/product/](templates/product/), substitutes placeholders, then runs the resolver against the fresh tree to confirm it validates. Next step is `git init && push` to its own repo.
+
+See [scripts/new-product.js](scripts/new-product.js) and [templates/product/README.md](templates/product/README.md).
+
+---
+
 ## Themes
 
 | Theme | Surface | Text | Purpose |

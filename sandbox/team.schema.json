@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://loom-ds/sandbox/team.schema.json",
+  "title": "Loom Product Team",
+  "type": "object",
+  "required": ["product", "slug", "admin", "designers", "developers", "directCommit"],
+  "additionalProperties": true,
+  "properties": {
+    "product":      { "type": "string" },
+    "slug":         { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "admin":        { "type": "string", "description": "GitHub username of the team admin." },
+    "designers":    { "type": "array", "items": { "type": "string" } },
+    "developers":   { "type": "array", "items": { "type": "string" } },
+    "directCommit": { "type": "boolean", "description": "If true, designer saves commit directly. If false, they open a PR." },
+    "notes":        { "type": "string" }
+  }
+}

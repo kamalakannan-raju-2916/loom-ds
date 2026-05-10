@@ -1,0 +1,17 @@
+{
+  "name": "@loom/__SLUG__",
+  "version": "0.1.0",
+  "description": "Loom Design System — __PRODUCT__ overrides",
+  "private": true,
+  "scripts": {
+    "resolve": "node ../loom-ds/scripts/resolver/cli.js .",
+    "build:catalog": "echo 'TODO: phase 4 — designer edit UI'"
+  },
+  "dependencies": {
+    "@loom/sandbox": "^0.1.0"
+  },
+  "loom": {
+    "product": "__PRODUCT__",
+    "slug": "__SLUG__"
+  }
+}

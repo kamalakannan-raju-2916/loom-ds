@@ -374,6 +374,91 @@
       color: #181818;
     }
 
+    /* Semantic WCAG matrix */
+    .sem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    .sem-mode-card {
+      border: 1px solid #EAEAEA;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .sem-mode-card.dark {
+      background: #181818;
+      color: #E7E7E7;
+      border-color: #2A2A33;
+    }
+    .sem-mode-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: inherit;
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+    .sem-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 0;
+      border-top: 1px solid rgba(127,127,127,0.15);
+      font-size: 12px;
+    }
+    .sem-row:first-of-type { border-top: 0; }
+    .sem-row .sem-swatch {
+      display: inline-flex; align-items: center; gap: 8px;
+      min-width: 0;
+    }
+    .sem-row .sem-chip {
+      width: 22px; height: 22px; border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+      flex: 0 0 22px;
+    }
+    .sem-row .sem-label {
+      min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .sem-row .sem-label code {
+      background: rgba(127,127,127,0.15);
+      color: inherit;
+      font-size: 10px;
+    }
+    .sem-row .sem-ratio {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      font-size: 11px;
+      margin-right: 8px;
+    }
+    .sem-badges {
+      display: inline-flex; gap: 3px;
+    }
+    .sem-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+    }
+    .sem-badge.pass { background: #E3F4EA; color: #0C8844; }
+    .sem-badge.fail { background: #F8E2DF; color: #A02C20; }
+    .sem-section-head {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin: 14px 0 4px;
+    }
+    .sem-section-head:first-child { margin-top: 0; }
+    @media (max-width: 1100px) {
+      .sem-grid { grid-template-columns: 1fr; }
+    }
+
     .pill {
       display: inline-block;
       padding: 2px 8px;
@@ -547,6 +632,7 @@
       ruleIndex: [],
       rules: {},
       bases: {},
+      tokens: { primitive: null, semantic: null },
       overrides: { tokens: {}, components: {} },
       currentSection: 'accent',
     };
@@ -640,14 +726,126 @@
     }
 
     function renderSemantics(root) {
+      const sem = state.tokens.semantic && state.tokens.semantic.semantic;
+      if (!sem) {
+        root.innerHTML = `<div class="panel"><div class="panel-body"><p class="small">Semantic tokens not loaded.</p></div></div>`;
+        return;
+      }
+
+      // Pairs to grade. Each entry: [groupLabel, fg-token-path, bg-token-path, level]
+      // level: 'text' (AA Sm 4.5), 'large' (AA Lar 3.0), or 'ui' (3.0 graphic).
+      const pairs = [
+        ['Text on surface', [
+          ['text.primary',   'surface.page',      'text'],
+          ['text.primary',   'surface.primary',   'text'],
+          ['text.primary',   'surface.secondary', 'text'],
+          ['text.primary',   'surface.tertiary',  'text'],
+          ['text.secondary', 'surface.page',      'text'],
+          ['text.tertiary',  'surface.page',      'large'],
+          ['text.disabled',  'surface.page',      'large'],
+          ['text.link',      'surface.page',      'text'],
+        ]],
+        ['Text on accent', [
+          ['text.on-accent', '__accent',          'text'],
+        ]],
+        ['Borders & focus', [
+          ['border.default', 'surface.page',      'ui'],
+          ['border.strong',  'surface.page',      'ui'],
+          ['border.focus',   'surface.page',      'ui'],
+        ]],
+        ['Status text on bg', [
+          ['status.success-text', 'status.success-bg', 'text'],
+          ['status.warning-text', 'status.warning-bg', 'text'],
+          ['status.danger-text',  'status.danger-bg',  'text'],
+          ['status.info-text',    'status.info-bg',    'text'],
+        ]],
+      ];
+
+      const buildModeCard = (mode) => {
+        const accent = mode === 'Light' ? accentLight() : accentDark();
+        const sections = pairs.map(([title, list]) => {
+          const rows = list.map(([fgPath, bgPath, level]) => {
+            const fg = bgPath === '__accent' ? semColor('text.on-accent', mode) : semColor(fgPath, mode);
+            const bg = bgPath === '__accent' ? accent                          : semColor(bgPath, mode);
+            if (!fg || !bg) return '';
+            const r  = LoomWCAG.contrast(fg, bg);
+            const s  = LoomWCAG.score(r);
+            const badges = level === 'text'
+              ? [['AA Sm', s.aaSmall], ['AAA Sm', s.aaaSmall]]
+              : level === 'large'
+                ? [['AA Lar', s.aaLarge], ['AAA Lar', s.aaaLarge]]
+                : [['UI 3:1', s.uiGraphic]];
+            const badgeHtml = badges.map(([lab, ok]) =>
+              `<span class="sem-badge ${ok?'pass':'fail'}">${ok?'\u2713':'\u2715'} ${lab}</span>`
+            ).join('');
+            return `
+              <div class="sem-row">
+                <div class="sem-swatch">
+                  <span class="sem-chip" style="background:${bg};"></span>
+                  <span class="sem-chip" style="background:${fg};"></span>
+                  <span class="sem-label"><code>${fgPath}</code> on <code>${bgPath==='__accent'?'accent.primary':bgPath}</code></span>
+                </div>
+                <div>
+                  <span class="sem-ratio">${r ? r.toFixed(2)+':1' : '-'}</span>
+                  <span class="sem-badges">${badgeHtml}</span>
+                </div>
+              </div>`;
+          }).join('');
+          return `<div class="sem-section-head">${title}</div>${rows}`;
+        }).join('');
+
+        return `
+          <div class="sem-mode-card ${mode==='Dark'?'dark':''}">
+            <div class="sem-mode-title">${mode} mode</div>
+            ${sections}
+          </div>`;
+      };
+
       root.innerHTML = `
         <div class="panel">
-          <div class="panel-head"><h3>Semantic tokens</h3><span class="meta">v1 surface</span></div>
+          <div class="panel-head"><h3>Semantic WCAG matrix</h3><span class="meta">read-only · driven by sandbox semantics</span></div>
           <div class="panel-body">
-            <p class="small">v1: only accent semantic is editable here. Full semantic editor lands once Kicha publishes the semantic surface. See the <a href="sandbox.html" style="color:#2D78FF;">sandbox WCAG checker</a> for the standalone calculator. The preview pane on the right always shows accent contrast for this product.</p>
+            <p class="small" style="margin-bottom:10px;">
+              Live contrast for every meaningful semantic pair, in both Light and Dark modes. The accent row uses your <strong>Brand &amp; Accent</strong> override; everything else is the sandbox baseline. Edit accent in the Brand section - this matrix updates instantly.
+            </p>
+            <div class="sem-grid">
+              ${buildModeCard('Light')}
+              ${buildModeCard('Dark')}
+            </div>
           </div>
         </div>
       `;
+    }
+
+    // Resolve "{primitive.color.cobalt.s30}" against state.tokens.primitive
+    function resolveRef(ref) {
+      if (typeof ref !== 'string') return null;
+      const m = ref.match(/^\{(.+)\}$/);
+      if (!m) return ref;
+      const path = m[1].split('.');
+      let node = state.tokens.primitive;
+      for (const k of path) {
+        if (node == null) return null;
+        node = node[k];
+      }
+      if (node && typeof node === 'object' && '$value' in node) return node.$value;
+      return typeof node === 'string' ? node : null;
+    }
+
+    // Get a hex for "text.primary" in the requested mode (Light|Dark)
+    function semColor(path, mode) {
+      const sem = state.tokens.semantic && state.tokens.semantic.semantic;
+      if (!sem) return null;
+      const parts = path.split('.');
+      let node = sem;
+      for (const k of parts) {
+        if (node == null) return null;
+        node = node[k];
+      }
+      if (!node || typeof node !== 'object') return null;
+      const ref = node[mode];
+      const hex = resolveRef(ref);
+      return typeof hex === 'string' ? hex : null;
     }
 
     function renderComponent(root, name) {
@@ -857,6 +1055,10 @@
       for (const r of idx) state.rules[r.component.replace(/^lyte-/, '')] = await fetchJson(`data/rules/${r.file}`);
       try { state.bases.button = await fetchJson('data/components/button.json'); } catch(e){}
       try { state.bases.input  = await fetchJson('data/components/input.json'); } catch(e){}
+
+      // Foundation tokens (primitive + semantic) for the WCAG matrix
+      try { state.tokens.primitive = await fetchJson('data/tokens/primitive-colors.json'); } catch(e){}
+      try { state.tokens.semantic  = await fetchJson('data/tokens/semantic-colors.json');  } catch(e){}
 
       // Component sidebar
       $('#component-nav').innerHTML = idx.map(r => {

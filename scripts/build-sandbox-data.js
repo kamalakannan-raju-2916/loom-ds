@@ -63,6 +63,21 @@ if (fs.existsSync(SRC_PRODUCTS)) {
 }
 fs.writeFileSync(path.join(DST_PRODUCTS, 'index.json'), JSON.stringify(productIndex, null, 2) + '\n');
 
+// -- 3b. Mirror foundation tokens (primitives + semantics) ------------------
+const SRC_TOKENS = path.join(ROOT, 'tokens');
+const DST_TOKENS = path.join(ROOT, 'docs', 'data', 'tokens');
+fs.mkdirSync(DST_TOKENS, { recursive: true });
+const tokenSources = [
+  ['primitive/colors.json', 'primitive-colors.json'],
+  ['semantic/colors.json',  'semantic-colors.json'],
+];
+for (const [src, dst] of tokenSources) {
+  const srcPath = path.join(SRC_TOKENS, src);
+  if (!fs.existsSync(srcPath)) continue;
+  fs.copyFileSync(srcPath, path.join(DST_TOKENS, dst));
+  console.log(`  token • ${dst}`);
+}
+
 // -- 4. Generate browser resolver --------------------------------------------
 const SRC_RESOLVER = path.join(ROOT, 'scripts', 'resolver', 'index.js');
 const DST_RESOLVER = path.join(ROOT, 'docs', 'assets', 'loom-resolver.js');

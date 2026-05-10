@@ -1,0 +1,48 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "meta": {
+    "name": "Loom Semantic Color Tokens",
+    "description": "UI role tokens with Light and Dark mode values. Each value references a DSG primitive.",
+    "version": "1.1.0",
+    "modes": ["Light", "Dark"]
+  },
+
+  "semantic": {
+    "surface": {
+      "page":      { "Light": "{primitive.color.white}", "Dark": "{primitive.color.grey.t05}" },
+      "primary":   { "Light": "{primitive.color.white}", "Dark": "{primitive.color.grey.t10}" },
+      "secondary": { "Light": "{primitive.color.grey.s00}", "Dark": "{primitive.color.grey.t05}" },
+      "tertiary":  { "Light": "{primitive.color.grey.s05}", "Dark": "{primitive.color.grey.t00}" },
+      "elevated":  { "Light": "{primitive.color.white}", "Dark": "{primitive.color.grey.t20}" },
+      "overlay":   { "Light": "{primitive.color.overlay1}", "Dark": "{primitive.color.overlay2}" }
+    },
+
+    "text": {
+      "primary":      { "Light": "{primitive.color.grey.s90}", "Dark": "{primitive.color.grey.t90}" },
+      "secondary":    { "Light": "{primitive.color.grey.s60}", "Dark": "{primitive.color.grey.t60}" },
+      "tertiary":     { "Light": "{primitive.color.grey.s40}", "Dark": "{primitive.color.grey.t40}" },
+      "disabled":     { "Light": "{primitive.color.grey.s20}", "Dark": "{primitive.color.grey.t20}" },
+      "on-accent":    { "Light": "{primitive.color.white}", "Dark": "{primitive.color.white}" },
+      "link":         { "Light": "{primitive.color.blue1}", "Dark": "{primitive.color.blue2}" },
+      "link-visited": { "Light": "{primitive.color.purple1}", "Dark": "{primitive.color.purple2}" }
+    },
+
+    "border": {
+      "default": { "Light": "{primitive.color.grey.s10}", "Dark": "{primitive.color.grey.t20}" },
+      "strong":  { "Light": "{primitive.color.grey.s20}", "Dark": "{primitive.color.grey.t30}" },
+      "subtle":  { "Light": "{primitive.color.grey.s05}", "Dark": "{primitive.color.grey.t10}" },
+      "focus":   { "Light": "{primitive.color.cornflower.base}", "Dark": "{primitive.color.cornflower.t30}" }
+    },
+
+    "status": {
+      "success-bg":   { "Light": "{primitive.color.fern.t100}", "Dark": "{primitive.color.fern.s60}" },
+      "success-text": { "Light": "{primitive.color.fern.s30}", "Dark": "{primitive.color.fern.t60}" },
+      "warning-bg":   { "Light": "{primitive.color.sunshine.t100}", "Dark": "{primitive.color.sunshine.s70}" },
+      "warning-text": { "Light": "{primitive.color.sunshine.s50}", "Dark": "{primitive.color.sunshine.t50}" },
+      "danger-bg":    { "Light": "{primitive.color.cardinal.t100}", "Dark": "{primitive.color.cardinal.s60}" },
+      "danger-text":  { "Light": "{primitive.color.cardinal.s10}", "Dark": "{primitive.color.cardinal.t50}" },
+      "info-bg":      { "Light": "{primitive.color.cornflower.t100}", "Dark": "{primitive.color.cornflower.s60}" },
+      "info-text":    { "Light": "{primitive.color.cornflower.s10}", "Dark": "{primitive.color.cornflower.t50}" }
+    }
+  }
+}

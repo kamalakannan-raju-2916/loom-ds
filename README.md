@@ -155,14 +155,27 @@ This generates three files in `css/`:
 
 Loom ships a **Figma plugin** that reads tokens directly from the GitHub repo — no Desktop Bridge needed.
 
+<p align="center">
+  <a href="https://github.com/kamalakannan-raju-2916/loom-ds/raw/main/assets/figma-plugin/loom-figma-plugin.zip" download>
+    <img height="40" src="assets/badges/download-figma-plugin.svg" alt="Download Figma Plugin">
+  </a>
+</p>
+
 #### Install & use
-1. In Figma, go to **Plugins → Development → Import plugin from manifest…**
-2. Select `figma-plugin/manifest.json` from this repo
-3. Run the plugin: **Plugins → Loom Design Tokens**
-4. Choose a product (e.g. Zoho Writer)
-5. Click **Sync to Figma** — the plugin creates a `Loom / <Product> / Primitives` variable collection with all color, typography, spacing, and radii tokens
+1. Download and unzip **loom-figma-plugin.zip** (button above), or clone this repo
+2. In Figma, go to **Plugins → Development → Import plugin from manifest…**
+3. Select `manifest.json` from the unzipped folder (or `figma-plugin/manifest.json` from the repo)
+4. Run the plugin: **Plugins → Loom Design Tokens**
+5. Choose a product (e.g. Zoho Writer)
+6. Click **Sync to Figma** — the plugin creates a `Loom / <Product> / Primitives` variable collection with all color, typography, spacing, and radii tokens
 
 The plugin fetches live from `main` branch, so tokens are always current.
+
+> **Maintainers:** after editing anything under `figma-plugin/`, rebuild the bundle so the download button serves the latest version:
+>
+> ```bash
+> ./scripts/zip-figma-plugin.sh
+> ```
 
 #### Advanced: Desktop Bridge + AI skills
 

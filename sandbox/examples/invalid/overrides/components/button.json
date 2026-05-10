@@ -1,0 +1,18 @@
+{
+  "tokens": {
+    "--button-border-width": "4px",
+    "--button-radius": 99,
+    "--button-font-size": 13,
+    "--button-shadow": "0 1px 2px #000"
+  },
+  "props": {
+    "type": { "values": ["button", "custom"] },
+    "variant": { "default": "nope" }
+  },
+  "variants": {
+    "primary": null
+  },
+  "states": {
+    "disabled": { "tokens": { "--button-bg": "red" } }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "tokens": {
+    "--button-radius": 8,
+    "--button-font-size": 14,
+    "--button-padding-x": 18
+  },
+  "variants": {
+    "outline": {
+      "bg": "transparent",
+      "text": "{accent.primary}",
+      "border": "1px solid {accent.primary}"
+    }
+  },
+  "sizes": {
+    "xl": { "height": 52, "padding-x": 24, "font-size": 18, "radius": "{radius.md}" }
+  },
+  "states": {
+    "hover": {
+      "tokens": {
+        "--button-bg-hover": "{accent.hover}"
+      }
+    }
+  }
+}

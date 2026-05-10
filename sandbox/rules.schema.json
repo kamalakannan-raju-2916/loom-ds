@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://loom-ds/sandbox/rules.schema.json",
+  "title": "Loom Sandbox Component Rules",
+  "description": "Per-component contract declaring what designers may customize. Anything not declared here is implicitly locked.",
+  "type": "object",
+  "required": ["component", "lyteVersion"],
+  "additionalProperties": false,
+
+  "properties": {
+    "component":   { "type": "string", "description": "Lyte tag name, e.g. lyte-button" },
+    "lyteVersion": { "type": "string", "description": "SemVer range of Lyte this rule targets" },
+    "description": { "type": "string" },
+
+    "tokens":   { "$ref": "#/$defs/tokenMap" },
+    "props":    { "$ref": "#/$defs/propMap" },
+    "slots":    { "$ref": "#/$defs/slotMap" },
+    "variants": { "$ref": "#/$defs/collectionRule" },
+    "sizes":    { "$ref": "#/$defs/collectionRule" },
+    "states":   { "$ref": "#/$defs/stateMap" },
+    "a11y":     { "$ref": "#/$defs/a11yMap" }
+  },
+
+  "$defs": {
+    "tokenMap": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/tokenRule" }
+    },
+    "tokenRule": {
+      "type": "object",
+      "required": ["editable"],
+      "additionalProperties": false,
+      "properties": {
+        "editable": { "type": "boolean" },
+        "source":   { "type": "string", "description": "Default binding to a semantic/primitive token, e.g. 'semantic.accent.primary'" },
+        "unit":     { "type": "string", "enum": ["px", "rem", "em", "%", "ms", "unitless"] },
+        "min":      { "type": "number" },
+        "max":      { "type": "number" },
+        "step":     { "type": "number" },
+        "enum":     { "type": "array", "items": { "type": ["string","number"] } },
+        "reason":   { "type": "string", "description": "Required when editable=false" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "editable": { "const": false } } },
+          "then": { "required": ["reason"] }
+        }
+      ]
+    },
+
+    "propMap": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/propRule" }
+    },
+    "propRule": {
+      "type": "object",
+      "required": ["editable"],
+      "additionalProperties": false,
+      "properties": {
+        "editable": { "type": "boolean" },
+        "values":   { "type": "array", "items": { "type": ["string","number","boolean"] } },
+        "addable":  { "type": "boolean", "default": false, "description": "May designers add new values?" },
+        "removable":{ "type": "boolean", "default": false },
+        "default":  { "type": ["string","number","boolean"] },
+        "reason":   { "type": "string" }
+      }
+    },
+
+    "slotMap": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/slotRule" }
+    },
+    "slotRule": {
+      "type": "object",
+      "required": ["editable"],
+      "additionalProperties": false,
+      "properties": {
+        "editable":      { "type": "boolean" },
+        "accepts":       { "type": "array", "items": { "type": "string" }, "description": "Allowed child component tags or 'text', 'icon', 'any'" },
+        "iconSizeRange": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } },
+        "reason":        { "type": "string" }
+      }
+    },
+
+    "collectionRule": {
+      "type": "object",
+      "required": ["addable", "removable"],
+      "additionalProperties": false,
+      "properties": {
+        "addable":   { "type": "boolean" },
+        "removable": { "type": "boolean" },
+        "min":       { "type": "integer", "minimum": 0 },
+        "max":       { "type": "integer" },
+        "locked":    { "type": "array", "items": { "type": "string" }, "description": "Names that cannot be removed even if removable=true" }
+      }
+    },
+
+    "stateMap": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "editable": { "type": "boolean" },
+          "tokens":   { "$ref": "#/$defs/tokenMap" }
+        },
+        "required": ["editable"]
+      }
+    },
+
+    "a11yMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Locked accessibility floors. All entries are non-editable; this block is documentation + enforcement metadata.",
+      "properties": {
+        "minTapTarget":     { "type": "number", "description": "Minimum hit area in px (WCAG 2.2 SC 2.5.8 = 24px; we recommend 44px)" },
+        "focusRing":        { "type": "object" },
+        "requiredAria":     { "type": "array", "items": { "type": "string" } },
+        "contrastFloor":    { "type": "object", "description": "Minimum contrast ratios per text-size class" },
+        "keyboardSupport":  { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

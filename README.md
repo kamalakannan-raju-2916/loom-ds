@@ -4,6 +4,19 @@
 
 Loom weaves consistent UI patterns across any Zoho product that adopts it. It provides design tokens following Zoho DSG (Design Standard Groups) guidelines and component implementations using the [Lyte framework](https://lyteframework.com).
 
+> **Architecture, personas, and the override model live in [architecture.md](architecture.md).** Read that first if you're new.
+
+### Personas at a glance
+
+| Persona | Repo | Can commit? |
+|---|---|---|
+| **Maker** | Sandbox (this repo) | ✅ Sandbox only |
+| **Team Admin** | Their product repo | ✅ Product (manages roles) |
+| **Designer** | Their product repo | ✅ Product (via catalogue UI) |
+| **Developer** | Their product repo | ❌ Read-only (copy Lyte code) |
+
+Sandbox is sealed — no one but Makers commits here, ever.
+
 <p align="center">
   <a href="https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html" target="_blank" rel="noopener noreferrer">
     <img height="40" src="assets/badges/designers-click-here.svg" alt="Designers Click Here">

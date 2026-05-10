@@ -125,6 +125,57 @@
       border-left-color: #2D78FF;
       background: #EAF0FC;
     }
+    .sidebar-nav li a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .soon-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #F0F0F0;
+      color: #939393;
+      text-transform: uppercase;
+    }
+    .sidebar-nav li a.active .soon-tag {
+      background: rgba(45,120,255,0.12);
+      color: #2D78FF;
+    }
+    .sidebar-nav li a[data-soon="1"] { color: #939393; }
+    .sidebar-nav li a[data-soon="1"]:hover { color: #626262; background: #F5F5F5; }
+
+    /* Coming-soon panel */
+    .coming-soon {
+      text-align: center;
+      padding: 80px 40px;
+      color: #939393;
+      border: 1px dashed #DCDCDC;
+      border-radius: 12px;
+      background: #FAFAFA;
+    }
+    .coming-soon h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #626262;
+      margin-bottom: 8px;
+    }
+    .coming-soon p { font-size: 13px; max-width: 480px; margin: 0 auto; line-height: 1.5; }
+    .coming-soon .badge {
+      display: inline-block;
+      margin-bottom: 16px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(45,120,255,0.12);
+      color: #2D78FF;
+      text-transform: uppercase;
+    }
 
     /* Content */
     .content {
@@ -306,6 +357,109 @@
 
     .empty { color: #939393; font-style: italic; padding: 12px; }
 
+    /* Colors palette - mirrors catalog.html */
+    .color-family {
+      margin-bottom: 32px;
+      padding: 20px;
+      background: #FAFAFA;
+      border-radius: 10px;
+      border: 1px solid #E9E9E9;
+    }
+    .family-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .family-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: capitalize;
+      margin: 0;
+    }
+    .family-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+    }
+    .family-hex {
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #626262;
+      margin-left: auto;
+    }
+    .color-family .section { margin-bottom: 16px; }
+    .color-family .section:last-child { margin-bottom: 0; }
+    .color-family .section h3 {
+      font-size: 12px;
+      font-weight: 600;
+      color: #939393;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 72px);
+      gap: 10px;
+    }
+    .color-swatch {
+      width: 72px;
+      height: 120px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #E9E9E9;
+      background: #FFFFFF;
+      transition: transform 0.15s;
+      cursor: pointer;
+      position: relative;
+    }
+    .color-swatch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .swatch-color {
+      height: 70px;
+      position: relative;
+    }
+    .swatch-info {
+      padding: 6px 8px;
+      background: #FFFFFF;
+    }
+    .swatch-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #181818;
+      margin-bottom: 2px;
+    }
+    .swatch-hex {
+      font-size: 11px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #626262;
+    }
+    .master-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.3);
+      color: #FFF;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .color-swatch.copied::before {
+      content: 'copied';
+      position: absolute;
+      top: 8px; left: 8px;
+      background: #0C8844; color: #FFF;
+      font-size: 9px; font-weight: 700;
+      padding: 2px 6px; border-radius: 3px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
     .sub-h {
       padding: 12px 14px 0;
       font-size: 11px;
@@ -337,10 +491,16 @@
     <nav class="sidebar">
       <div class="sidebar-section">Foundation</div>
       <ul class="sidebar-nav">
-        <li><a data-section="wcag" class="active">WCAG Checker</a></li>
+        <li><a data-section="wcag" class="active"><span>WCAG Checker</span></a></li>
+        <li><a data-section="colors"><span>Colors</span></a></li>
+        <li><a data-section="semantics"   data-soon="1"><span>Semantics</span><span class="soon-tag">Soon</span></a></li>
+        <li><a data-section="typography"  data-soon="1"><span>Typography</span><span class="soon-tag">Soon</span></a></li>
+        <li><a data-section="spacing"     data-soon="1"><span>Spacing</span><span class="soon-tag">Soon</span></a></li>
+        <li><a data-section="icons"       data-soon="1"><span>Icons</span><span class="soon-tag">Soon</span></a></li>
+        <li><a data-section="components"  data-soon="1"><span>Components</span><span class="soon-tag">Soon</span></a></li>
+        <li><a data-section="layouts"     data-soon="1"><span>Layouts</span><span class="soon-tag">Soon</span></a></li>
       </ul>
-      <div class="sidebar-section">Components</div>
-      <ul class="sidebar-nav" id="component-nav"></ul>
+      <ul class="sidebar-nav" id="component-nav" hidden></ul>
     </nav>
 
     <div class="content">
@@ -372,6 +532,12 @@
           </div>
         </div>
 
+        <!-- Colors section -->
+        <div id="section-colors" style="display:none;"></div>
+
+        <!-- Coming-soon placeholder (shared across SOON tabs) -->
+        <div id="section-soon" style="display:none;"></div>
+
         <!-- Component rule section (one per component, populated at runtime) -->
         <div id="component-sections"></div>
       </div>
@@ -385,9 +551,39 @@
 
   <script>
     // -------- Section toggling (catalog-style) --------
+    const SOON_KEYS = ['semantics', 'typography', 'spacing', 'icons', 'components', 'layouts'];
+    const SOON_LABELS = {
+      semantics:  'Semantics',
+      typography: 'Typography',
+      spacing:    'Spacing',
+      icons:      'Icons',
+      components: 'Components',
+      layouts:    'Layouts'
+    };
+    const SOON_BLURBS = {
+      semantics:  'Light/Dark semantic color tokens (text, surface, border, status) - the bridge layer between primitives and components.',
+      typography: 'Type ramp, font families, weights, line-heights and the responsive scale that drives every component.',
+      spacing:    'Spacing scale, radii and elevation primitives that govern layout rhythm across the system.',
+      icons:      'The Loom icon library - browseable, copyable SVGs with sizing and color guidance.',
+      components: 'Consolidated component browser with provisions, constraints and rule manifests for every Lyte component.',
+      layouts:    'Application shells, page templates and grid systems that compose components into product surfaces.'
+    };
+
     function showSection(key, title, sub) {
+      const isSoon = SOON_KEYS.includes(key);
       // Hide all
-      document.getElementById('section-wcag').style.display = (key === 'wcag') ? '' : 'none';
+      document.getElementById('section-wcag').style.display   = (key === 'wcag')   ? '' : 'none';
+      document.getElementById('section-colors').style.display = (key === 'colors') ? '' : 'none';
+      const soonHost = document.getElementById('section-soon');
+      soonHost.style.display = isSoon ? '' : 'none';
+      if (isSoon) {
+        soonHost.innerHTML = `
+          <div class="coming-soon">
+            <span class="badge">Coming soon</span>
+            <h2>${title}</h2>
+            <p>${SOON_BLURBS[key] || ''}</p>
+          </div>`;
+      }
       document.querySelectorAll('[data-cmp]').forEach(el => {
         el.style.display = (el.dataset.cmp === key) ? '' : 'none';
       });
@@ -544,7 +740,159 @@
       return sections.join('');
     }
 
+    // -------- Colors palette (catalog.html parity) --------
+    const COLOR_HOST = document.getElementById('section-colors');
+    const DSG_ORDER = [
+      'cobalt','cornflower','cardinal','fern','tangerine','burgundy','maroon',
+      'crimson','persimmon','flamingo','cerise','plum','charoite','sugilite',
+      'indigo','lapis','sapphire','brunnera','cerulean','teal','spurge','jade',
+      'shamrock','laurel','parsley','olive','sunshine','clay'
+    ];
+    const TINT_ORDER  = ['t10','t20','t30','t40','t50','t60','t70','t80','t90','t100'];
+    const SHADE_ORDER = ['s10','s20','s30','s40','s50','s60','s70','s80','s90','s100'];
+    const GREY_TINTS  = ['t00','t05','t10','t20','t30','t40','t50','t60','t70','t80','t90','t100'];
+    const GREY_SHADES = ['s00','s05','s10','s20','s30','s40','s50','s60','s70','s80','s90','s100'];
+
+    function valOf(node) {
+      if (!node) return null;
+      if (typeof node.$value === 'string') return node.$value;
+      return null;
+    }
+
+    function copyHex(hex, el) {
+      navigator.clipboard.writeText(hex).then(() => {
+        el.classList.add('copied');
+        setTimeout(() => el.classList.remove('copied'), 900);
+      }).catch(() => {});
+    }
+
+    function createSwatch(name, hex, isMaster) {
+      if (!hex) return '';
+      return `<div class="color-swatch" data-hex="${hex}" title="${hex}">
+        <div class="swatch-color" style="background: ${hex};">
+          ${isMaster ? '<span class="master-badge">Master</span>' : ''}
+        </div>
+        <div class="swatch-info">
+          <div class="swatch-name">${name}</div>
+          <div class="swatch-hex">${hex}</div>
+        </div>
+      </div>`;
+    }
+
+    function swatchesFor(node, keys, labelFn) {
+      return keys.map(k => createSwatch(labelFn(k), valOf(node[k]))).filter(Boolean).join('');
+    }
+
+    // Pretty label: t10 -> T 10, s100 -> S 100
+    function shadeLabel(k) {
+      const m = k.match(/^([ts])(\d+)$/);
+      return m ? `${m[1].toUpperCase()} ${parseInt(m[2], 10)}` : k;
+    }
+
+    function familyCard(name, node) {
+      const baseHex = valOf(node.base);
+      // Tints reversed so lightest (T100) appears first - matches catalog/Figma layout.
+      const tints  = swatchesFor(node, [...TINT_ORDER].reverse(), shadeLabel);
+      const shades = swatchesFor(node, SHADE_ORDER, shadeLabel);
+      return `
+        <div class="color-family">
+          <div class="family-header">
+            <div class="family-dot" style="background: ${baseHex};"></div>
+            <h2>${name}</h2>
+            ${baseHex ? `<span class="family-hex">${baseHex}</span>` : ''}
+          </div>
+          <div class="section">
+            <h3>Tints</h3>
+            <div class="color-grid">${tints}</div>
+          </div>
+          <div class="section">
+            <h3>Base</h3>
+            <div class="color-grid">${createSwatch('Master', baseHex, true)}</div>
+          </div>
+          <div class="section">
+            <h3>Shades</h3>
+            <div class="color-grid">${shades}</div>
+          </div>
+        </div>`;
+    }
+
+    function greyCard(node) {
+      // Grey has no 'base' - skip the master section. Keep tints reversed (T100 first).
+      const tints  = swatchesFor(node, [...GREY_TINTS].reverse(), shadeLabel);
+      const shades = swatchesFor(node, GREY_SHADES, shadeLabel);
+      return `
+        <div class="color-family">
+          <div class="family-header">
+            <div class="family-dot" style="background: #626262;"></div>
+            <h2>grey</h2>
+          </div>
+          <div class="section">
+            <h3>Tints</h3>
+            <div class="color-grid">${tints}</div>
+          </div>
+          <div class="section">
+            <h3>Shades</h3>
+            <div class="color-grid">${shades}</div>
+          </div>
+        </div>`;
+    }
+
+    function essentialCard(palette) {
+      const singles = [
+        ['white',    valOf(palette.white)],
+        ['black',    valOf(palette.black)],
+        ['half',     valOf(palette.half)],
+        ['overlay1', valOf(palette.overlay1)],
+        ['overlay2', valOf(palette.overlay2)],
+        ['blue1',    valOf(palette.blue1)],
+        ['blue2',    valOf(palette.blue2)],
+        ['purple1',  valOf(palette.purple1)],
+        ['purple2',  valOf(palette.purple2)],
+      ];
+      const linkLight = palette.link && palette.link.light && palette.link.light.$value;
+      const linkDark  = palette.link && palette.link.dark  && palette.link.dark.$value;
+      if (linkLight) singles.push(['link.light', linkLight]);
+      if (linkDark)  singles.push(['link.dark',  linkDark]);
+
+      return `
+        <div class="color-family">
+          <div class="family-header">
+            <div class="family-dot" style="background: linear-gradient(135deg, #FFFFFF 50%, #000000 50%); border: 1px solid #DCDCDC;"></div>
+            <h2>Essentials</h2>
+            <span class="family-hex">core neutrals + utility tokens</span>
+          </div>
+          <div class="section">
+            <div class="color-grid">${singles.map(([n,h]) => createSwatch(n, h)).join('')}</div>
+          </div>
+        </div>`;
+    }
+
+    function renderColors(palette) {
+      if (!palette) {
+        COLOR_HOST.innerHTML = '<p class="empty">No primitive color tokens found.</p>';
+        return;
+      }
+      const dsgCards = DSG_ORDER
+        .filter(name => palette[name])
+        .map(name => familyCard(name, palette[name]))
+        .join('');
+      const grey = palette.grey ? greyCard(palette.grey) : '';
+      COLOR_HOST.innerHTML = `${essentialCard(palette)}${grey}${dsgCards}`;
+      COLOR_HOST.querySelectorAll('.color-swatch').forEach(el => {
+        el.addEventListener('click', () => copyHex(el.dataset.hex, el));
+      });
+    }
+
     async function load() {
+      // ---- Colors palette (independent of rules) -----------------------
+      try {
+        const tokens = await fetch('data/tokens/primitive-colors.json').then(r => r.json());
+        renderColors(tokens.primitive && tokens.primitive.color);
+      } catch (e) {
+        document.getElementById('section-colors').innerHTML =
+          `<p class="empty">Failed to load colors: ${e.message}.<br>Run <code>node scripts/build-sandbox-data.js</code> first.</p>`;
+      }
+
       try {
         const idx = await fetch('data/rules/index.json').then(r => r.json());
         if (!idx.length) {
@@ -579,6 +927,11 @@
             const key = a.dataset.section;
             if (key === 'wcag') {
               showSection('wcag', 'WCAG Checker', 'WCAG 2.2 contrast utility - pick any foreground and background to verify against AA / AAA thresholds.');
+            } else if (key === 'colors') {
+              showSection('colors', 'Colors', 'DSG primitive color palette - the locked source of truth. Click any swatch to copy its hex.');
+            } else if (SOON_KEYS.includes(key)) {
+              const label = SOON_LABELS[key];
+              showSection(key, label, `${label} foundation is on the roadmap - check back soon.`);
             } else {
               const r = rules.find(x => x.meta.component === key);
               const sub = r && r.json.description ? r.json.description : `Provisions and constraints for ${key}.`;

@@ -9,224 +9,382 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <script src="assets/loom-wcag.js"></script>
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --bg:        #0A0A0F;
-      --surface:   #FFFFFF;
-      --surface-2: #F5F6F8;
-      --border:    #E1E2E6;
-      --text:      #181818;
-      --text-2:    #5C5D62;
-      --accent:    #2D78FF;     /* Cornflower */
-      --accent-2:  #5793FF;
-      --good:      #0C8844;
-      --warn:      #EBB625;
-      --bad:       #CC3929;
-      --mono:      ui-monospace, "Zoho Puvi Mono", SFMono-Regular, Menlo, monospace;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Zoho Puvi', 'Segoe UI', sans-serif;
-      background: var(--surface);
-      color: var(--text);
+      background: #FFFFFF;
+      color: #181818;
       min-height: 100vh;
       line-height: 1.5;
     }
 
-    /* Header */
+    /* Header — same shell as catalog.html */
     .header {
-      background: var(--bg); color: #FFF;
-      padding: 14px 32px;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
-      border-bottom: 1px solid #1d1d24;
+      background: #0A0A0F;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      justify-content: space-between;
     }
-    .header-left { display: flex; align-items: center; gap: 12px; }
-    .logo { font-size: 20px; font-weight: 700; }
-    .logo span {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    .header-left { display: flex; align-items: center; }
+    .header-logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-decoration: none;
     }
+    .header-logo span {
+      background: linear-gradient(135deg, #2D78FF, #5793FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .header-title {
+      font-size: 16px;
+      font-weight: 400;
+      color: #B5B5B6;
+      margin-left: 12px;
+      padding-left: 12px;
+      border-left: 1px solid #39393B;
+    }
+    .header-right { display: flex; align-items: center; gap: 12px; }
     .header-tag {
-      font-size: 12px; padding: 4px 10px;
-      background: rgba(45,120,255,0.15); color: var(--accent-2);
+      font-size: 11px;
+      padding: 4px 10px;
+      background: rgba(45,120,255,0.15);
+      color: #5793FF;
       border: 1px solid rgba(45,120,255,0.35);
-      border-radius: 999px; letter-spacing: 0.04em; text-transform: uppercase;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 600;
     }
-    .header a { color: #B5B5B6; text-decoration: none; font-size: 14px; }
-    .header a:hover { color: #FFF; }
+    .header-link {
+      color: #B5B5B6;
+      font-size: 13px;
+      text-decoration: none;
+    }
+    .header-link:hover { color: #FFF; }
 
-    /* Layout */
-    .layout {
-      display: grid; grid-template-columns: 240px 1fr;
-      max-width: 1400px; margin: 0 auto;
+    /* Main layout */
+    .main-layout {
+      display: flex;
+      height: calc(100vh - 54px);
     }
     .sidebar {
-      border-right: 1px solid var(--border);
-      padding: 24px 16px; min-height: calc(100vh - 56px);
-      position: sticky; top: 56px; align-self: start;
+      width: 220px;
+      min-width: 220px;
+      background: #FAFAFA;
+      border-right: 1px solid #E9E9E9;
+      padding: 16px 0;
+      position: sticky;
+      top: 54px;
+      height: calc(100vh - 54px);
+      overflow-y: auto;
     }
-    .sidebar h4 {
-      font-size: 11px; font-weight: 600; color: var(--text-2);
-      text-transform: uppercase; letter-spacing: 0.06em;
-      margin: 16px 8px 8px;
+    .sidebar-section {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #939393;
+      padding: 12px 24px 6px;
     }
-    .sidebar a {
-      display: block; padding: 8px 12px; border-radius: 6px;
-      color: var(--text); text-decoration: none; font-size: 14px;
+    .sidebar-nav { list-style: none; }
+    .sidebar-nav li a {
+      display: block;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #626262;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all 0.15s;
+      cursor: pointer;
     }
-    .sidebar a:hover { background: var(--surface-2); }
-    .sidebar a.active { background: var(--accent); color: #FFF; }
-
-    .main { padding: 32px 40px 80px; min-width: 0; }
-
-    .page-title { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
-    .page-sub   { color: var(--text-2); margin-bottom: 32px; }
-
-    .banner {
-      background: #FFF8E1; border: 1px solid #F1D77A;
-      color: #6E5618; padding: 12px 16px; border-radius: 8px;
-      font-size: 14px; margin-bottom: 28px;
+    .sidebar-nav li a:hover { color: #181818; background: #F0F0F0; }
+    .sidebar-nav li a.active {
+      color: #2D78FF;
+      font-weight: 600;
+      border-left-color: #2D78FF;
+      background: #EAF0FC;
     }
-    .banner strong { color: #4F3E0F; }
 
-    section { margin-bottom: 48px; }
-    h2 { font-size: 20px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    /* Content */
+    .content {
+      flex: 1;
+      padding: 32px 40px;
+      padding-bottom: 0;
+      overflow-y: auto;
+      height: calc(100vh - 54px);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .content-body { flex: 1; }
+    .content-footer {
+      text-align: center;
+      padding: 32px 0 20px;
+      color: #999;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .content-footer .vulcan { font-size: 28px; display: block; margin-bottom: 2px; }
 
-    /* Rule blocks */
+    .content-header { margin-bottom: 24px; }
+    .content-header h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+    .content-header p { font-size: 14px; color: #626262; }
+
+    .read-only-banner {
+      background: #FFF8E1;
+      border: 1px solid #F1D77A;
+      color: #6E5618;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+    .read-only-banner strong { color: #4F3E0F; }
+    .read-only-banner code {
+      background: rgba(0,0,0,0.05);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+    }
+
+    /* WCAG widget */
+    .wcag {
+      border: 1px solid #E9E9E9;
+      border-radius: 10px;
+      padding: 20px;
+      background: #FFFFFF;
+      max-width: 720px;
+    }
+    .wcag-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .wcag-row label { font-size: 12px; color: #626262; }
+    .wcag-row input[type="color"] {
+      width: 100%; height: 36px;
+      border: 1px solid #E9E9E9;
+      border-radius: 6px;
+      cursor: pointer;
+      background: transparent;
+    }
+    .wcag-row input[type="text"] {
+      width: 100%; height: 36px;
+      padding: 0 10px;
+      border: 1px solid #E9E9E9;
+      border-radius: 6px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+    }
+    .wcag-result {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 8px;
+      background: #FAFAFA;
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+    }
+    .wcag-swatch {
+      height: 80px;
+      border-radius: 8px;
+      border: 1px solid #E9E9E9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .wcag-ratio { font-size: 28px; font-weight: 700; }
+    .wcag-ratio small { font-size: 13px; font-weight: 400; color: #626262; }
+    .wcag-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .wcag-cell {
+      padding: 6px 4px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      min-width: 0;
+    }
+    .wcag-pass { background: #E3F4EA; color: #0C8844; }
+    .wcag-fail { background: #F8E2DF; color: #A02C20; }
+
+    /* Component rule cards */
     .rule-card {
-      border: 1px solid var(--border); border-radius: 10px;
-      background: var(--surface); margin-bottom: 16px; overflow: hidden;
+      border: 1px solid #E9E9E9;
+      border-radius: 10px;
+      background: #FFFFFF;
+      margin-bottom: 16px;
+      overflow: hidden;
     }
     .rule-head {
-      padding: 14px 18px; background: var(--surface-2);
-      display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid var(--border);
+      padding: 14px 18px;
+      background: #FAFAFA;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #E9E9E9;
     }
-    .rule-head h3 { font-size: 16px; font-family: var(--mono); }
-    .rule-head .meta { font-size: 12px; color: var(--text-2); }
-    .rule-body { padding: 0; }
-    .rule-table {
-      width: 100%; border-collapse: collapse; font-size: 13px;
+    .rule-head h3 {
+      font-size: 16px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
     }
+    .rule-head .meta { font-size: 12px; color: #626262; }
+    .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .rule-table th, .rule-table td {
-      padding: 10px 14px; text-align: left;
-      border-bottom: 1px solid var(--border); vertical-align: top;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #E9E9E9;
+      vertical-align: top;
     }
     .rule-table th {
-      font-weight: 600; color: var(--text-2); background: var(--surface-2);
-      font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+      font-weight: 600;
+      color: #626262;
+      background: #FAFAFA;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
     .rule-table tr:last-child td { border-bottom: none; }
-    .rule-table code { font-family: var(--mono); font-size: 12px; }
+    .rule-table code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+    }
 
     .pill {
-      display: inline-block; padding: 2px 8px; border-radius: 999px;
-      font-size: 11px; font-weight: 600;
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
     }
     .pill-edit  { background: #E3F4EA; color: #0C8844; }
     .pill-lock  { background: #F8E2DF; color: #A02C20; }
     .pill-bound { background: #E8EFFF; color: #1F54B2; }
 
-    /* WCAG widget */
-    .wcag {
-      border: 1px solid var(--border); border-radius: 10px;
-      padding: 20px; background: var(--surface);
+    .a11y-block {
+      padding: 14px 18px;
+      background: #FAFBFD;
+      border-top: 1px solid #E9E9E9;
+      font-size: 13px;
     }
-    .wcag-row {
-      display: grid; grid-template-columns: auto 110px 110px;
-      gap: 12px; align-items: center; margin-bottom: 14px;
-    }
-    .wcag-row label { font-size: 12px; color: var(--text-2); }
-    .wcag-row input[type="color"] {
-      width: 100%; height: 36px; border: 1px solid var(--border);
-      border-radius: 6px; cursor: pointer; background: transparent;
-    }
-    .wcag-row input[type="text"] {
-      width: 100%; height: 36px; padding: 0 10px;
-      border: 1px solid var(--border); border-radius: 6px;
-      font-family: var(--mono); font-size: 13px;
-    }
-    .wcag-result {
-      margin-top: 16px; padding: 16px; border-radius: 8px;
-      background: var(--surface-2); display: grid;
-      grid-template-columns: 140px 1fr; gap: 16px; align-items: center;
-    }
-    .wcag-swatch {
-      height: 80px; border-radius: 8px; border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 600; font-size: 18px;
-    }
-    .wcag-ratio { font-size: 28px; font-weight: 700; }
-    .wcag-ratio small { font-size: 13px; font-weight: 400; color: var(--text-2); }
-    .wcag-grid {
-      display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 6px; margin-top: 10px; min-width: 0;
-    }
-    .wcag-cell {
-      padding: 6px 4px; border-radius: 6px; text-align: center;
-      font-size: 11px; font-weight: 600; min-width: 0;
-    }
-    .wcag-pass { background: #E3F4EA; color: #0C8844; }
-    .wcag-fail { background: #F8E2DF; color: #A02C20; }
+    .a11y-block strong { display: block; margin-bottom: 6px; }
+    .a11y-block div { margin: 2px 0; color: #626262; }
 
-    .empty { color: var(--text-2); font-style: italic; padding: 12px; }
+    .empty { color: #939393; font-style: italic; padding: 12px; }
+
+    .sub-h {
+      padding: 12px 14px 0;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #939393;
+      letter-spacing: 0.05em;
+    }
+    .collection-row {
+      padding: 8px 14px 14px;
+      font-size: 13px;
+      color: #626262;
+    }
   </style>
 </head>
 <body>
-  <header class="header">
+  <div class="header">
     <div class="header-left">
-      <a class="logo" href="index.html">L<span>oom</span></a>
-      <span class="header-tag">Sandbox</span>
+      <a href="index.html" class="header-logo"><span>Loom</span></a>
+      <span class="header-title">Sandbox Catalogue</span>
     </div>
-    <nav>
-      <a href="catalog.html">Product Catalogue →</a>
+    <div class="header-right">
+      <span class="header-tag">Read-only</span>
+      <a href="designer.html" class="header-link">Designer →</a>
+      <a href="catalog.html" class="header-link">Product Catalogue →</a>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <nav class="sidebar">
+      <div class="sidebar-section">Foundation</div>
+      <ul class="sidebar-nav">
+        <li><a data-section="wcag" class="active">WCAG Checker</a></li>
+      </ul>
+      <div class="sidebar-section">Components</div>
+      <ul class="sidebar-nav" id="component-nav"></ul>
     </nav>
-  </header>
 
-  <div class="layout">
-    <aside class="sidebar">
-      <h4>Foundation</h4>
-      <a href="#wcag">WCAG checker</a>
-      <h4>Components</h4>
-      <div id="component-nav"></div>
-    </aside>
+    <div class="content">
+      <div class="content-body">
+        <div class="content-header">
+          <h1 id="content-title">WCAG Checker</h1>
+          <p id="content-sub">WCAG 2.2 contrast utility — pick any foreground and background to verify against AA / AAA thresholds.</p>
+        </div>
 
-    <main class="main">
-      <h1 class="page-title">Sandbox Catalogue</h1>
-      <p class="page-sub">
-        The sealed base of Loom DS. Only Makers can change anything here. Designers consume this in their product catalogues; rules below declare what is editable downstream.
-      </p>
+        <div class="read-only-banner">
+          <strong>Sealed.</strong> Sandbox is the locked base of Loom DS — only Makers commit here. Designers consume these rules in their product overrides.
+          To propose a change, open a PR on <code>kamalakannan-raju-2916/loom-ds</code>.
+        </div>
 
-      <div class="banner">
-        <strong>Read-only.</strong> Sandbox is sealed. To propose changes, open a PR on
-        <code>kamalakannan-raju-2916/loom-ds</code>. Sandbox bumps are notified to product teams via the bump banner (Phase 5).
+        <!-- WCAG section -->
+        <div id="section-wcag">
+          <div class="wcag">
+            <div class="wcag-row">
+              <label>Foreground</label>
+              <input type="color" id="fg-color" value="#181818">
+              <input type="text"  id="fg-hex"   value="#181818">
+            </div>
+            <div class="wcag-row">
+              <label>Background</label>
+              <input type="color" id="bg-color" value="#FFFFFF">
+              <input type="text"  id="bg-hex"   value="#FFFFFF">
+            </div>
+            <div class="wcag-result" id="wcag-result"></div>
+          </div>
+        </div>
+
+        <!-- Component rule section (one per component, populated at runtime) -->
+        <div id="component-sections"></div>
       </div>
 
-      <section id="wcag">
-        <h2>WCAG 2.2 Contrast Checker</h2>
-        <div class="wcag">
-          <div class="wcag-row">
-            <label>Foreground</label>
-            <input type="color" id="fg-color" value="#181818">
-            <input type="text"  id="fg-hex"   value="#181818">
-          </div>
-          <div class="wcag-row">
-            <label>Background</label>
-            <input type="color" id="bg-color" value="#FFFFFF">
-            <input type="text"  id="bg-hex"   value="#FFFFFF">
-          </div>
-          <div class="wcag-result" id="wcag-result"></div>
-        </div>
-      </section>
-
-      <section id="components">
-        <h2>Component Rules</h2>
-        <div id="rules-list"><p class="empty">Loading…</p></div>
-      </section>
-    </main>
+      <footer class="content-footer">
+        <span class="vulcan">🖖</span>
+        Live long and Prosper
+      </footer>
+    </div>
   </div>
 
   <script>
+    // -------- Section toggling (catalog-style) --------
+    function showSection(key, title, sub) {
+      // Hide all
+      document.getElementById('section-wcag').style.display = (key === 'wcag') ? '' : 'none';
+      document.querySelectorAll('[data-cmp]').forEach(el => {
+        el.style.display = (el.dataset.cmp === key) ? '' : 'none';
+      });
+      document.getElementById('content-title').textContent = title;
+      document.getElementById('content-sub').textContent = sub;
+      // Toggle active link
+      document.querySelectorAll('.sidebar-nav li a').forEach(a => {
+        a.classList.toggle('active', a.dataset.section === key);
+      });
+      // Reset content scroll
+      const c = document.querySelector('.content');
+      if (c) c.scrollTop = 0;
+    }
+
     // -------- WCAG widget --------
     const fgColor = document.getElementById('fg-color');
     const fgHex   = document.getElementById('fg-hex');
@@ -262,11 +420,11 @@
         <div>
           <div class="wcag-ratio">${ratio.toFixed(2)} : 1 <small>contrast ratio</small></div>
           <div class="wcag-grid">
-            ${cell('AA Small',  s.aaSmall)}
-            ${cell('AAA Small', s.aaaSmall)}
-            ${cell('AA Large',  s.aaLarge)}
-            ${cell('AAA Large', s.aaaLarge)}
-            ${cell('UI / Graphic', s.uiGraphic)}
+            ${cell('AA Sm',  s.aaSmall)}
+            ${cell('AAA Sm', s.aaaSmall)}
+            ${cell('AA Lar',  s.aaLarge)}
+            ${cell('AAA Lar', s.aaaLarge)}
+            ${cell('UI / Gra', s.uiGraphic)}
           </div>
         </div>
       `;
@@ -274,8 +432,8 @@
     render();
 
     // -------- Rules renderer --------
-    const nav   = document.getElementById('component-nav');
-    const list  = document.getElementById('rules-list');
+    const compNav   = document.getElementById('component-nav');
+    const compHost  = document.getElementById('component-sections');
 
     function pill(editable) {
       return editable
@@ -308,16 +466,18 @@
         </tr>
       `).join('');
     }
-    function renderCollection(label, rule) {
+    function renderCollection(rule) {
       if (!rule) return '';
       const bits = [];
-      if (rule.addable)   bits.push('<span class="pill pill-bound">addable</span>');
-      else                bits.push('<span class="pill pill-lock">not addable</span>');
-      if (rule.removable) bits.push('<span class="pill pill-bound">removable</span>');
-      else                bits.push('<span class="pill pill-lock">not removable</span>');
+      bits.push(rule.addable
+        ? '<span class="pill pill-bound">addable</span>'
+        : '<span class="pill pill-lock">not addable</span>');
+      bits.push(rule.removable
+        ? '<span class="pill pill-bound">removable</span>'
+        : '<span class="pill pill-lock">not removable</span>');
       if (rule.max != null) bits.push(`max: <code>${rule.max}</code>`);
       if (rule.locked)      bits.push(`locked: <code>[${rule.locked.join(', ')}]</code>`);
-      return `<p style="padding:10px 14px;font-size:13px;">${bits.join(' · ')}</p>`;
+      return `<div class="collection-row">${bits.join(' &nbsp;·&nbsp; ')}</div>`;
     }
 
     function renderRule(json) {
@@ -337,8 +497,8 @@
           <tr><th>Slot</th><th>State</th><th>Constraints</th></tr>
         </thead><tbody>${rowsFor(json.slots)}</tbody></table>
       `);
-      if (json.variants) sections.push(`<h4 style="padding:12px 14px 0;font-size:12px;text-transform:uppercase;color:var(--text-2);">Variants</h4>${renderCollection('variants', json.variants)}`);
-      if (json.sizes)    sections.push(`<h4 style="padding:0 14px;font-size:12px;text-transform:uppercase;color:var(--text-2);">Sizes</h4>${renderCollection('sizes', json.sizes)}`);
+      if (json.variants) sections.push(`<div class="sub-h">Variants</div>${renderCollection(json.variants)}`);
+      if (json.sizes)    sections.push(`<div class="sub-h">Sizes</div>${renderCollection(json.sizes)}`);
       if (json.states) sections.push(`
         <table class="rule-table"><thead>
           <tr><th>State</th><th>Editable</th><th>Tokens</th></tr>
@@ -359,8 +519,8 @@
         if (a.contrastFloor) items.push(`contrast floor: small <code>${a.contrastFloor.smallText}</code>, large <code>${a.contrastFloor.largeText}</code>, graphic <code>${a.contrastFloor.uiGraphic}</code>`);
         if (a.requiredAria) items.push(`ARIA: ${a.requiredAria.map(s => `<code>${s}</code>`).join(', ')}`);
         if (a.keyboardSupport) items.push(`keyboard: ${a.keyboardSupport.map(s => `<code>${s}</code>`).join(', ')}`);
-        sections.push(`<div style="padding:14px;background:#FAFBFD;border-top:1px solid var(--border);font-size:13px;">
-          <strong style="display:block;margin-bottom:6px;">Accessibility (locked)</strong>
+        sections.push(`<div class="a11y-block">
+          <strong>Accessibility (locked)</strong>
           ${items.map(i => `<div>• ${i}</div>`).join('')}
         </div>`);
       }
@@ -371,24 +531,54 @@
       try {
         const idx = await fetch('data/rules/index.json').then(r => r.json());
         if (!idx.length) {
-          list.innerHTML = '<p class="empty">No component rules yet.</p>';
+          compHost.innerHTML = '<p class="empty">No component rules yet.</p>';
           return;
         }
-        nav.innerHTML  = idx.map(c => `<a href="#cmp-${c.component}">${c.component}</a>`).join('');
+        // Build sidebar items
+        compNav.innerHTML = idx.map(c => `<li><a data-section="${c.component}">${c.component}</a></li>`).join('');
+
+        // Load all rules
         const rules = await Promise.all(idx.map(c =>
           fetch(`data/rules/${c.file}`).then(r => r.json()).then(j => ({ meta: c, json: j }))
         ));
-        list.innerHTML = rules.map(({ meta, json }) => `
-          <article class="rule-card" id="cmp-${meta.component}">
-            <header class="rule-head">
-              <h3>${meta.component}</h3>
-              <span class="meta">Lyte ${json.lyteVersion || '—'} · ${json.description || ''}</span>
-            </header>
-            <div class="rule-body">${renderRule(json)}</div>
-          </article>
+
+        // Render all sections (hidden by default; WCAG is shown initially)
+        compHost.innerHTML = rules.map(({ meta, json }) => `
+          <div data-cmp="${meta.component}" style="display:none;">
+            <article class="rule-card">
+              <header class="rule-head">
+                <h3>${meta.component}</h3>
+                <span class="meta">Lyte ${json.lyteVersion || '—'}</span>
+              </header>
+              <div class="rule-body">${renderRule(json)}</div>
+            </article>
+          </div>
         `).join('');
+
+        // Wire sidebar clicks (including WCAG link)
+        document.querySelectorAll('.sidebar-nav li a').forEach(a => {
+          a.addEventListener('click', e => {
+            e.preventDefault();
+            const key = a.dataset.section;
+            if (key === 'wcag') {
+              showSection('wcag', 'WCAG Checker', 'WCAG 2.2 contrast utility — pick any foreground and background to verify against AA / AAA thresholds.');
+            } else {
+              const r = rules.find(x => x.meta.component === key);
+              const sub = r && r.json.description ? r.json.description : `Provisions and constraints for ${key}.`;
+              showSection(key, key, sub);
+            }
+          });
+        });
+
+        // Open from hash if provided (e.g. #cmp-lyte-button)
+        const m = location.hash.match(/^#cmp-(.+)$/);
+        if (m && rules.some(r => r.meta.component === m[1])) {
+          const r = rules.find(x => x.meta.component === m[1]);
+          const sub = r && r.json.description ? r.json.description : `Provisions and constraints for ${m[1]}.`;
+          showSection(m[1], m[1], sub);
+        }
       } catch (e) {
-        list.innerHTML = `<p class="empty">Failed to load rules: ${e.message}.<br>Run <code>node scripts/build-sandbox-data.js</code> first.</p>`;
+        compHost.innerHTML = `<p class="empty">Failed to load rules: ${e.message}.<br>Run <code>node scripts/build-sandbox-data.js</code> first.</p>`;
       }
     }
     load();

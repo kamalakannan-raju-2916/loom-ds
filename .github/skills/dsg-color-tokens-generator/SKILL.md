@@ -19,7 +19,7 @@ The user provides **only a HEX code** (e.g. `#2C66DD`). The skill:
 2. Retrieves the family name, all tints, and all shades
 3. Creates the token set, variables, and bindings
 
-**Special case**: For **Grey**, the user says "Grey" (no master hex). Grey has 12 shades and 12 tints with positions 00, 05, 10, 20–100.
+**Special case**: For **Grey**, the user says "Grey" (no master hex). Grey has 12 shades and 12 tints with positions 00, 05, 10, 20-100.
 
 ---
 

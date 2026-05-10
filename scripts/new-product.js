@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Loom DS — Scaffold a new product repo from templates/product/
+// Loom DS - Scaffold a new product repo from templates/product/
 //
 // Usage:
 //   node scripts/new-product.js --slug=writer --product="Zoho Writer" --admin=alice [--out=../loom-ds-writer]

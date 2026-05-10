@@ -14,14 +14,14 @@
     "--button-padding-x":    { "editable": true,  "min": 8, "max": 32, "step": 2, "unit": "px" },
     "--button-padding-y":    { "editable": true,  "min": 4, "max": 16, "step": 2, "unit": "px" },
     "--button-font-size":    { "editable": true,  "enum": [12, 14, 16, 18], "unit": "px" },
-    "--button-border-width": { "editable": false, "reason": "DSG accessibility floor — focus ring needs predictable border math." },
+    "--button-border-width": { "editable": false, "reason": "DSG accessibility floor - focus ring needs predictable border math." },
     "--button-focus-ring":   { "editable": false, "reason": "Locked accessibility token, see a11y.focusRing." }
   },
 
   "props": {
     "size":     { "editable": true, "values": ["sm", "md", "lg"], "addable": true,  "removable": false, "default": "md" },
     "variant":  { "editable": true, "values": ["primary", "secondary", "ghost", "danger"], "addable": true, "removable": false, "default": "primary" },
-    "type":     { "editable": false, "values": ["button", "submit", "reset"], "default": "button", "reason": "HTML semantics — must remain native." },
+    "type":     { "editable": false, "values": ["button", "submit", "reset"], "default": "button", "reason": "HTML semantics - must remain native." },
     "loading":  { "editable": false, "reason": "Behavior owned by Maker." },
     "disabled": { "editable": false, "reason": "Behavior owned by Maker." }
   },

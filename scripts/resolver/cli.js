@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Loom DS — Resolver CLI
+// Loom DS - Resolver CLI
 //
 // Usage:
 //   node scripts/resolver/cli.js <productDir>

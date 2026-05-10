@@ -64,9 +64,9 @@ grey_s00, grey_s05, grey_s10, ... grey_s100
 
 **Color scale convention (from DSG):**
 - `base` = the canonical accent color
-- `s10–s100` = shades (progressively darker, mixed toward black)
-- `t10–t100` = tints (progressively lighter, mixed toward white)
-- Grey is special: `s00–s100` runs light-to-dark (for light mode surfaces), `t00–t100` runs dark-to-light (for dark mode surfaces)
+- `s10-s100` = shades (progressively darker, mixed toward black)
+- `t10-t100` = tints (progressively lighter, mixed toward white)
+- Grey is special: `s00-s100` runs light-to-dark (for light mode surfaces), `t00-t100` runs dark-to-light (for dark mode surfaces)
 
 ### Tier 2: Semantic/Alias Tokens
 
@@ -210,7 +210,7 @@ button.ghost.text         → {text.primary}
 | `shadow.lg` | `0 8px 24px rgba(0,0,0,0.12)` | Modals, popovers |
 | `shadow.xl` | `0 16px 48px rgba(0,0,0,0.16)` | Floating panels |
 
-In Dark mode, shadows use `rgba(0,0,0,0.3)` base instead of `0.06–0.16`.
+In Dark mode, shadows use `rgba(0,0,0,0.3)` base instead of `0.06-0.16`.
 
 ---
 

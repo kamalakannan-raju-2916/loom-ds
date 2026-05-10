@@ -82,7 +82,7 @@ test('unknown token rejected (implicitly locked)', () => {
   assert.equal(errors[0].code, 'TOKEN_UNKNOWN');
 });
 
-test('numeric range — below min and above max', () => {
+test('numeric range - below min and above max', () => {
   const { errors } = resolve({
     sandbox,
     overrides: { components: { button: { tokens: { '--button-radius': -1 } } } },

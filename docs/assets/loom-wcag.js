@@ -1,4 +1,4 @@
-// Loom — WCAG 2.2 contrast helper (browser-friendly, no deps)
+// Loom - WCAG 2.2 contrast helper (browser-friendly, no deps)
 // Exposes: window.LoomWCAG = { contrast, score, parseHex }
 
 (function () {

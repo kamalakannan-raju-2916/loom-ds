@@ -1,4 +1,4 @@
-// Loom Design Tokens — Figma Plugin (Primitives only)
+// Loom Design Tokens - Figma Plugin (Primitives only)
 // Mirrors the DSG Color Tokens Generator skill:
 //   .github/skills/dsg-color-tokens-generator/SKILL.md
 
@@ -47,7 +47,7 @@ async function tryLoad(family, style) {
   catch (e) { return false; }
 }
 
-// Required font set — plugin refuses to run if any of these are missing.
+// Required font set - plugin refuses to run if any of these are missing.
 async function loadFonts() {
   var required = [
     { family: FONT_PUVI,      style: 'Semibold' },
@@ -163,7 +163,7 @@ async function bootstrap() {
     cfFills[0] = figma.variables.setBoundVariableForPaint(cfFills[0], 'color', halfVar);
     colorFrame.fills = cfFills;
 
-    // -- Family Name text — Zoho Puvi Mono 11pt --
+    // -- Family Name text - Zoho Puvi Mono 11pt --
     var familyText = figma.createText();
     familyText.name = 'Family Name';
     familyText.fontName = fontFamily();
@@ -179,7 +179,7 @@ async function bootstrap() {
     familyText.layoutSizingHorizontal = 'FIXED';
     familyText.layoutSizingVertical = 'HUG';
 
-    // -- Position text — Zoho Puvi Mono 12pt --
+    // -- Position text - Zoho Puvi Mono 12pt --
     var posText = figma.createText();
     posText.name = 'Position';
     posText.fontName = fontPosition();
@@ -209,7 +209,7 @@ async function bootstrap() {
     hexWrap.paddingLeft = 0; hexWrap.paddingRight = 0; hexWrap.paddingBottom = 0;
     hexWrap.fills = [];
 
-    // -- Hex Code text — Zoho Puvi Semibold 14pt, left-aligned --
+    // -- Hex Code text - Zoho Puvi Semibold 14pt, left-aligned --
     var hexText = figma.createText();
     hexText.name = 'Hex Code';
     hexText.fontName = fontHex();
@@ -561,8 +561,8 @@ figma.ui.onmessage = async function(msg) {
       var msg = err && err.message ? err.message : String(err);
       figma.ui.postMessage({ type: 'error', message: msg, fontInstallRequired: !!(err && err.fontInstallRequired) });
       var notice = err && err.fontInstallRequired
-        ? '❌ Loom: Zoho Puvi fonts not installed — see plugin panel'
-        : '❌ Token sync failed — see plugin for details';
+        ? '❌ Loom: Zoho Puvi fonts not installed - see plugin panel'
+        : '❌ Token sync failed - see plugin for details';
       figma.notify(notice, { error: true });
     }
   }

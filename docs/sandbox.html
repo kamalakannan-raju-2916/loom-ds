@@ -468,7 +468,7 @@
       if (rule.removable)          parts.push('<span class="pill pill-bound">removable</span>');
       if (rule.locked)             parts.push(`locked: <code>[${rule.locked.join(', ')}]</code>`);
       if (rule.reason)             parts.push(`<em>reason:</em> ${rule.reason}`);
-      return parts.join(' &nbsp;·&nbsp; ') || '<span class="empty">—</span>';
+      return parts.join(' &nbsp;·&nbsp; ') || '<span class="empty">-</span>';
     }
     function rowsFor(map) {
       if (!map) return '<tr><td colspan="3"><span class="empty">Not declared.</span></td></tr>';
@@ -521,7 +521,7 @@
             <tr>
               <td><code>${n}</code></td>
               <td>${pill(r.editable !== false)}</td>
-              <td>${r.tokens ? Object.keys(r.tokens).map(k => `<code>${k}</code>`).join(', ') : '<span class="empty">—</span>'}</td>
+              <td>${r.tokens ? Object.keys(r.tokens).map(k => `<code>${k}</code>`).join(', ') : '<span class="empty">-</span>'}</td>
             </tr>`).join('')
         }</tbody></table>
       `);
@@ -562,7 +562,7 @@
             <article class="rule-card">
               <header class="rule-head">
                 <h3>${meta.component}</h3>
-                <span class="meta">Lyte ${json.lyteVersion || '—'}</span>
+                <span class="meta">Lyte ${json.lyteVersion || '-'}</span>
               </header>
               <div class="rule-body">${renderRule(json)}</div>
             </article>

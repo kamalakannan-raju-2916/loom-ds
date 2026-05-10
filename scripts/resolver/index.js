@@ -1,4 +1,4 @@
-// Loom DS — Override Resolver (Phase 1)
+// Loom DS - Override Resolver (Phase 1)
 //
 // Pure function:  resolve({ sandbox, overrides }) -> { config, errors }
 //
@@ -34,7 +34,7 @@ function pushErr(errors, path, code, message) {
 
 // ---------------------------------------------------------------------------
 // Per-block validators. Each validates a slice of an override against rules
-// and pushes errors. They never throw on bad data — they collect.
+// and pushes errors. They never throw on bad data - they collect.
 // ---------------------------------------------------------------------------
 
 function validateTokens(tokenOverride, tokenRules, basePath, errors) {
@@ -45,7 +45,7 @@ function validateTokens(tokenOverride, tokenRules, basePath, errors) {
 
     if (!rule) {
       pushErr(errors, path, 'TOKEN_UNKNOWN',
-        `Token "${name}" is not declared in rules.json — implicitly locked.`);
+        `Token "${name}" is not declared in rules.json - implicitly locked.`);
       continue;
     }
     if (rule.editable === false) {
@@ -105,11 +105,11 @@ function validateProps(propOverride, propRules, basePath, errors) {
       const removed = baseValues.filter(v => !override.values.includes(v));
       if (added.length && !rule.addable) {
         pushErr(errors, path, 'PROP_NOT_ADDABLE',
-          `Cannot add values [${added.join(', ')}] — addable=false.`);
+          `Cannot add values [${added.join(', ')}] - addable=false.`);
       }
       if (removed.length && !rule.removable) {
         pushErr(errors, path, 'PROP_NOT_REMOVABLE',
-          `Cannot remove values [${removed.join(', ')}] — removable=false.`);
+          `Cannot remove values [${removed.join(', ')}] - removable=false.`);
       }
     }
     if (override.default !== undefined) {
@@ -126,7 +126,7 @@ function validateProps(propOverride, propRules, basePath, errors) {
 
 function validateCollection(label, overrideMap, baseMap, rule, basePath, errors) {
   if (!isPlainObject(overrideMap)) return;
-  if (!rule) return; // nothing to gate against — leave to top-level check
+  if (!rule) return; // nothing to gate against - leave to top-level check
   const baseKeys = Object.keys(baseMap || {});
   const newKeys  = Object.keys(overrideMap);
   const added    = newKeys.filter(k => !baseKeys.includes(k));
@@ -134,9 +134,9 @@ function validateCollection(label, overrideMap, baseMap, rule, basePath, errors)
 
   if (added.length && !rule.addable) {
     pushErr(errors, `${basePath}.${label}`, `${label.toUpperCase()}_NOT_ADDABLE`,
-      `Cannot add ${label} [${added.join(', ')}] — addable=false.`);
+      `Cannot add ${label} [${added.join(', ')}] - addable=false.`);
   }
-  // Removal check: override is *additive* — explicit removal handled by null
+  // Removal check: override is *additive* - explicit removal handled by null
   for (const [name, val] of Object.entries(overrideMap)) {
     if (val === null) {
       if (lockedSet.has(name)) {
@@ -144,7 +144,7 @@ function validateCollection(label, overrideMap, baseMap, rule, basePath, errors)
           `${label} "${name}" is in rule.locked and cannot be removed.`);
       } else if (!rule.removable) {
         pushErr(errors, `${basePath}.${label}.${name}`, `${label.toUpperCase()}_NOT_REMOVABLE`,
-          `Cannot remove ${label} "${name}" — removable=false.`);
+          `Cannot remove ${label} "${name}" - removable=false.`);
       }
     }
   }
@@ -233,7 +233,7 @@ function resolve({ sandbox, overrides }) {
     validateComponent(name, override || {}, sandboxComponents[name], sandboxRules[name], errors);
   }
 
-  // Build resolved config — even if errors exist, we return the deep-merged
+  // Build resolved config - even if errors exist, we return the deep-merged
   // shape so the catalogue can render a "broken" preview alongside errors.
   const config = {
     tokens:     deepMerge(sandbox.tokens,     overrides.tokens),

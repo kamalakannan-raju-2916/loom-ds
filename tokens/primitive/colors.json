@@ -2,7 +2,7 @@
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "meta": {
     "name": "Loom Design System",
-    "description": "Zoho Office Suite Unified Design Tokens — extracted from DSG UI Standards",
+    "description": "Zoho Office Suite Unified Design Tokens - extracted from DSG UI Standards",
     "version": "1.0.0",
     "products": ["Zoho Writer", "Zoho PDF Editor", "Zoho RFP", "Kanaa"],
     "wcag": { "target": "AA", "stretch": "AAA" }
@@ -745,8 +745,8 @@
       "overlay2":{ "$value": "rgba(0,0,0,0.7)", "$type": "color", "$description": "70% black overlay" },
 
       "link": {
-        "light": { "$value": "#006AFF", "$type": "color", "$description": "Hyperlink — Day/Light mode (4.66:1 contrast)" },
-        "dark":  { "$value": "#00A6FF", "$type": "color", "$description": "Hyperlink — Night mode (6.06:1 contrast)" }
+        "light": { "$value": "#006AFF", "$type": "color", "$description": "Hyperlink - Day/Light mode (4.66:1 contrast)" },
+        "dark":  { "$value": "#00A6FF", "$type": "color", "$description": "Hyperlink - Night mode (6.06:1 contrast)" }
       }
     }
   }

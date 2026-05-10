@@ -17,6 +17,10 @@ Loom weaves consistent UI patterns across any Zoho product that adopts it. It pr
 
 Sandbox is sealed — no one but Makers commits here, ever.
 
+**Pages:**
+- [Sandbox Catalogue](https://kamalakannan-raju-2916.github.io/loom-ds/sandbox.html) — base components, rules, WCAG checker (Makers + reference)
+- [Product Catalogue](https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html) — Writer (Designers + Devs)
+
 <p align="center">
   <a href="https://kamalakannan-raju-2916.github.io/loom-ds/catalog.html" target="_blank" rel="noopener noreferrer">
     <img height="40" src="assets/badges/designers-click-here.svg" alt="Designers Click Here">

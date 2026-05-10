@@ -1,0 +1,61 @@
+{
+  "$schema": "../rules.schema.json",
+  "component": "lyte-button",
+  "lyteVersion": "^x.y",
+  "description": "Provisions & exceptions for the Button component. Mirrors editable surface declared in tokens/components/button.json.",
+
+  "tokens": {
+    "--button-bg":           { "editable": true,  "source": "accent.primary" },
+    "--button-bg-hover":     { "editable": true,  "source": "accent.hover" },
+    "--button-bg-active":    { "editable": true,  "source": "accent.active" },
+    "--button-text":         { "editable": true,  "source": "text.on-accent" },
+    "--button-border":       { "editable": true,  "source": "border.default" },
+    "--button-radius":       { "editable": true,  "source": "radius.md", "min": 0, "max": 16, "step": 1, "unit": "px" },
+    "--button-padding-x":    { "editable": true,  "min": 8, "max": 32, "step": 2, "unit": "px" },
+    "--button-padding-y":    { "editable": true,  "min": 4, "max": 16, "step": 2, "unit": "px" },
+    "--button-font-size":    { "editable": true,  "enum": [12, 14, 16, 18], "unit": "px" },
+    "--button-border-width": { "editable": false, "reason": "DSG accessibility floor — focus ring needs predictable border math." },
+    "--button-focus-ring":   { "editable": false, "reason": "Locked accessibility token, see a11y.focusRing." }
+  },
+
+  "props": {
+    "size":     { "editable": true, "values": ["sm", "md", "lg"], "addable": true,  "removable": false, "default": "md" },
+    "variant":  { "editable": true, "values": ["primary", "secondary", "ghost", "danger"], "addable": true, "removable": false, "default": "primary" },
+    "type":     { "editable": false, "values": ["button", "submit", "reset"], "default": "button", "reason": "HTML semantics — must remain native." },
+    "loading":  { "editable": false, "reason": "Behavior owned by Maker." },
+    "disabled": { "editable": false, "reason": "Behavior owned by Maker." }
+  },
+
+  "slots": {
+    "icon-left":  { "editable": true, "accepts": ["icon"], "iconSizeRange": [12, 20] },
+    "icon-right": { "editable": true, "accepts": ["icon"], "iconSizeRange": [12, 20] },
+    "default":    { "editable": true, "accepts": ["text"] }
+  },
+
+  "variants": { "addable": true,  "removable": false, "locked": ["primary", "danger"] },
+  "sizes":    { "addable": true,  "removable": false, "min": 1, "max": 6 },
+
+  "states": {
+    "hover":    { "editable": true, "tokens": { "--button-bg-hover":  { "editable": true, "source": "accent.hover" } } },
+    "active":   { "editable": true, "tokens": { "--button-bg-active": { "editable": true, "source": "accent.active" } } },
+    "disabled": { "editable": false },
+    "loading":  { "editable": false }
+  },
+
+  "a11y": {
+    "minTapTarget": 44,
+    "focusRing": {
+      "width": "2px",
+      "offset": "2px",
+      "color": "border.focus",
+      "style": "solid"
+    },
+    "requiredAria": ["aria-label when icon-only"],
+    "contrastFloor": {
+      "smallText": 4.5,
+      "largeText": 3.0,
+      "uiGraphic": 3.0
+    },
+    "keyboardSupport": ["Enter activates", "Space activates", "Tab focusable"]
+  }
+}

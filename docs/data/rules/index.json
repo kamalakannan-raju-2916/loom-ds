@@ -1,0 +1,7 @@
+[
+  {
+    "file": "button.rules.json",
+    "component": "lyte-button",
+    "description": "Provisions & exceptions for the Button component. Mirrors editable surface declared in tokens/components/button.json."
+  }
+]
